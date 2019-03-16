@@ -1,5 +1,5 @@
 import React from 'react'
-
+import styled from 'styled-components'
 
 export default class HomeOptions extends React.Component{
 
@@ -11,6 +11,15 @@ export default class HomeOptions extends React.Component{
             length: 10
         }
         this.populateCategories = this.populateCategories.bind(this)
+        const CategorySelect = styled.div`
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+        `;
+        const CategoryCell = styled.div`
+            width: 33.33%
+        `;
+
     }
 
     // run as callback function when the category data is fetched and pushed into the component's state
@@ -33,6 +42,10 @@ export default class HomeOptions extends React.Component{
             
         })
     }
+
+
+
+
      render(){
         return(
             <div id="options">
