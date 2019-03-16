@@ -10,12 +10,13 @@ export default class HomeOptions extends React.Component{
             difficulty: "easy",
             length: 10
         }
+        this.populateCategories = this.populateCategories.bind(this)
     }
 
     // run as callback function when the category data is fetched and pushed into the component's state
-    populateCategories(json){
-        console.log("Building categorie select table from json")
-        console.log(json.trivia_categories.length)
+    populateCategories(){
+        console.log("Building category select table from json")
+        console.log(this.state.categories)
     }
 
 
@@ -25,9 +26,10 @@ export default class HomeOptions extends React.Component{
         fetch('https://opentdb.com/api_category.php').then((res)=>{
             return res.json()
         }).then((json)=>{
+            console.log(json)
             // store categories in state
-            this.setState({categories: json}, this.populateCategories(json))
-            console.log(this.state.categories)
+            this.setState({categories: json.trivia_categories}, this.populateCategories())
+            
             
         })
     }
@@ -43,9 +45,21 @@ export default class HomeOptions extends React.Component{
             
              
                  {/* categories table (select 3 categories out of the list for the test to consist of) */}
-                <div id="category-select">
-                
-                </div>
+                {this.state.categories != 0 && 
+                    <div id="category-select">
+                        <div id="category-flex">
+                         {/* use map function to display a table cell for each category in array */}
+                         {this.state.categories.map(function(category){
+                             return(
+                                 <div id="category-cell">
+                                     {category.name}
+                                 </div>
+                             )
+                         })}
+                     </div>
+                 </div>
+                }
+               
             </div>
         )
      }
