@@ -11,14 +11,7 @@ export default class HomeOptions extends React.Component{
             length: 10
         }
         this.populateCategories = this.populateCategories.bind(this)
-        const CategorySelect = styled.div`
-            display: flex;
-            flex-direction: row;
-            flex-wrap: wrap;
-        `;
-        const CategoryCell = styled.div`
-            width: 33.33%
-        `;
+
 
     }
 
@@ -52,25 +45,23 @@ export default class HomeOptions extends React.Component{
                 {/* temporary display showing when the list of trivia categories have been received by the client */}
                 <div id="categories-received-message">
                 {
-                    this.state.categories != 0 && <div>Categories received from api</div>
+                    this.state.categories !== 0 && <div>CHOOSE YOUR CATEGORY</div>
                 }
                 </div>
             
              
                  {/* categories table (select 3 categories out of the list for the test to consist of) */}
-                {this.state.categories != 0 && 
-                    <div id="category-select">
-                        <div id="category-flex">
+                {this.state.categories !== 0 && 
+                    <CategorySelect>
                          {/* use map function to display a table cell for each category in array */}
                          {this.state.categories.map(function(category){
                              return(
-                                 <div id="category-cell">
+                                 <CategoryCell>
                                      {category.name}
-                                 </div>
+                                 </CategoryCell>
                              )
                          })}
-                     </div>
-                 </div>
+                 </CategorySelect>
                 }
                
             </div>
@@ -78,3 +69,22 @@ export default class HomeOptions extends React.Component{
      }
     
 }
+
+const CategorySelect = styled.div`
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    border: 1px solid rgb(116,43,198);
+    margin: 0 auto;
+    color: rgb(177, 162, 193);
+    max-width: 600px;
+    padding: .8rem;
+    `;
+const CategoryCell = styled.div`
+    width: calc(33.33% - .6rem);
+    padding: .3rem;
+    transition: .4s;
+    &:hover{
+        background-color: rgba(116, 43, 198, .3)
+    }
+    `;
