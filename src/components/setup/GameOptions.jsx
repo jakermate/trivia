@@ -11,7 +11,7 @@ export default class GameOptions extends React.Component{
             length: 10
         }
         this.populateCategories = this.populateCategories.bind(this)
-
+        this.updateDifficulty = this.updateDifficulty.bind(this)
 
     }
 
@@ -20,7 +20,9 @@ export default class GameOptions extends React.Component{
         console.log("Building category select table from json")
         console.log(this.state.categories)
     }
-
+    updateDifficulty(difficulty){
+        this.setState({difficulty: difficulty})
+    }
 
 
     componentDidMount(){
@@ -42,6 +44,18 @@ export default class GameOptions extends React.Component{
      render(){
         return(
             <div id="options">
+                {/* difficulty select */}
+                <DifficultySelect>
+                    <Difficulty onclick={this.updateDifficulty}>
+                        Easy
+                    </Difficulty>
+                    <Difficulty onclick={this.updateDifficulty}>
+                        Medium
+                    </Difficulty>
+                    <Difficulty onclick={this.updateDifficulty}>
+                        Hard
+                    </Difficulty>
+                </DifficultySelect>
                 {/* temporary display showing when the list of trivia categories have been received by the client */}
                 <div id="categories-received-message">
                 {
@@ -84,7 +98,35 @@ const CategoryCell = styled.div`
     width: calc(33.33% - .6rem);
     padding: .3rem;
     transition: .4s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
     &:hover{
-        background-color: rgba(116, 43, 198, .3)
+        background-color: rgba(116, 43, 198, .3);
+        cursor: pointer;
+        color: white;
     }
     `;
+const DifficultySelect = styled.div`
+        display: flex;
+        flex-direction: row;
+
+    `
+const Difficulty = styled.div`
+        flex-grow: 1;
+        color: rgb(177, 162, 193);
+        border: 1px solid rgb(116,43,198);
+        text-align: center;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+        padding: .3rem;
+        &:hover{
+            background-color: rgba(116, 43, 198, .3);
+            cursor: pointer;
+            color: white;
+        }
+    `

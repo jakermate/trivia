@@ -1,5 +1,5 @@
 import React from 'react'
-import HomeOptions from './HomeOptions'
+import GameOptions from '../setup/GameOptions'
 
 export default class Home extends React.Component{
     render(){
@@ -8,7 +8,9 @@ export default class Home extends React.Component{
                 <h1 id="home-title">
                     Game Setup
                 </h1>
-                <HomeOptions />
+                <GameOptions>
+
+                </GameOptions>
             </div>
         )
     }
