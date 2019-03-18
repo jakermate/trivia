@@ -7,11 +7,13 @@ export default class GameOptions extends React.Component{
         super();
         this.state = {
             categories: 0,
-            difficulty: "easy",
-            length: 10
+            difficulty: "Easy",
+            length: 10,
+            category: 0
         }
         this.populateCategories = this.populateCategories.bind(this)
         this.updateDifficulty = this.updateDifficulty.bind(this)
+        this.updateCategory = this.updateCategory.bind(this)
 
     }
 
@@ -20,10 +22,17 @@ export default class GameOptions extends React.Component{
         console.log("Building category select table from json")
         console.log(this.state.categories)
     }
-    updateDifficulty(difficulty){
-        this.setState({difficulty: difficulty})
+    updateDifficulty(e){
+        this.setState({difficulty: e.target.innerHTML}, function(){
+            console.log("Difficulty set to " + this.state.difficulty)
+        })
+        
     }
-
+    updateCategory(e){
+        this.setState({category: e.target.innerHTML}, function(){
+            console.log("Selected Category: "+ this.state.category)
+        })
+    }
 
     componentDidMount(){
         // fetch list of categories when the component mounts
@@ -45,17 +54,30 @@ export default class GameOptions extends React.Component{
         return(
             <div id="options">
                 {/* difficulty select */}
+                <div id="difficulty-title">CHOOSE YOUR DIFFICULTY</div>
                 <DifficultySelect>
-                    <Difficulty onclick={this.updateDifficulty}>
+                    <Difficulty value="Easy" onClick={this.updateDifficulty}>
                         Easy
                     </Difficulty>
-                    <Difficulty onclick={this.updateDifficulty}>
+                    <Difficulty value="Medium" onClick={this.updateDifficulty}>
                         Medium
                     </Difficulty>
-                    <Difficulty onclick={this.updateDifficulty}>
+                    <Difficulty value="Hard" onClick={this.updateDifficulty}>
                         Hard
                     </Difficulty>
                 </DifficultySelect>
+                <QuestionTypeContainer>
+                    <QuestionTypeOption>
+                        True/False
+                    </QuestionTypeOption>
+                    <QuestionTypeOption>
+                        Multiple Choice
+                    </QuestionTypeOption>
+                    <QuestionTypeOption>
+                        Combination
+                    </QuestionTypeOption>
+                </QuestionTypeContainer>
+
                 {/* temporary display showing when the list of trivia categories have been received by the client */}
                 <div id="categories-received-message">
                 {
@@ -68,9 +90,9 @@ export default class GameOptions extends React.Component{
                 {this.state.categories !== 0 && 
                     <CategorySelect>
                          {/* use map function to display a table cell for each category in array */}
-                         {this.state.categories.map(function(category){
+                         {this.state.categories.map((category)=>{
                              return(
-                                 <CategoryCell>
+                                 <CategoryCell key={category.id} onClick={this.updateCategory}>
                                      {category.name}
                                  </CategoryCell>
                              )
@@ -130,3 +152,9 @@ const Difficulty = styled.div`
             color: white;
         }
     `
+const QuestionTypeContainer = styled.div`
+    
+`
+const QuestionTypeOption = styled.div`
+
+`
