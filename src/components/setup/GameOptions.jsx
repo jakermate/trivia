@@ -66,6 +66,9 @@ export default class GameOptions extends React.Component{
                         Hard
                     </Difficulty>
                 </DifficultySelect>
+                <div id="question-type-select-title">
+                    CHOOSE FORMAT
+                </div>
                 <QuestionTypeContainer>
                     <QuestionTypeOption>
                         True/False
@@ -115,6 +118,9 @@ const CategorySelect = styled.div`
     color: rgb(177, 162, 193);
     max-width: 600px;
     padding: .8rem;
+    &:hover{
+        border: none;
+    }
     `;
 const CategoryCell = styled.div`
     width: calc(33.33% - .6rem);
@@ -129,32 +135,60 @@ const CategoryCell = styled.div`
         background-color: rgba(116, 43, 198, .3);
         cursor: pointer;
         color: white;
+        transform: scale(1.1)
     }
     `;
 const DifficultySelect = styled.div`
         display: flex;
         flex-direction: row;
+        padding: .8rem;
+        border: 1px solid rgb(116,43,198);
+        &:hover{
+            border: none;
+        }
 
     `
 const Difficulty = styled.div`
         flex-grow: 1;
         color: rgb(177, 162, 193);
-        border: 1px solid rgb(116,43,198);
         text-align: center;
         display: flex;
         flex-direction: column;
         justify-content: space-around;
         align-items: center;
         padding: .3rem;
+        transition: .3s
         &:hover{
             background-color: rgba(116, 43, 198, .3);
             cursor: pointer;
             color: white;
+            transform: scale(1.1)
         }
     `
 const QuestionTypeContainer = styled.div`
-    
+    display: flex;
+    flex-direction: row;
+    padding: .8rem;
+    border: 1px solid rgb(116,43,198);
+    &:hover{
+        border: none;
+    }
 `
 const QuestionTypeOption = styled.div`
+    width: calc(33.33% - .6rem);
+    padding: .3rem;
+    transition: .4s;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    color: rgb(177, 162, 193);
 
+    &:hover{
+        background-color: rgba(116, 43, 198, .3);
+        cursor: pointer;
+        color: white;
+        transform: scale(1.1)
+    }
 `
