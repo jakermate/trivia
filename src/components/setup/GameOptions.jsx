@@ -33,7 +33,7 @@ export default class GameOptions extends React.Component{
         
     }
     updateCategories(e){
-        this.setState({categories: e.target.value}, function(){
+        this.setState({categories: e.target.title}, function(){
             console.log("Selected Category: "+ this.state.categories)
             // find way to add selected class upon selection (also remove selected from other categories)
 
@@ -112,7 +112,7 @@ export default class GameOptions extends React.Component{
                          {/* use map function to display a table cell for each category in array */}
                          {this.state.categoryList.map((category)=>{
                              return(
-                                 <CategoryCell value={category.id} key={category.id} onClick={this.updateCategories}>
+                                 <CategoryCell title={category.id} key={category.id} onClick={this.updateCategories}>
                                      {category.name}
                                  </CategoryCell>
                              )
@@ -256,13 +256,15 @@ const Button = styled.button`
 `
 const OptionsTitle = styled.h2`
     margin: 0;
-    position: relative;
-    top: .5rem;
-    margin-top: 1rem;
+    letter-spacing: 1rem;
+    text-shadow: 2px 2px 6px black;
 `
 const SelectionTitle = styled.h4`
     margin: 0;
     position: relative;
     top: .5rem;
     margin-top: 1rem;
+    letter-spacing: 1px;
+    text-shadow: 2px 2px 6px rgba(0,0,0,.4);
+
 `
