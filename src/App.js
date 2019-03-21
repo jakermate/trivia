@@ -18,10 +18,16 @@ class App extends Component {
       gameInProgress: false,
       config: {
 
-      }
+      },
+      currentQuestion: 0
     }
     
   }
+  //updates current question in root app for tracking progress
+  changeGameState(currentQuestion){
+    this.setState({currentQuestion: currentQuestion })
+  }
+
 
   componentDidMount(){
     
@@ -45,7 +51,7 @@ class App extends Component {
             <Route exact path='/' component={Splash} />
             <Route exact path="/setup" component={GameOptions} />
             <Route path="/game/:question" render={(props)=>
-              <Game config={this.state.config} />
+              <Game changeGameState={this.changeGameState} config={this.state.config} />
             } />
           </BrowserRouter>
           
