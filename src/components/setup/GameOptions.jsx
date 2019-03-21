@@ -49,6 +49,11 @@ export default class GameOptions extends React.Component{
         )
     }
 
+    // pass option config up to application, which wil then pass it down to game component
+    passOptionsToApplication(){
+
+    }
+
     componentDidMount(){
         // fetch list of categories when the component mounts
         fetch('https://opentdb.com/api_category.php').then((res)=>{
