@@ -17,21 +17,43 @@ export default class Question extends React.Component{
 
 
     render(){
+        let component
+        // conditional rendering based upon question type
+        if(this.props.question.type === "multiple"){
+            component = (
+                <QuestionContainer>
+                    <Title>
+                        {this.props.question.questionString}
+                    </Title>
+                    {/* Container that holds all answers contained in the state from the question objects */}
+                    <AnswerContainer>
+                        {/* map iterates over the list of multiple choice or true/false options and generates an Answer div for each. */}
+                        {this.state.options.map(function(answer){
+                            return(
+                                <Answer>{answer}</Answer>
+                            )
+                        })}
+                    </AnswerContainer>
+                </QuestionContainer>
+            )
+        }
+        if(this.props.question.type === "boolean"){
+            component = (
+                <QuestionContainer>
+                    <Title>
+                        {this.props.question.questionString}
+                    </Title>
+                    <AnswerContainer>
+                        <Answer>True</Answer>
+                        <Answer>False</Answer>
+                    </AnswerContainer>
+                </QuestionContainer>
+            )
+        }
+
         return(
-            <QuestionContainer>
-                <Title>
-                    {this.state.question}
-                </Title>
-                {/* Container that holds all answers contained in the state from the question objects */}
-                <AnswerContainer>
-                    {/* map iterates over the list of multiple choice or true/false options and generates an Answer div for each. */}
-                    {this.state.options.map(function(answer){
-                        return(
-                            <Answer>{answer}</Answer>
-                        )
-                    })}
-                </AnswerContainer>
-            </QuestionContainer>
+            // component variable should contain one of the two question container types defined above
+            {component}
         )
     }
 }
