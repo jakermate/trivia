@@ -1,0 +1,74 @@
+{
+    "response_code": 0,
+    "results": [{
+        "category": "Entertainment: Books",
+        "type": "multiple",
+        "difficulty": "medium",
+        "question": "In the &quot;The Hobbit&quot;, who kills Smaug?",
+        "correct_answer": "Bard",
+        "incorrect_answers": ["Bilbo Baggins", "Gandalf the Grey", "Frodo"]
+    }, {
+        "category": "Animals",
+        "type": "multiple",
+        "difficulty": "hard",
+        "question": "What is the scientific name of the cheetah?",
+        "correct_answer": "Acinonyx jubatus",
+        "incorrect_answers": ["Panthera onca", "Lynx rufus", "Felis catus"]
+    }, {
+        "category": "Entertainment: Books",
+        "type": "multiple",
+        "difficulty": "easy",
+        "question": "What&#039;s Harry Potter&#039;s dad&#039;s name?",
+        "correct_answer": "James Potter",
+        "incorrect_answers": ["Joey Potter", "Frank Potter", "Hairy Potter Sr."]
+    }, {
+        "category": "Entertainment: Video Games",
+        "type": "boolean",
+        "difficulty": "medium",
+        "question": "TF2: The Medic will be credited for an assist if he heals a Spy that successfully saps a building.",
+        "correct_answer": "True",
+        "incorrect_answers": ["False"]
+    }, {
+        "category": "Celebrities",
+        "type": "multiple",
+        "difficulty": "easy",
+        "question": "Aubrey Graham is better known as",
+        "correct_answer": "Drake",
+        "incorrect_answers": ["Travis Scott", "Lil Wayne", "2 Chainz"]
+    }, {
+        "category": "Geography",
+        "type": "multiple",
+        "difficulty": "easy",
+        "question": "Which of the following Japanese islands is the biggest?",
+        "correct_answer": "Honshu",
+        "incorrect_answers": ["Hokkaido", "Shikoku", "Kyushu"]
+    }, {
+        "category": "Entertainment: Video Games",
+        "type": "boolean",
+        "difficulty": "medium",
+        "question": "Resident Evil 4 was originally meant to be a Nintendo GameCube exclusive.",
+        "correct_answer": "True",
+        "incorrect_answers": ["False"]
+    }, {
+        "category": "Entertainment: Video Games",
+        "type": "multiple",
+        "difficulty": "hard",
+        "question": "Which game in the &quot;Monster Hunter&quot; series introduced the monster &quot;Gobul&quot;?",
+        "correct_answer": "Monster Hunter Tri",
+        "incorrect_answers": ["Monster Hunter Freedom Unite", "Monster Hunter Frontier", "Monster Hunter Generations"]
+    }, {
+        "category": "Politics",
+        "type": "multiple",
+        "difficulty": "hard",
+        "question": "Which of these was an official candidate in the 2017 British General Election?",
+        "correct_answer": "Lord Buckethead",
+        "incorrect_answers": ["James Francis", "Robert Wimbledon", "Sir Crumpetsby"]
+    }, {
+        "category": "Entertainment: Video Games",
+        "type": "multiple",
+        "difficulty": "hard",
+        "question": "What was the name of Sonic the Hedgehog&#039;s original human girlfriend?",
+        "correct_answer": "Madonna",
+        "incorrect_answers": ["Celeste", "Sierra", "Nina"]
+    }]
+}
