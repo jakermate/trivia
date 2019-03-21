@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
 import Question from './Question'
+import {BrowserRouter, Route} from 'react-router-dom'
+
 
 export default class Game extends React.Component{
     constructor(){
@@ -96,6 +98,14 @@ export default class Game extends React.Component{
     render(){
         return(
             <div id="game">
+
+                {/* nested router for routing each question to its own url */}
+                <BrowserRouter>
+                    <Route path="/question/:num" render={()=>(
+                        <Question question={this.state.questions[this.state.currentQuestion]} />
+                    )} />
+                </BrowserRouter>
+
                 <Question question={this.state.questions[this.state.currentQuestion]}>
 
                 </Question>
