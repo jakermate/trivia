@@ -17,6 +17,12 @@ app.get('/topscores', function(req,res){
     res.send(scores)
 })
 
+app.post('/addscore', function(req,res){
+    // post new score and rank in the score cache
+    let newScore = req.score
+    let user = req.userID
+})
+
 
 function updateCache(){
     
