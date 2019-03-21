@@ -7,36 +7,49 @@ import styled from 'styled-components'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Game from './components/Game/Game'
 import GameOptions from './components/setup/GameOptions'
+import splash from './components/splash';
 
 
 class App extends Component {
   constructor(){
     super()
     this.state={
-      location: "/"
+      location: "/",
+      gameInProgress: false,
+      config: {
+
+      }
     }
     
   }
+
+  componentDidMount(){
+    
+  }
+
   render() {
     return (
       <div className="App">
         <header className="App-header">
 
         {/* temp for testing */}
-        <GameOptions></GameOptions>
+        {/* <Splash></Splash> */}
+        {/* <GameOptions></GameOptions>
+        <Game></Game> */}
 
         {/* temp for testing */}
 
 
 
-          {/* <BrowserRouter>
-            <Route exact path='/' component={Home} />
-            <Route exact path="/setup" component={Setup} />
-            <Route path="/game" component={Game} />
-          </BrowserRouter> */}
+          <BrowserRouter>
+            <Route exact path='/' component={Splash} />
+            <Route exact path="/setup" component={GameOptions} />
+            <Route path="/game/:question" render={(props)=>
+              <Game config={this.state.config} />
+            } />
+          </BrowserRouter>
           
-          {/* <Splash />
-          <Home /> */}
+         
           <a
             className="App-link"
             href="https://reactjs.org"

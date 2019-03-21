@@ -1,6 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 import logo from '../../img/jackiechan.jpg'
+import {Link} from 'react-router-dom'
 
 export default class GameOptions extends React.Component{
 
@@ -121,7 +122,7 @@ export default class GameOptions extends React.Component{
                 }
                 <ButtonContainer>
                     <Button>
-                        BACK
+                        <Link to="/">BACK</Link>
                     </Button>
                     <Button>
                         CONTINUE

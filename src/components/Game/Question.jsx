@@ -18,7 +18,7 @@ export default class Question extends React.Component{
 
     render(){
         return(
-            <Question>
+            <QuestionContainer>
                 <Title>
                     {this.state.question}
                 </Title>
@@ -31,14 +31,14 @@ export default class Question extends React.Component{
                         )
                     })}
                 </AnswerContainer>
-            </Question>
+            </QuestionContainer>
         )
     }
 }
 
 // styles
 
-const Question = styled.div`
+const QuestionContainer = styled.div`
 
 `
 const Title = styled.h2`
