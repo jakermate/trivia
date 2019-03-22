@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import logo from '../../img/jackiechan.jpg'
 import {Link} from 'react-router-dom'
+import jackie from '../../img/jackiechan.jpg'
 
 export default class GameOptions extends React.Component{
 
@@ -9,14 +10,15 @@ export default class GameOptions extends React.Component{
         super();
         this.state = {
             categoryList: 0,
-            difficulty: "Easy",
-            length: 10,
+            difficulty: "Medium",
+            length: 20,
             categories: 0,
-            format: ""
+            format: "mixed",
+            selectedCategory: 0
         }
         this.populateCategories = this.populateCategories.bind(this)
         this.updateDifficulty = this.updateDifficulty.bind(this)
-        this.updateCategories = this.updateCategories.bind(this)
+        this.updateCategory = this.updateCategory.bind(this)
         this.updateFormat = this.updateFormat.bind(this)
 
     }
@@ -28,14 +30,14 @@ export default class GameOptions extends React.Component{
     }
     
     updateDifficulty(e){
-        this.setState({difficulty: e.target.innerHTML}, function(){
+        this.setState({difficulty: e.target.name}, function(){
             console.log("Difficulty set to " + this.state.difficulty)
         })
         
     }
-    updateCategories(e){
-        this.setState({categories: e.target.title}, function(){
-            console.log("Selected Category: "+ this.state.categories)
+    updateCategory(e){
+        this.setState({selectedCategory: e.target.value}, function(){
+            console.log("Selected Category: "+ this.state.selectedCategory)
             // find way to add selected class upon selection (also remove selected from other categories)
 
         })
@@ -72,68 +74,69 @@ export default class GameOptions extends React.Component{
 
      render(){
         return(
-            <Options>
-                <OptionsTitle>
-                    GAME SETUP
-                </OptionsTitle>
-                {/* difficulty select */}
-                <SelectionTitle>CHOOSE YOUR DIFFICULTY</SelectionTitle>
-                <DifficultySelect>
-                    <Difficulty value="Easy" onClick={this.updateDifficulty}>
-                        Easy
-                    </Difficulty>
-                    <Difficulty value="Medium" onClick={this.updateDifficulty}>
-                        Medium
-                    </Difficulty>
-                    <Difficulty value="Hard" onClick={this.updateDifficulty}>
-                        Hard
-                    </Difficulty>
-                </DifficultySelect>
-                <SelectionTitle>
-                    CHOOSE FORMAT
-                </SelectionTitle>
-                <QuestionTypeContainer>
-                    <QuestionTypeOption value="true-false" onClick={this.updateFormat}>
-                        True/False
-                    </QuestionTypeOption>
-                    <QuestionTypeOption value="multiple-choice" onClick={this.updateFormat}>
-                        Multiple Choice
-                    </QuestionTypeOption>
-                    <QuestionTypeOption value="combination" onClick={this.updateFormat}>
-                        Combination
-                    </QuestionTypeOption>
-                </QuestionTypeContainer>
+            <Options id="options-container">
+                <BackgroundOverlay>
+                    <OptionsTitle>
+                        GAME SETUP
+                    </OptionsTitle>
+                    {/* difficulty select */}
+                    <SelectionTitle>DIFFICULTY</SelectionTitle>
+                    <DifficultySelect>
+                        <Difficulty name="easy" style={unselected} value="Easy" onClick={this.updateDifficulty}>
+                            EASY
+                        </Difficulty>
+                        <Difficulty name="medium" style={selected} value="Medium" onClick={this.updateDifficulty}>
+                            MEDIUM
+                        </Difficulty>
+                        <Difficulty name="hard" style={unselected} value="Hard" onClick={this.updateDifficulty}>
+                            HARD
+                        </Difficulty>
+                    </DifficultySelect>
+                    <SelectionTitle>
+                        FORMAT 
+                    </SelectionTitle>
+                    <QuestionTypeContainer>
+                        <QuestionTypeOption style={unselected} value="boolean" onClick={this.updateFormat}>
+                            TRUE / FALSE
+                        </QuestionTypeOption>
+                        <QuestionTypeOption style={unselected} value="multiple" onClick={this.updateFormat}>
+                            MULTIPLE CHOICE
+                        </QuestionTypeOption>
+                        <QuestionTypeOption style={selected} value="mixed" onClick={this.updateFormat}>
+                            MIXED FORMAT
+                        </QuestionTypeOption>
+                    </QuestionTypeContainer>
 
-                {/* temporary display showing when the list of trivia categories have been received by the client */}
-                <div id="categories-received-message">
-                {
-                    this.state.categoryList !== 0 && <SelectionTitle>CHOOSE UP TO THREE CATEGORIES</SelectionTitle>
-                }
-                </div>
-            
-             
-                 {/* categories table (select 3 categories out of the list for the test to consist of) */}
-                {this.state.categoryList !== 0 && 
-                    <CategorySelect>
-                         {/* use map function to display a table cell for each category in array */}
-                         {this.state.categoryList.map((category)=>{
-                             return(
-                                 <CategoryCell title={category.id} key={category.id} onClick={this.updateCategories}>
-                                     {category.name}
-                                 </CategoryCell>
-                             )
-                         })}
-                 </CategorySelect>
-                }
-                <ButtonContainer>
-                    <Button>
-                        <Link to="/">BACK</Link>
-                    </Button>
-                    <Button>
-                        CONTINUE
-                    </Button>
-                </ButtonContainer>
+                    {/* temporary display showing when the list of trivia categories have been received by the client */}
+                    <div id="categories-received-message">
+                    {
+                        this.state.categoryList !== 0 && <SelectionTitle>CATEGORY</SelectionTitle>
+                    }
+                    </div>
                 
+                
+                    {/* categories table (select 3 categories out of the list for the test to consist of) */}
+                    {this.state.categoryList !== 0 && 
+                        <CategorySelect>
+                            {/* use map function to display a table cell for each category in array */}
+                            {this.state.categoryList.map((category)=>{
+                                return(
+                                    <CategoryCell onSelect={this.updateCategory} style={{"background-color": "black"}} value={category.id} key={category.id} onClick={this.updateCategories}>
+                                        {category.name}
+                                    </CategoryCell>
+                                )
+                            })}
+                    </CategorySelect>
+                    }
+                    <ButtonContainer>
+                        <BackButton>
+                            <Link to="/">BACK</Link>
+                        </BackButton>
+                        <ContinueButton>
+                            CONTINUE
+                        </ContinueButton>
+                    </ButtonContainer>
+                </BackgroundOverlay>
             </Options>
         )
      }
@@ -141,39 +144,50 @@ export default class GameOptions extends React.Component{
 }
 
 const Options = styled.div`
-    padding: 1.5rem;
+    width:100%;
+    height: 100%;
+    box-sizing: border-box;
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
     font-size: .8rem;
     margin-bottom: 1rem;
-    background: linear-gradient(to bottom, #282c34, #122c34)
+    background-image: url();
+
 `
 
-const CategorySelect = styled.div`
+const BackgroundOverlay = styled.div`
+    width:100%;
+    height: 100%;
+    padding: 1.5rem;
+    box-sizing: border-box;
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    border-radius: 8px;
-    border: 2px solid rgb(116,43,198);
+    flex-direction: column;
+    justify-content: space-around;
+    background-size: cover;
+    background: linear-gradient(to bottom, #28f1fc77, #111111ee);
+`
+
+const CategorySelect = styled.select`
     border-top: none;
     margin: 0 auto;
-    color: rgb(177, 162, 193);
+    color: white;
     max-width: 600px;
-    padding: .8rem;
+    padding: .8rem 0rem;
+    background-color: rgba(0,0,0,0);
+    border-style: none;
+    text-align: center;
     &:hover{
         border: none;
     }
     `;
-const CategoryCell = styled.div`
-    width: calc(33.33% - .6rem);
+const CategoryCell = styled.option`
     padding: .3rem;
     transition: .4s;
     text-align: center;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
-    align-items: center;
-    border-radius: 8px;
+    font-size: .6rem;
     &:hover{
-        background-color: rgba(116, 43, 198, .3);
+        background-color: rgba(255, 255, 255, .3);
         cursor: pointer;
         color: white;
         transform: scale(1.1)
@@ -187,10 +201,8 @@ const CategoryCell = styled.div`
 const DifficultySelect = styled.div`
         display: flex;
         flex-direction: row;
-        padding: .8rem;
-        border-radius: 8px;
-        border: 2px solid rgb(116,43,198);
-        border-top: none;
+        padding: .8rem 0rem;
+        letter-spacing: 5px;
         &:hover{
             border: none;
         }
@@ -198,17 +210,17 @@ const DifficultySelect = styled.div`
     `
 const Difficulty = styled.div`
         flex-grow: 1;
-        color: rgb(177, 162, 193);
+        color: white;
         text-align: center;
         display: flex;
+        text-shadow: 2px 2px 4px rgba(255,255,255,.3);
         flex-direction: column;
+        font-weight: bold;
         justify-content: space-around;
         align-items: center;
-        border-radius: 8px;
         padding: .3rem;
         transition: .3s;
         &:hover{
-            background-color: rgba(116, 43, 198, .3);
             cursor: pointer;
             color: white;
             transform: scale(1.1)
@@ -217,10 +229,7 @@ const Difficulty = styled.div`
 const QuestionTypeContainer = styled.div`
     display: flex;
     flex-direction: row;
-    padding: .8rem;
-    border-radius: 8px;
-    border: 2px solid rgb(116,43,198);
-    border-top: none;
+    padding: .8rem 0rem;
     &:hover{
         border: none;
     }
@@ -231,16 +240,18 @@ const QuestionTypeOption = styled.div`
     transition: .4s;
     text-align: center;
     display: flex;
-    border-radius: 8px;
+    letter-spacing: 5px;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: flex-end;
     align-items: center;
-    color: rgb(177, 162, 193);
+    color: white;
+    text-shadow: 2px 2px 4px rgba(255,255,255,.3);
+    font-weight: bold;
 
     &:hover{
-        background-color: rgba(116, 43, 198, .3);
         cursor: pointer;
         color: white;
+        text-shadow:2px 2px 8px rgba(255,255,255,.4);
         transform: scale(1.1)
     }
 `
@@ -250,27 +261,64 @@ const ButtonContainer = styled.div`
     flex-direction: row;
     justify-content: space-between;
 `
-const Button = styled.button`
+const ContinueButton = styled.button`
     font-size: 1rem;
-    width:40%;
-    padding: .8rem;
-    color: white;
-    border: 2px solid rgb(116,43,198);
+    padding: .8rem 1.5rem;
+    text-align: center;
+    color: rgb(27, 252, 57);
     background-color: rgba(0,0,0,.1);
     margin-top: 1rem;
-    border-radius: 8px;
+    border-radius: 25px;
+    font-weight: bold;
+    border-color: rgb(27, 252, 57);
+    letter-spacing: 2px;
+    transition: .2s;
+    &:hover{
+        transform: scale(1.03);
+        box-shadow: 2px 2px 8px rgba(255,255,255,.3);
+        border-color: rgb(27, 252, 57);
+    }
 `
+const BackButton = styled.button`
+    font-size: 1rem;
+    padding: .8rem 1.5rem;
+    text-align: center;
+    color: white;
+    font-weight: bold;
+    background-color: rgba(0,0,0,.1);
+    margin-top: 1rem;
+    border-radius: 25px;
+    letter-spacing: 2px;
+    transition: .2s;
+    &:hover{
+        transform: scale(1.03);
+        box-shadow: 2px 2px 8px rgba(255,255,255,.3);
+    }
+    `
 const OptionsTitle = styled.h2`
     margin: 0;
+    color:white;
+    font-size: 1.4rem;
     letter-spacing: 1rem;
-    text-shadow: 2px 2px 6px black;
+    text-shadow: 2px 2px 6px rgba(0,0,0,.5);
 `
 const SelectionTitle = styled.h4`
     margin: 0;
+    color:white;
+    font-size: 1rem;
+    font-weight: bolder;
     position: relative;
-    top: .5rem;
     margin-top: 1rem;
-    letter-spacing: 1px;
+    letter-spacing: .8rem;
     text-shadow: 2px 2px 6px rgba(0,0,0,.4);
 
 `
+// inline style
+const selected = {
+    fontSize: '1rem',
+    borderBottom: "2px solid white"
+}
+const unselected = {
+    fontSize: '.8rem',
+    color: "rgba(255,255,255,.7)"
+}
