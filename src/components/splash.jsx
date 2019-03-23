@@ -6,6 +6,7 @@ import {Link} from 'react-router-dom'
 
 export default class splash extends Component{
  
+
     getStarted(){
         // triggered when get started button is clicked, leads into game setup
         console.log("Moving onto game setup...")
@@ -16,20 +17,21 @@ export default class splash extends Component{
         return (
         <SplashContainer>
             <Background>
-                <Header>
+                <BackgroundOverlay>
+                    <Header>
 
-                    <img src={logo} className="App-logo" alt="logo" />
-                    <TitleContainer>
-                        MIND ASSAULT
-                    </TitleContainer>
-                    <Subtitle>
-                        A Game of Trivia
-                    </Subtitle>
-                </Header>
-                <Link to="/setup">
-                    START
-                </Link>
-
+                        <img src={logo} className="App-logo" alt="logo" />
+                        <TitleContainer>
+                            MIND ASSAULT
+                        </TitleContainer>
+                        <Subtitle>
+                            A Game of Trivia
+                        </Subtitle>
+                    </Header>
+                    <Link to="/setup">
+                        START
+                    </Link>
+                </BackgroundOverlay>
             </Background>
         </SplashContainer>
         )
@@ -52,6 +54,14 @@ const Background = styled.div`
     background-size: 10%;
     
 `
+const BackgroundOverlay = styled.div`
+    width:100%;
+    height: 100%;
+    box-sizing: border-box;
+    padding: 1.2rem 1rem;
+    background: linear-gradient(to bottom, #28f1fc77, #E4DE7F77 )
+
+`
 const StartButton = styled.button`
     border-radius: 10px;
     padding: .6rem 1.4rem;
@@ -64,7 +74,8 @@ const TitleContainer = styled.div`
     font-size: 2rem;
     font-weight: bold;
     letter-spacing: 2px;
-    text-shadow: 4px 4px 4px black;
+    text-shadow: 2px 2px 10px rgba(0,0,0,.3);
+    color: white;
 
 `
 const Header = styled.div`
