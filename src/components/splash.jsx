@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
 import questionmark from '../img/questionmark.png'
-import logo from '../img/headless-logo.png'
+import logo from '../img/shield.png'
 import {Link} from 'react-router-dom'
 
 export default class splash extends Component{

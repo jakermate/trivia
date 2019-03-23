@@ -21,6 +21,7 @@ class App extends Component {
       },
       currentQuestion: 0
     }
+    this.receiveConfig = this.receiveConfig.bind(this)
     
   }
   //updates current question in root app for tracking progress
@@ -28,6 +29,16 @@ class App extends Component {
     this.setState({currentQuestion: currentQuestion })
   }
 
+  // receives config object from gameOptions component and sets into gameconfig state
+  receiveConfig(configObject){
+    if (configObject !== undefined){
+      console.log('Valid configuration received=> '+ JSON.stringify(configObject))
+      this.setState({config: configObject})
+    }
+    else{
+      console.log("Config got messed up somewhere...")
+    }
+  }
 
   componentDidMount(){
     
@@ -38,6 +49,7 @@ class App extends Component {
       <div className="App">
         <header className="App-header">
 
+        </header>
         {/* temp for testing */}
         {/* <Splash></Splash> */}
         {/* <GameOptions></GameOptions>
@@ -49,9 +61,11 @@ class App extends Component {
 
           <BrowserRouter>
             <Route exact path='/' component={Splash} />
-            <Route exact path="/setup" component={GameOptions} />
+            <Route exact path="/setup" render={(props)=>
+              <GameOptions receiveConfig={this.receiveConfig} />
+            } />
             <Route path="/game/:question" render={(props)=>
-              <Game changeGameState={this.changeGameState} config={this.state.config} />
+              <Game changeGameState={this.changeGameState}/>
             } />
           </BrowserRouter>
           
@@ -63,7 +77,6 @@ class App extends Component {
             rel="noopener noreferrer"
           >
           </a>
-        </header>
       </div>
     );
   }

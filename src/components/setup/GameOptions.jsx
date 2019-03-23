@@ -7,14 +7,14 @@ import Config from '../../models/config'
 
 export default class GameOptions extends React.Component{
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
             categoryList: 0,
-            difficulty: "Medium",
+            difficulty: "",
             length: 20,
             categories: 0,
-            format: "mixed",
+            format: "",
             selectedCategory: 0
         }
         this.populateCategories = this.populateCategories.bind(this)
@@ -53,22 +53,26 @@ export default class GameOptions extends React.Component{
         this.setState({format: e.target.value}, ()=>{
             console.log(this.state.format)
         }
-        
         )
     }
     // startgame begins event chain of moving towards game component
     startGame(){
-        console.log("Starting game...")
-        // create config object
-        let newConfig = new Config(this.state.difficulty, this.state.format, this.state.category)
-        // pass config object up chain to app component function (reference to function passed down as prop: receiveConfig)
-        this.props.receiveConfig(newConfig) // will be received in App component as configObject
-    }
+        // perform check to ensure all categories have been selected
+        if (this.state.difficulty !== "" && this.state.format !== "" && this.state.selectedCategory !== 0){
+            console.log("Starting game...")
+            // create config object
+            let newConfig = new Config(this.state.difficulty, this.state.format, this.state.category)
+            console.log(newConfig)
+            // pass config object up chain to app component function (reference to function passed down as prop: receiveConfig)
+            this.props.receiveConfig(newConfig) // will be received in App component as configObject
 
-    // pass option config up to application, which wil then pass it down to game component
-    passOptionsToApplication(){
+        }
+        else{ // handle invalid config options
+            console.log("Not all config options have been specified.")
+            alert('Please select a difficulty, format, and category to begin.')
+        }
+            }
 
-    }
 
     componentDidMount(){
         // fetch list of categories when the component mounts
@@ -318,7 +322,6 @@ const ContinueButton = styled.button`
     &:hover{
         transform: scale(1.03);
         text-shadow: 2px 2px 8px rgba(255,255,255,.3);
-        border-color: rgb(27, 252, 57);
     }
 `
 const BackButton = styled.button`
