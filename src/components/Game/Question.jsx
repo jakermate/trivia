@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import he from 'he' // html decoding
 
 export default class Question extends React.Component{
     constructor(props){
