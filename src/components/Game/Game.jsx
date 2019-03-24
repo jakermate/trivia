@@ -77,25 +77,19 @@ export default class Game extends React.Component{
         // import question object model formats
         let questionTrueFalse = require('../../models/question').questionTrueFalse
         let questionMultipleChoice = require('../../models/question').questionMultipleChoice
+        console.log(questionTrueFalse)
         // initialize new array for modeled question set
         var questionSet = []
         // loop through question set and determine if each index contains a true/false or a multiplechoice
         for(let i in questions){
             let newQuestion = {}
             if(questions[i].type === "multiple"){ //use multiple choice model
-                newQuestion = new questionMultipleChoice()
-                newQuestion.questionString = questions[i].question
-                newQuestion.answers = questions[i].incorrect_answers
-                newQuestion.answers.push(questions[i].correct_answer) // so correct answer SHOULD always be the last index of answer array
-                newQuestion.difficulty = questions[i].difficulty
-                newQuestion.category = questions.category
+                newQuestion = new questionMultipleChoice(questions[i].question,questions[i].difficulty,questions.category,questions[i].incorrect_answers,questions[i].correct_answer)
+                
             }
             else if(questions[i].type === "boolean"){ //use boolean model
-                newQuestion = new questionTrueFalse()
-                newQuestion.questionsString = questions[i].question
-                newQuestion.correctAnswer = questions[i].correct_answer // comes in as True or False string
-                newQuestion.difficulty = questions[i].difficulty
-                newQuestion.category = questions[i].category
+                newQuestion = new questionTrueFalse(questions[i].question,questions[i].difficulty,questions[i].category,questions[i].correct_answer)
+             
             }
             else{
                 console.log('Error processing question '+ questions[i].question+" at index"+ i)
