@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import Question from './Question'
 import {BrowserRouter, Route} from 'react-router-dom'
+import he from 'he'
 
 
 export default class Game extends React.Component{
@@ -84,21 +85,25 @@ export default class Game extends React.Component{
         for(let i in questions){
             let newQuestion = {}
             if(questions[i].type === "multiple"){ //use multiple choice model
-                newQuestion = new questionMultipleChoice(questions[i].question,questions[i].difficulty,questions.category,questions[i].incorrect_answers,questions[i].correct_answer)
+                let decodedQuestionString = he.decode(questions[i].question)  // decode from html to txt
+                newQuestion = new questionMultipleChoice(decodedQuestionString,questions[i].difficulty,questions.category,questions[i].incorrect_answers,questions[i].correct_answer)
                 
             }
             else if(questions[i].type === "boolean"){ //use boolean model
-                newQuestion = new questionTrueFalse(questions[i].question,questions[i].difficulty,questions[i].category,questions[i].correct_answer)
+                let decodedQuestionString = he.decode(questions[i].question)  // decode from html to txt
+                newQuestion = new questionTrueFalse(decodedQuestionString,questions[i].difficulty,questions[i].category,questions[i].correct_answer)
              
             }
             else{
                 console.log('Error processing question '+ questions[i].question+" at index"+ i)
             }
             questionSet.push(newQuestion)
-            console.log("Question set model populated: "+questionSet)
         }
+        console.log(questionSet)
         // set parsed array of question objects into state array
-        this.setState({questions: questionSet})
+        this.setState({questions: questionSet}, function(){
+            console.log("Question set successfully set to component state: "+this.state.questions)
+        })
     }
 
 
@@ -151,12 +156,12 @@ export default class Game extends React.Component{
             <div id="game">
 
                 {/* nested router for routing each question to its own url */}
-                <BrowserRouter>
+                {/* <BrowserRouter>
                     <Route path="/question/:num" render={()=>(
                         <Question question={this.state.questions[this.state.currentQuestion]} />
                     )} />
                 </BrowserRouter>
-                
+                 */}
                 {/* render querstion component if they have been received */}
                 {this.state.questions !== "" && 
                     <Question question={this.state.questions[this.state.currentQuestion]}>
