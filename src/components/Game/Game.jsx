@@ -22,7 +22,7 @@ export default class Game extends React.Component{
             rootURL: "https://opentdb.com/api.php?"
         }
 
-        
+        this.pushToGameState = this.pushToGameState.bind(this)
 
 
     }
@@ -151,10 +151,25 @@ export default class Game extends React.Component{
     updateAppGameState(){
         this.props.changeQuestion(this.state.currentQuestion)
     }
+
+    // reference to this function is passed down to each rendered question component
+    // this function is called in Question component after each answer is selected
+    // child component state is updated and then passed up by referencing this function
+    pushToGameState(newQuestion){
+        // need to splice the new question into array position where old version was
+        let questions = this.state.questions
+        questions.splice(this.state.currentQuestion,1,newQuestion)
+        console.log(JSON.stringify(this.state.questions))
+    }
+
+
+
     render(){
         return(
-            <div id="game">
-
+            <GameContainer>
+                <ProgressHeader>
+                    Question {this.state.currentQuestion + 1} of {this.state.questions.length}
+                </ProgressHeader>
                 {/* nested router for routing each question to its own url */}
                 {/* <BrowserRouter>
                     <Route path="/question/:num" render={()=>(
@@ -164,7 +179,7 @@ export default class Game extends React.Component{
                  */}
                 {/* render querstion component if they have been received */}
                 {this.state.questions !== "" && 
-                    <Question question={this.state.questions[this.state.currentQuestion]}>
+                    <Question pushToGameState={this.pushToGameState} question={this.state.questions[this.state.currentQuestion]}>
 
                     </Question>
                 }
@@ -181,11 +196,25 @@ export default class Game extends React.Component{
                     }
                     
                 </Controls>
-            </div>
+            </GameContainer>
         )
     }
 
 }
+
+const GameContainer = styled.div`
+    width: 100%;
+    box-sizing: border-box;
+    height: 100%;
+    padding: 4rem 1rem;
+`
+
+
+const ProgressHeader = styled.div`
+    width: 100%;
+`
+
+
 const Controls = styled.div`
     display: flex;
     flex-direction: row;
