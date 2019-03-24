@@ -5,6 +5,7 @@ export class questionTrueFalse{
             this.selectedAnswer= 0 // temp int 0 until used
             this.difficulty= difficulty
             this.category=category
+            this.type = "boolean"
         }
     
 }
@@ -16,6 +17,7 @@ export class questionMultipleChoice{
         this.selectedAnswer= 0 // set to integer 0 as placeholder until used
         this.difficulty= difficulty
         this.category=category
+        this.type = "multiple"
     }
     
 }

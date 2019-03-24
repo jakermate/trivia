@@ -7,59 +7,59 @@ export default class Question extends React.Component{
         this.state={
             question: {
 
-            },
-            options: [
-
-            ],
-            correctAnswer: "",
-            selectedAnswer: ""
+            }
         }
 
     }
 
     componentDidMount(){
         // set question into state when received as prop
-        this.setState({question: this.props.question})
+        this.setState({question: this.props.question}, function(){
+            console.log("Question set to state: " + JSON.stringify(this.state.question))
+        })
     }
 
     render(){
         let component
         // conditional rendering based upon question type
         if(this.state.question.type === "multiple"){
-            component = (
-                <QuestionContainer>
+            component = 
+                (<QuestionContainer>
                     <Title>
-                        {this.props.question.questionString}
+                        {this.state.question.questionString}
                     </Title>
                     {/* Container that holds all answers contained in the state from the question objects */}
                     <AnswerContainer>
                         {/* map iterates over the list of multiple choice or true/false options and generates an Answer div for each. */}
-                        {this.state.options.map(function(answer){
+                        {this.state.question.answers.map(function(answer){
                             return(
                                 <Answer>{answer}</Answer>
                             )
                         })}
                     </AnswerContainer>
-                </QuestionContainer>
-            )
+                </QuestionContainer>)
+            
         }
         if(this.state.question.type === "boolean"){
             component = (
                 <QuestionContainer>
                     <Title>
-                        {this.props.question.questionString}
+                        {this.state.question.questionString}
                     </Title>
                     <AnswerContainer>
                         <Answer>True</Answer>
                         <Answer>False</Answer>
                     </AnswerContainer>
-                </QuestionContainer>
-            )
+                </QuestionContainer>)
+            
         }
-
+        else{
+            component = (<h1>ERROR</h1>)
+        }
         return(
             // component variable should contain one of the two question container types defined above
-            {component}
+            
+            <div id="question-component-wrapper">{component}</div>
         )
     }
 }
