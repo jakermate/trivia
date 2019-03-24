@@ -2,10 +2,12 @@ import React from 'react'
 import styled from 'styled-components'
 
 export default class Question extends React.Component{
-    constructor(){
-        super()
+    constructor(props){
+        super(props)
         this.state={
-            question: "",
+            question: {
+
+            },
             options: [
 
             ],
@@ -15,11 +17,15 @@ export default class Question extends React.Component{
 
     }
 
+    componentDidMount(){
+        // set question into state when received as prop
+        this.setState({question: this.props.question})
+    }
 
     render(){
         let component
         // conditional rendering based upon question type
-        if(this.props.question.type === "multiple"){
+        if(this.state.question.type === "multiple"){
             component = (
                 <QuestionContainer>
                     <Title>
@@ -37,7 +43,7 @@ export default class Question extends React.Component{
                 </QuestionContainer>
             )
         }
-        if(this.props.question.type === "boolean"){
+        if(this.state.question.type === "boolean"){
             component = (
                 <QuestionContainer>
                     <Title>

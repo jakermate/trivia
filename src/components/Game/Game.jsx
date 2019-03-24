@@ -9,52 +9,64 @@ export default class Game extends React.Component{
         super()
         this.state = {
             inPlay: "false",
-            questions: [
-
-            ],
+            questions: "",
             currentQuestion: 0,
             answers: [
 
             ],
-            category: "",
-            difficulty: "",
-            format: "", // multiple or boolean or mixed
-            error: false
+            category: 11,
+            difficulty: "easy",
+            format: "boolean", // multiple or boolean or mixed
+            error: false,
+            rootURL: "https://opentdb.com/api.php?"
         }
 
-        const rootURL = "https://opentdb.com/api.php?"
+        
 
 
     }
+
+    // call fetch function when component has mounted
+    componentDidMount(){
+        this.fetchQuestions()
+    }
+    
     
     // request question set from api with values in state
     fetchQuestions(category){
         // check for format
         let format = ""
-        if (this.state.format == "boolean" || "multiple" ){
+
+
+
+        if (this.state.format === "boolean" || "multiple" ){
             format = "&type="+this.state.format
             console.log("format entered as "+ format)
         }
+        // print request string out to console
+        console.log(this.state.rootURL + "amount=20&category=" + this.state.category + "&difficulty=" + this.state.difficulty+format)
+
         // single category
-        fetch(`${this.rootURL}amount=20&category=${this.state.category}&difficulty=${this.state.difficulty}${format}`).then(
-            (res)=>{
-                res.json()
-            }
-        ).then(
-            (json)=>{
-                // change to call method parseQuestions instead of putting into state here
-                // check if response code is 0 (ok)  and set error in Game component state tofalse
-                if(json.response === 0){
-                    console.log(json.response)
-                    this.setState({error: false}, this.parseQuestions(json))
-                    
+        fetch(`${this.state.rootURL}amount=20&category=${this.state.category}&difficulty=${this.state.difficulty}${format}`).then(
+            (res)=>res.json()  // if you use a block {} then you need to use return for the promise return
+            ).then(
+                (json)=>{
+                    // log out parsed response body
+                    console.log(json)
+                    // change to call method parseQuestions instead of putting into state here
+                    // check if response code is 0 (ok)  and set error in Game component state tofalse
+                    if(json.response_code === 0){
+                        console.log(json)
+                        this.setState({error: false}, this.parseQuestions(json))
+                        
+                    }
+                    else{
+                        // if response code is bad, set error state in component to true and display error (with button to retry)
+                        this.setState({error: true})
+                    }
                 }
-                else{
-                    // if response code is bad, set error state in component to true and display error (with button to retry)
-                    this.setState({error: true})
-                }
-            }
         ).catch((err)=>{
+            console.log(err)
             console.log('Error during fetching of question set...')
         })
     }
@@ -70,7 +82,7 @@ export default class Game extends React.Component{
         // loop through question set and determine if each index contains a true/false or a multiplechoice
         for(let i in questions){
             let newQuestion = {}
-            if(questions[i].type == "multiple"){ //use multiple choice model
+            if(questions[i].type === "multiple"){ //use multiple choice model
                 newQuestion = new questionMultipleChoice()
                 newQuestion.questionString = questions[i].question
                 newQuestion.answers = questions[i].incorrect_answers
@@ -78,7 +90,7 @@ export default class Game extends React.Component{
                 newQuestion.difficulty = questions[i].difficulty
                 newQuestion.category = questions.category
             }
-            else if(questions[i].type == "boolean"){ //use boolean model
+            else if(questions[i].type === "boolean"){ //use boolean model
                 newQuestion = new questionTrueFalse()
                 newQuestion.questionsString = questions[i].question
                 newQuestion.correctAnswer = questions[i].correct_answer // comes in as True or False string
@@ -150,10 +162,13 @@ export default class Game extends React.Component{
                         <Question question={this.state.questions[this.state.currentQuestion]} />
                     )} />
                 </BrowserRouter>
+                
+                {/* render querstion component if they have been received */}
+                {this.state.questions !== "" && 
+                    <Question question={this.state.questions[this.state.currentQuestion]}>
 
-                <Question question={this.state.questions[this.state.currentQuestion]}>
-
-                </Question>
+                    </Question>
+                }
                 <Controls>
                     {/* only display back button if not on first question */}
                     {this.state.currentQuestion > 0 && 

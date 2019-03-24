@@ -24,6 +24,11 @@ class App extends Component {
     this.receiveConfig = this.receiveConfig.bind(this)
     
   }
+  // color object storing values to be swapped out for backgriund overlay gradient
+  colors = {
+    blue: "#28f1fc77",
+    yellow: "#E4DE7F77"
+  }  
   //updates current question in root app for tracking progress
   changeGameState(currentQuestion){
     this.setState({currentQuestion: currentQuestion })
@@ -64,7 +69,7 @@ class App extends Component {
             <Route exact path="/setup" render={(props)=>
               <GameOptions receiveConfig={this.receiveConfig} />
             } />
-            <Route path="/game/:question" render={(props)=>
+            <Route path="/game" render={(props)=>
               <Game changeGameState={this.changeGameState}/>
             } />
           </BrowserRouter>
