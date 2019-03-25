@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import Question from './Question'
 import {BrowserRouter, Route} from 'react-router-dom'
 import he from 'he'
+import Cookies from 'js-cookie' // cookie manipulation
 
 
 export default class Game extends React.Component{
@@ -27,6 +28,8 @@ export default class Game extends React.Component{
 
     }
 
+
+    // STARTUP FUNCTIONALITY
     // call fetch function when component has mounted
     componentDidMount(){
         this.fetchQuestions()
@@ -137,6 +140,13 @@ export default class Game extends React.Component{
         }
         
     }
+
+    /// BUTTON FUNCTIONALITY
+    // go to next question
+    next(){
+        // if selectedAnswer of question-STATE is not empty/0, allow player to progress to next question
+    }
+    // previous question (if currentQuestion is not 0)
     back(){
         // return game state to previous question
 
@@ -162,41 +172,56 @@ export default class Game extends React.Component{
         console.log(JSON.stringify(this.state.questions))
     }
 
+    // game completion methods
 
+    setCookies(){ // read previous cookies and create/add current score data to cookie field (reset expiration timer to one month)
+        let cookies = document.cookie
+        console.log(cookies)
+    }
 
+    // COMPONENT MARKUP
     render(){
-        return(
-            <GameContainer>
-                <ProgressHeader>
-                    Question {this.state.currentQuestion + 1} of {this.state.questions.length}
-                </ProgressHeader>
-                {/* nested router for routing each question to its own url */}
-                {/* <BrowserRouter>
-                    <Route path="/question/:num" render={()=>(
-                        <Question question={this.state.questions[this.state.currentQuestion]} />
-                    )} />
-                </BrowserRouter>
-                 */}
-                {/* render querstion component if they have been received */}
-                {this.state.questions !== "" && 
-                    <Question pushToGameState={this.pushToGameState} question={this.state.questions[this.state.currentQuestion]}>
+        
+        let component = <GameContainer>Waiting....</GameContainer>
+        if(this.state.questions !== {}){
+            component = <GameContainer>
+                            <ProgressHeader>
+                                Question <span class="bold">{this.state.currentQuestion + 1}</span> of {this.state.questions.length}
+                            </ProgressHeader>
+                            {/* nested router for routing each question to its own url */}
+                            {/* <BrowserRouter>
+                                <Route path="/question/:num" render={()=>(
+                                    <Question question={this.state.questions[this.state.currentQuestion]} />
+                                )} />
+                            </BrowserRouter>
+                                */}
+                            {/* render question component if they have been received */}
+                            {this.state.questions !== "" && 
+                                <Question pushToGameState={this.pushToGameState} question={this.state.questions[this.state.currentQuestion]}>
 
-                    </Question>
-                }
-                <Controls>
-                    {/* only display back button if not on first question */}
-                    {this.state.currentQuestion > 0 && 
-                        <BackButton onClick={this.back}>BACK</BackButton>
-                    }
-                    {/* display next/done depending on if this querstion is the last */}
-                    {this.state.currentQuestion < this.state.questions.length ?
-                        <NextButton onClick={this.next}>NEXT</NextButton>
-                        :
-                        <DoneButton onClick={this.done}>DONE</DoneButton>
-                    }
-                    
-                </Controls>
-            </GameContainer>
+                                </Question>
+                            }
+                            <Controls>
+                                {/* only display back button if not on first question */}
+                                {this.state.currentQuestion > 0 && 
+                                    <BackButton onClick={this.back}>BACK</BackButton>
+                                }
+                                {/* display next/done depending on if this question is the last */}
+                                {this.state.currentQuestion < this.state.questions.length &&
+                                    <NextButton onClick={this.next}>NEXT</NextButton>
+                                    
+                                }
+                                
+                            </Controls>
+                        </GameContainer>
+        }
+
+
+        return(
+            <div id="game-container">
+                 {component}
+            </div>
+           
         )
     }
 
@@ -207,6 +232,7 @@ const GameContainer = styled.div`
     box-sizing: border-box;
     height: 100%;
     padding: 4rem 1rem;
+    background: linear-gradient(to bottom, #28f1fc77, #E4DE7F77)
 `
 
 
