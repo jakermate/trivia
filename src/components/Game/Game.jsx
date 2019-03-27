@@ -10,9 +10,10 @@ export default class Game extends React.Component{
     constructor(){
         super()
         this.state = {
-            inPlay: "false",
+            inPlay: true,
             questions: "",
             currentQuestion: 0,
+            complete: false,
             answers: [
 
             ],
@@ -24,6 +25,8 @@ export default class Game extends React.Component{
         }
 
         this.pushToGameState = this.pushToGameState.bind(this)
+        this.next = this.next.bind(this)
+        this.back = this.back.bind(this)
 
 
     }
@@ -141,21 +144,42 @@ export default class Game extends React.Component{
         
     }
 
+
     /// BUTTON FUNCTIONALITY
+
     // go to next question
     next(){
         // if selectedAnswer of question-STATE is not empty/0, allow player to progress to next question
+        console.log("Moving forward from question INDEX" + this.state.currentQuestion)
+        // check if next question is less than length of question array
+        if (this.state.currentQuestion < this.state.questions.length){
+            this.setState({currentQuestion: this.state.currentQuestion + 1}, function(){
+                console.log("Moving to question INDEX" + this.state.currentQuestion)
+            })
+        } // now see if next question index would exceed length of question array
+        else if (this.state.currentQuestion + 1 >= this.state.questions.length){
+            console.log('That was the last question.  Finalizing quiz...')
+            // set complete-STATE to true to signal test has finished
+            this.setState({complete: true}, this.setState({inPlay: false}))
+
+        }
+
     }
+
+
     // previous question (if currentQuestion is not 0)
     back(){
         // return game state to previous question
 
         // move pointer to previous question
-        this.setState({currentQuestion: this.state.currentQuestion - 1},
-            // then update app state with current question)
-            function(){
-                this.updateAppGameState(this.state.currentQuestion)
-            })
+        if(this.state.currentQuestion > 0){
+            this.setState({currentQuestion: this.state.currentQuestion - 1},
+                // then update app state with current question)
+                function(){
+                    console.log('Moving back to previous question: INDEX '+ this.state.currentQuestion)
+                })
+        }
+        
     }
 
     updateAppGameState(){
@@ -170,6 +194,8 @@ export default class Game extends React.Component{
         let questions = this.state.questions
         questions.splice(this.state.currentQuestion,1,newQuestion)
         console.log(JSON.stringify(this.state.questions))
+        // force update is needed to rerender this component when state change occurs in question's selectedAnswer in order to show the next button.
+        this.forceUpdate()
     }
 
     // game completion methods
@@ -181,9 +207,8 @@ export default class Game extends React.Component{
 
     // COMPONENT MARKUP
     render(){
-        
         let component = <GameContainer>Waiting....</GameContainer>
-        if(this.state.questions !== {}){
+        if(this.state.questions !== ""){
             component = <GameContainer>
                             <ProgressHeader>
                                 Question <span class="bold">{this.state.currentQuestion + 1}</span> of {this.state.questions.length}
@@ -197,7 +222,8 @@ export default class Game extends React.Component{
                                 */}
                             {/* render question component if they have been received */}
                             {this.state.questions !== "" && 
-                                <Question pushToGameState={this.pushToGameState} question={this.state.questions[this.state.currentQuestion]}>
+                                // the key parameter (which uses the currentQuestion index, tells react to re-mount this component when the key/question is changed)
+                                <Question key={this.state.currentQuestion} pushToGameState={this.pushToGameState} question={this.state.questions[this.state.currentQuestion]}>
 
                                 </Question>
                             }
@@ -207,7 +233,7 @@ export default class Game extends React.Component{
                                     <BackButton onClick={this.back}>BACK</BackButton>
                                 }
                                 {/* display next/done depending on if this question is the last */}
-                                {this.state.currentQuestion < this.state.questions.length &&
+                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== 0 &&
                                     <NextButton onClick={this.next}>NEXT</NextButton>
                                     
                                 }
@@ -215,8 +241,7 @@ export default class Game extends React.Component{
                             </Controls>
                         </GameContainer>
         }
-
-
+        
         return(
             <div id="game-container">
                  {component}
