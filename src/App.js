@@ -7,7 +7,9 @@ import styled from 'styled-components'
 import {BrowserRouter, Route} from 'react-router-dom'
 import Game from './components/Game/Game'
 import GameOptions from './components/setup/GameOptions'
-import splash from './components/splash';
+import Cookies from 'js-cookie'
+import Results from './components/Game/Results'
+import '../src/css/spinner.css'
 
 
 class App extends Component {
@@ -19,7 +21,15 @@ class App extends Component {
       config: {
 
       },
-      currentQuestion: 0
+      currentQuestion: 0,
+      cookies:{
+
+      },
+      user:{
+        scores:[
+
+        ]
+      }
     }
     this.receiveConfig = this.receiveConfig.bind(this)
     
@@ -44,9 +54,48 @@ class App extends Component {
       console.log("Config got messed up somewhere...")
     }
   }
-
+ 
+  // runs when App component mounts (first page visit)
   componentDidMount(){
+    //call to check for previous visits through cookies
+    this.firstVisitCookie()
+  }
+
+  // cookies
+  checkForCookies(){
+    let currentCookies = Cookies.get()
+   
+    if(currentCookies !== undefined){
+      // if cookies exist, set into App state
+      console.log('Welcome back. Cookies :'+ currentCookies)
+      this.setState({cookies: currentCookies})
+      Cookies.set(currentCookies,)
+    }
+    else if (!currentCookies){
+      console.log("No existing cookie data.  New profile created.")
+    }
     
+  }
+  // set basic cookie on first visit
+  firstVisitCookie(){
+    let date = new Date()
+    Cookies.set('lastvisit', date, {expires: 30})
+  }
+
+  
+
+  // end of game/ results
+  receiveNewScore(score){
+    if(score !== undefined | null){
+      //store current user state in new variable
+      let userUpdate = this.state.user
+      // modify user variable with new score
+      userUpdate.scores.push(score)
+      // update state with updated user information
+      this.setState({user: userUpdate}, function(){
+        console.log("User state successfully updated with new score: " + score)
+      })
+    }
   }
 
   render() {
