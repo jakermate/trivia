@@ -12,11 +12,8 @@ export default class Game extends React.Component{
         this.state = {
             inPlay: true,
             questions: "",
-            currentQuestion: 0,
+            currentQuestion: 0, // pointer to game state/position
             complete: false,
-            answers: [
-
-            ],
             category: 11,
             difficulty: "easy", // easy medium or hard
             format: "boolean", // multiple or boolean or mixed
