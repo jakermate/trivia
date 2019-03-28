@@ -35,4 +35,9 @@ a, a:visited, a:hover, a:active, a:link{
 }
 
 
+/* misc */
+.bold{
+  font-weight: bold;
+}
+
  /* images */
