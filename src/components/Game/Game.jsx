@@ -18,10 +18,10 @@ export default class Game extends React.Component{
 
             ],
             category: 11,
-            difficulty: "easy",
+            difficulty: "easy", // easy medium or hard
             format: "boolean", // multiple or boolean or mixed
             error: false,
-            rootURL: "https://opentdb.com/api.php?"
+            rootURL: "https://opentdb.com/api.php?"  // base url for api
         }
 
         this.pushToGameState = this.pushToGameState.bind(this)
@@ -112,7 +112,21 @@ export default class Game extends React.Component{
         })
     }
 
+    // shuffle array of possible answers before they are displayed so that the correct answer is not always listed last
+    shuffleArray(question){  // use only for multiple choice questions
+        let array = question.answers
+        let i = 0
+        let j = 0
+        let temp = null
 
+        for(i = array.length - 1; i > 0; i -= 1){
+            j = Math.floor(Math.random() * (i+1))
+            temp = array[i]
+            array[i] = array[j]
+            array[j] = temp
+        }
+        return array // returns shuffled array
+    }
 
     // check if current question is final question and return boolean
     checkIfDone(){
@@ -211,7 +225,7 @@ export default class Game extends React.Component{
         if(this.state.questions !== ""){
             component = <GameContainer>
                             <ProgressHeader>
-                                Question <span class="bold">{this.state.currentQuestion + 1}</span> of {this.state.questions.length}
+                                Question <span className="bold">{this.state.currentQuestion + 1}</span> of {this.state.questions.length}
                             </ProgressHeader>
                             {/* nested router for routing each question to its own url */}
                             {/* <BrowserRouter>
@@ -243,15 +257,20 @@ export default class Game extends React.Component{
         }
         
         return(
-            <div id="game-container">
+            <GamePage>
                  {component}
-            </div>
+            </GamePage>
            
         )
     }
 
 }
-
+// contains conditionaly rendered components
+const GamePage = styled.div`
+    width:100%;
+    height: 100%;
+`
+// container of each conditional component markup
 const GameContainer = styled.div`
     width: 100%;
     box-sizing: border-box;
