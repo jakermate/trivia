@@ -10,6 +10,7 @@ import GameOptions from './components/setup/GameOptions'
 import Cookies from 'js-cookie'
 import Results from './components/Game/Results'
 import '../src/css/spinner.css'
+import uuidv1 from 'uuid' // unique id generation
 
 
 class App extends Component {
@@ -73,16 +74,25 @@ class App extends Component {
     }
     else if (!currentCookies){
       console.log("No existing cookie data.  New profile created.")
+      // call for creation of new user data
+      this.firstVisitCookie();
+      
     }
     
   }
   // set basic cookie on first visit
   firstVisitCookie(){
     let date = new Date()
+    // sets recent visit date/time and user id to expire in 30 days
     Cookies.set('lastvisit', date, {expires: 30})
+    Cookies.set('id', this.generateID(), {expires: 30})
+    console.log("New user informatiomn generated: "+ JSON.stringify(Cookies.get()))
   }
 
-  
+  // generate and return unique user id
+  generateID(){
+    return uuidv1();
+  }
 
   // end of game/ results
   receiveNewScore(score){
