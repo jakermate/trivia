@@ -4,6 +4,7 @@ import {Link} from 'react-router-dom'
 import jackie from '../../img/jackiechan.jpg'
 import logo from '../../img/shield.png'
 import Config from '../../models/config'
+import Footer from '../home/Footer'
 // requiure background image
 import bg from '../../img/PosterCollage.jpg'
 
@@ -181,6 +182,10 @@ export default class GameOptions extends React.Component{
                                 </ContinueButton>
                             </ButtonContainer>
                         </SetupContent>
+                        {/* footer */}
+                        <Footer>
+
+                        </Footer>
                     </BackgroundOverlayColors>
                     </BackgroundOverlayBlack>
             </Options>
@@ -279,7 +284,8 @@ const BackgroundOverlayColors = styled.div`
     background-size: cover;
     position: relative;
     z-index: 2;
-    background: linear-gradient(to bottom, #28f1fc77, #E4DE7F77);
+    background: linear-gradient(to bottom, #28f1fcCC, #E4DE7FCC);
+   
 `
 
 const CategorySelect = styled.select`
