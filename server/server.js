@@ -38,6 +38,8 @@ app.post('/addquestions', function(req,res){
     console.log("Ready to parse received question set: " + req.body.questions+" Sent by user " + req.body.userID)
 })
 
-function updateCache(){
-    
-}
+// log user score
+app.post('/logscore', function(req,res){
+    let scoreObject = req.body
+    console.log('New score received from user id: ' + scoreObject.id)
+})
