@@ -42,4 +42,5 @@ app.post('/addquestions', function(req,res){
 app.post('/logscore', function(req,res){
     let scoreObject = req.body
     console.log('New score received from user id: ' + scoreObject.id)
+    let newScore = new scoreModel()
 })
