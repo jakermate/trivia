@@ -9,7 +9,7 @@ import Game from './components/Game/Game'
 import GameOptions from './components/setup/GameOptions'
 import Cookies from 'js-cookie'
 import Results from './components/Game/Results'
-import '../src/css/spinner.css'
+import '../src/css/spinner.css' 
 import uuidv1 from 'uuid' // unique id generation
 
 
@@ -59,20 +59,20 @@ class App extends Component {
   // runs when App component mounts (first page visit)
   componentDidMount(){
     //call to check for previous visits through cookies
-    this.firstVisitCookie()
+    this.checkForCookies()
   }
 
   // cookies
   checkForCookies(){
     let currentCookies = Cookies.get()
-   
-    if(currentCookies !== undefined){
+    console.log(currentCookies)
+    if(currentCookies.id !== undefined){
       // if cookies exist, set into App state
       console.log('Welcome back. Cookies :'+ currentCookies)
       this.setState({cookies: currentCookies})
       Cookies.set(currentCookies,)
     }
-    else if (!currentCookies){
+    else{
       console.log("No existing cookie data.  New profile created.")
       // call for creation of new user data
       this.firstVisitCookie();
