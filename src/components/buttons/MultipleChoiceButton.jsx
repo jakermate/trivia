@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 export default function MultipleChoiceButton(props) {
     return (
-        <MultipleChoiceButtonContainer>
+        <MultipleChoiceButtonContainer onClick={this.onClick}> 
             {this.props.answer}
         </MultipleChoiceButtonContainer>
     )
