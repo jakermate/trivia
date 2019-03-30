@@ -5,7 +5,7 @@ import '../../css/spinner.css'
 export default function Spinner(){
     return(
         <SpinnerComponent>
-            <Spinner className={'loader'}>
+            <Spinner className={'lds-dual-ring'}>
 
             </Spinner>
         </SpinnerComponent>
