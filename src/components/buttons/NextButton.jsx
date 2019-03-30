@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import styled from 'styled-components'
 
 export default class NextButton extends Component {
-    render() {
+    render(props) {
         return (
-            <NextButtonContainer>
+            <NextButtonContainer onClick={this.props.onClick}>
                 NEXT
             </NextButtonContainer>
         )
