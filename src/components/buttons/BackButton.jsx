@@ -4,7 +4,7 @@ import styled from 'styled-components'
 export default function BackButton() {
     return (
         <BackButtonContainer>
-        
+            BACK
         </BackButtonContainer>
     )
 }
