@@ -1,23 +1,58 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 
-export default function FalseButton() {
+export default function FalseButton(props) {
     return (
-        <FalseButtonContainer>
-            TRUE
+        <FalseButtonContainer onClick={props.onClick}>
+            FALSE
         </FalseButtonContainer>
   )
 }
+
+const throb = keyframes`
+    0%{
+        transform: scale(1.2)
+    }
+    50%{
+        transform: scale(1.3)
+    }
+    100%{
+        transform: scale(1.2)
+    }
+`
 
 const FalseButtonContainer = styled.button`
     width: 60px;
     height: 60px;
     border-radius: 60px;
-    background-color: #4cf788;
-    border: 2px solid white;
+    background-color: #222222;
     box-shadow: 2px 2px 4px #999;
+    border-style: none;
     color: white;
     text-align: center;
     font-size: .7rem;
     font-weight: bold;
+    transition: .3s ease-out;
+    &:hover{
+        outline: none;
+    }
+    &:active{
+        outline:none
+    }
+    &:focus{
+        outline:none;
+    }
+    &.selected{
+        transform: scale(1.2);
+        box-shadow: 0px 0px 20px #16ebff;
+        &::after{
+        width: 60px;
+        height: 60px;
+        border-radius: 60px;
+        background-color: rgba(0,0,0,0);
+        box-shadow: 0 0 30px red;
+        animation: ${throb} 2s ease-in-out infinite;
+    }
+    }
+    
 `
