@@ -9,15 +9,15 @@ export default function FalseButton(props) {
   )
 }
 
-const throb = keyframes`
+const glow = keyframes`
     0%{
-        transform: scale(1.2)
+        box-shadow: 0px 0px 20px 0 #16ebffaa;
     }
     50%{
-        transform: scale(1.3)
+        box-shadow: 0px 0px 30px 10px #16ebff;
     }
     100%{
-        transform: scale(1.2)
+        box-shadow: 0px 0px 20px 0 #16ebffaa;
     }
 `
 
@@ -51,7 +51,7 @@ const FalseButtonContainer = styled.button`
         border-radius: 60px;
         background-color: rgba(0,0,0,0);
         box-shadow: 0 0 30px red;
-        animation: ${throb} 2s ease-in-out infinite;
+        animation: ${glow} 5s linear infinite;
     }
     }
     
