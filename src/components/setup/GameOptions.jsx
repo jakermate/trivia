@@ -2,13 +2,13 @@ import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import {Link} from 'react-router-dom'
 import jackie from '../../img/jackiechan.jpg'
-import logo from '../../img/brain-space-alt.svg'
+import logo from '../../img/setup-logo.svg'
 import Config from '../../models/config'
 import Footer from '../home/Footer'
-// requiure background image
-import bg from '../../img/PosterCollage.jpg'
 import CategorySelect from './CategorySelect'
 import Swal from 'sweetalert2'
+import colors from '../../values/colors'
+import Header from './Header'
 
 export default class GameOptions extends React.Component{
 
@@ -16,12 +16,14 @@ export default class GameOptions extends React.Component{
         super(props);
         this.state = {
             categoryList: 0,
-            difficulty: "",
+            difficulty: "", // old string based system
             length: 20,
             categories: 0,
             format: "",
             selectedCategory: 0,
-            categorySelectOpened: false
+            categorySelectOpened: false,
+            selectedDifficulty: 1, // new slider/integer based system for difficulty
+            selectedFormat: 1 // new slider/integer based system for difficulty
         }
         this.populateCategories = this.populateCategories.bind(this)
         this.updateDifficulty = this.updateDifficulty.bind(this)
@@ -30,21 +32,11 @@ export default class GameOptions extends React.Component{
         this.startGame = this.startGame.bind(this)
         this.openCategorySelect = this.openCategorySelect.bind(this)
         this.returnCategoryIndexFromId = this.returnCategoryIndexFromId.bind(this)
+        this.changeSelectedDifficulty = this.changeSelectedDifficulty.bind(this)
+        this.changeSelectedFormat = this.changeSelectedFormat.bind(this)
 
     }
 
-    // style variables
-    // color object storing values to be swapped out for backgriund overlay gradient
-    colors = {
-        blue: "#28f1fc77",
-        yellow: "#E4DE7F77"
-    }
-    bgStyle = {
-        backgroundImage: 'url('+bg+')',
-        backgroundPosition: 'center',
-        backgroundSize: 'cover',
-        backgroundRepeat: 'repeat'
-    }
     // run as callback function when the category data is fetched and pushed into the component's state
     populateCategories(e){
         console.log("Building category select table from json")
@@ -66,6 +58,28 @@ export default class GameOptions extends React.Component{
         })
         
     }
+
+    // method for slider based difficulty changes
+    changeSelectedDifficulty(e){
+        this.setState({selectedDifficulty: e.target.value}, function(){
+            console.log('Difficulty changed to: ' + this.state.selectedDifficulty)
+        })
+
+    }
+    // method for slider based format changes
+    changeSelectedFormat(e){
+        let elements = document.getElementsByClassName('selected-format')
+        for(let i = 0; i < elements.length; i++){
+            elements[i].classList.remove('selected-format')
+        }
+        this.setState({selectedFormat: e.target.value}, function(){
+            console.log('Difficulty changed to: ' + this.state.selectedFormat)
+            
+            
+        document.getElementById('format-'+this.state.selectedFormat).classList.add('selected-format')
+        })
+    }
+
     // opens fullscreen category select screen (as opposed to previous select options)
     openCategorySelect(e){
         // toggle state of category select to open or closed
@@ -152,10 +166,9 @@ export default class GameOptions extends React.Component{
      render(){
         return(
             <Options id="options-container">
-                <Background>
-                </Background>
-                <BackgroundOverlayBlack>
                     <BackgroundOverlayColors>
+                    <Header></Header>
+
                             <SetupContent id="setup-content">
                             <div id="title-logo-container">
                                 <LogoContainer>
@@ -168,35 +181,40 @@ export default class GameOptions extends React.Component{
                             {/* difficulty select */}
                             <OptionsSectionContainer>
                                 <SelectionTitle>DIFFICULTY</SelectionTitle>
-                                <DifficultySelect>
-                                    <Difficulty name="easy" style={unselected} value="Easy" onClick={this.updateDifficulty}>
+                                {/* new slider selection system */}
+                                <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedDifficulty} />
+                                <DifficultyLabels>
+                                    <DifficultyLabelSpan>
                                         EASY
-                                    </Difficulty>
-                                    <Difficulty name="medium" style={selected} value="Medium" onClick={this.updateDifficulty}>
+                                    </DifficultyLabelSpan>
+                                    <DifficultyLabelSpan>
                                         MEDIUM
-                                    </Difficulty>
-                                    <Difficulty name="hard" style={unselected} value="Hard" onClick={this.updateDifficulty}>
-                                        HARD
-                                    </Difficulty>
-                                </DifficultySelect>
-                                <DifficultySlider type="range" min="1" max="3" step="1" value="1"/>
+                                    </DifficultyLabelSpan>
+                                    <DifficultyLabelSpan>
+                                        DIFFICULT
+                                    </DifficultyLabelSpan>
+                                </DifficultyLabels>
 
                             </OptionsSectionContainer>
                             <OptionsSectionContainer>
                                 <SelectionTitle>
                                     FORMAT 
                                 </SelectionTitle>
-                                <FormatTypeContainer>
-                                    <FormatTypeOption style={unselected} value="boolean" onClick={this.updateFormat}>
+                                {/* new slider based format selection with input range */}
+                                <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
+                                <FormatLabels>
+                                    <FormatLabelSpan id="format-0">
                                         TRUE / FALSE
-                                    </FormatTypeOption>
-                                    <FormatTypeOption style={unselected} value="multiple" onClick={this.updateFormat}>
+                                    </FormatLabelSpan>
+
+                                    <FormatLabelSpan id="format-1" className="selected-format">
+                                        MIXED
+                                    </FormatLabelSpan>
+
+                                    <FormatLabelSpan id="format-2">
                                         MULTIPLE CHOICE
-                                    </FormatTypeOption>
-                                    <FormatTypeOption style={selected} value="mixed" onClick={this.updateFormat}>
-                                        MIXED FORMAT
-                                    </FormatTypeOption>
-                                </FormatTypeContainer>
+                                    </FormatLabelSpan>
+                                </FormatLabels>
                             </OptionsSectionContainer>
                             
                             <OptionsSectionContainer>
@@ -215,18 +233,15 @@ export default class GameOptions extends React.Component{
                             </OptionsSectionContainer>
                             
                             <ButtonContainer>
-                                <BackButton>
-                                    <Link to="/">BACK</Link>
-                                </BackButton>
+                                
                                 <ContinueButton onClick={this.startGame}>
-                                    CONTINUE
+                                    START
                                 </ContinueButton>
                             </ButtonContainer>
                         </SetupContent>
                         {/* footer */}
                         
                     </BackgroundOverlayColors>
-                    </BackgroundOverlayBlack>
             </Options>
         )
      }
@@ -244,20 +259,8 @@ const scroll = keyframes`
     }
 `
 
-// background poster collage
-const Background = styled.div`
-    box-sizing: border-box;
-    display:flex;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    flex-direction: column;
-    justify-content: space-between;
-    animation: ${scroll} 6s linear infinite;
-    z-index: 0;
-`
+
+
 
 // base level black background
 const Options = styled.div`
@@ -268,7 +271,6 @@ const Options = styled.div`
     flex-direction: column;
     justify-content: space-between;
     font-size: .6rem;
-    background-color: black;
     position: relative;
 
 `
@@ -276,15 +278,14 @@ const Options = styled.div`
 // content sizing and padding container
 const SetupContent = styled.div`
     box-sizing: border-box;
-    max-width: 600px;
+    width:100%;
+    max-width:100%;
     margin: 0 auto;
-    height: 100%;
+    height: calc(100% - 88px);
     position: relative;
-    padding: 4rem 0rem;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
-    z-index: 4;
 `
 
 const LogoContainer = styled.div`
@@ -295,29 +296,79 @@ const LogoContainer = styled.div`
 `
 const Img =  styled.img`
     position: relative;
-    z-index: 0;
-    height:140px;
+    height:70px;
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,.4));
 
 `
 const OptionsSectionContainer = styled.div`
     border-top: 1px solid white;
-    background-color: rgba(210,210,210,.3);
     flex-grow: 1;
 `
 
 const SelectedCategory = styled.div`
-    font-weight: bold;
-    font-size: 1rem;
-    color: white;
+    font-family: LucidaGrande;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #00D1B7;
+    letter-spacing: 5.89px;
+    text-align: center;
+    text-shadow: 0 0 4px #00D1B7;
 `
+// input range sliders
+const Input = styled.input`
+    appearance: none;
+    -webkit-appearance: none;
+    background: rgba(0,0,0,0.09);
+    border-radius: 27px;
+    height: 54px;
+    width: 250px;
+    &::-webkit-slider-thumb{
+        -webkit-appearance: none;
+        appearance: none;
+        width: 46px;
+        height: 46px;
+        border-radius: 46px;
+        border: 1px solid #00D1B7;
+        box-shadow: 0 0 12px 3px rgba(102,232,244,0.50), 0 2px 4px 0 rgba(0,0,0,0.50), 0 15px 16px -8px rgba(0,0,0,0.49);
+    }
+    &::-moz-range-thumb{
+        width: 46px;
+        height: 46px;
+        border-radius: 46px;
+        border: 1px solid #00D1B7;
+        box-shadow: 0 0 12px 3px rgba(102,232,244,0.50), 0 2px 4px 0 rgba(0,0,0,0.50), 0 15px 16px -8px rgba(0,0,0,0.49);
+    }
 
-const BackgroundOverlayBlack = styled.div`
-    width:100%;
-    height: 100%;
-    background-color: rgba(0,0,0,.7);
-    position: relative;
-    z-index: 1;
+`
+// format slider labels
+const FormatLabels = styled.ul`
+    width: 250px;
+    margin: 0 auto;
+    list-style: none;
+`
+const FormatLabelSpan = styled.li`
+    flex-grow: 1;
+    width: calc(250px / 3);
+    font-family: LucidaGrande-Bold;
+    font-size: 11px;
+    color: #484B4A;
+    margin-top: 1rem;
+    float: left;
+    letter-spacing: 0.79px;
+    text-align: center;
+    &.selected-format{
+        font-family: LucidaGrande-Bold;
+        font-size: 14px;
+        color: #00D1B7;
+        letter-spacing: 1.01px;
+        text-align: center;
+    }
+`
+// difficulty option labels
+const DifficultyLabels = styled.ul`
+
+`
+const DifficultyLabelSpan = styled.li`
 `
 
 const BackgroundOverlayColors = styled.div`
@@ -329,88 +380,12 @@ const BackgroundOverlayColors = styled.div`
     justify-content: space-around;
     background-size: cover;
     position: relative;
-    z-index: 2;
-    background: linear-gradient(to bottom, #28f1fcCC, #850dc1);
-   
-`
-const DifficultySlider = styled.input`
-    border: 1px solid black;
-   &:-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        width: 25px;
-        height: 25px;
-        border-radius: 50%; 
-        background: #4CAF50;
-        cursor: pointer;
-}
-
-    &:-moz-range-thumb {
-        width: 25px;
-        height: 25px;
-        border-radius: 50%;
-        background: #4CAF50;
-        cursor: pointer;
-}
-`
-
-const DifficultySelect = styled.div`
-        display: flex;
-        flex-direction: row;
-        padding: .8rem 0rem;
-        letter-spacing: 5px;
-        &:hover{
-            border: none;
-        }
-
+    background-image: linear-gradient(-134deg, #1E3644 0%, #172927 37%, #102336 100%);
     `
-const Difficulty = styled.div`
-        flex-grow: 1;
-        color: white;
-        text-align: center;
-        display: flex;
-        text-shadow: 2px 2px 4px rgba(255,255,255,.3);
-        flex-direction: column;
-        font-weight: bold;
-        justify-content: space-around;
-        align-items: center;
-        padding: .3rem;
-        transition: .3s;
-        &:hover{
-            cursor: pointer;
-            color: white;
-            transform: scale(1.1)
-        }
-    `
-const FormatTypeContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    padding: .8rem 0rem;
-    &:hover{
-        border: none;
-    }
-`
-const FormatTypeOption = styled.div`
-    width: calc(33.33% - .6rem);
-    padding: .3rem;
-    transition: .4s;
-    text-align: center;
-    display: flex;
-    letter-spacing: 5px;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    color: white;
-    text-shadow: 2px 2px 4px rgba(255,255,255,.3);
-    font-weight: bold;
 
-    &:hover{
-        cursor: pointer;
-        color: white;
-        text-shadow:2px 2px 8px rgba(255,255,255,.4);
-        transform: scale(1.1)
-    }
-`
+
+
+
 const ButtonContainer = styled.div`
     width: 100%;
     display: flex;
@@ -423,59 +398,43 @@ const ButtonContainer = styled.div`
     box-sizing:border-box;
 `
 const ContinueButton = styled.button`
-    font-size: 1rem;
+    border: none;
     padding: 1.8rem 0;
-    border: 1px solid rgba(255,255,255,.5);
-    border-width: 1px 0 0 1px;
     text-align: center;
     color: white;
-    width: 50%;
     background-color: rgba(0,0,0,0);
     font-weight: bold;
-    letter-spacing: 6px;
     transition: .2s;
-    &:hover{
-        font-size: 1.3rem;
-        outline: none;
-        text-shadow: 2px 2px 8px rgba(255,255,255,.3);
-    }
+    font-family: LucidaGrande;
+    font-size: 18px;
+    color: #00D1B7;
+    letter-spacing: 5.89px;
+    text-align: center;
+    text-shadow: 0 0 4px #00D1B7;
 `
-const BackButton = styled.button`
-    font-size: 1rem;
-    padding: 1.8rem 0;
-    text-align: center;
-    color: white;
-    font-weight: bold;
-    border: 1px solid rgba(255,255,255,.5);
-    border-width: 1px 0px 0px 0px;
-    width: 50%;
-    background-color: rgba(0,0,0,0);
-    letter-spacing: 6px;
-    transition: .2s;
-    &:hover{
-        font-size: 1.3rem;
-        outline: none;
-        text-shadow: 2px 2px 8px rgba(255,255,255,.3);
-    }
-    `
+
 const OptionsTitle = styled.h2`
     margin: 1rem auto 2rem auto;
-    color:white;
-    font-size: 1.4rem;
-    letter-spacing: 1rem;
     text-shadow: 2px 2px 6px rgba(0,0,0,.5);
     position: relative;
-    z-index: 2;
+    font-family: LucidaGrande;
+    font-size: 16px;
+    color: #00D1AE;
+    letter-spacing: 6.34px;
+    text-align: center;
 `
 const SelectionTitle = styled.h4`
     margin: 0;
     color:white;
-    font-size: .8rem;
     font-weight: bolder;
     position: relative;
-    margin-top: 1rem;
-    letter-spacing: .8rem;
+    margin: 1rem 0 1rem 0;
     text-shadow: 2px 2px 6px rgba(0,0,0,.4);
+    font-family: LucidaGrande-Bold;
+    font-size: 11px;
+    color: #00B3CC;
+    letter-spacing: 4.29px;
+    text-align: left;
 
 `
 // inline style
