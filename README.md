@@ -1,10 +1,10 @@
-# Mind Assault
+# BRAIN SPACE
 ## Trivia Challenge
 
 ### Trivia game built using the Open Trivia DB Api: https://opentdb.com/
 
 Project Goals
-- streamlined front-end interface across modile and desktop
+- streamlined front-end interface across mobile and desktop
 - (possible) porting to react native for mobile
 - user determined 3rd party api usage
 - data modeling/parsing of 3rd party data
