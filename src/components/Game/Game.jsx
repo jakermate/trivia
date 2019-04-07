@@ -1,9 +1,13 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 import Question from './Question'
 import {BrowserRouter, Route} from 'react-router-dom'
 import he from 'he'
 import Cookies from 'js-cookie' // cookie manipulation
+import Spinner from '../misc/Spinner'
+import NextButton from '../buttons/NextButton'
+import BackButton from '../buttons/BackButton'
+import Swal from 'sweetalert2';
 
 
 export default class Game extends React.Component{
@@ -16,7 +20,7 @@ export default class Game extends React.Component{
             complete: false,
             category: 11,
             difficulty: "easy", // easy medium or hard
-            format: "boolean", // multiple or boolean or mixed
+            format: "multiple", // multiple or boolean or mixed
             error: false,
             rootURL: "https://opentdb.com/api.php?"  // base url for api
         }
@@ -32,6 +36,13 @@ export default class Game extends React.Component{
     // STARTUP FUNCTIONALITY
     // call fetch function when component has mounted
     componentDidMount(){
+        // set up back interupt
+        window.onbeforeunload = function(){
+            Swal.fire({
+                type: "warning"
+            })
+        }
+
         this.fetchQuestions()
     }
     
@@ -181,7 +192,7 @@ export default class Game extends React.Component{
     // previous question (if currentQuestion is not 0)
     back(){
         // return game state to previous question
-
+        console.log("Going back.")
         // move pointer to previous question
         if(this.state.currentQuestion > 0){
             this.setState({currentQuestion: this.state.currentQuestion - 1},
@@ -191,6 +202,10 @@ export default class Game extends React.Component{
                 })
         }
         
+    }
+
+    backAlert(){
+
     }
 
     updateAppGameState(){
@@ -204,7 +219,6 @@ export default class Game extends React.Component{
         // need to splice the new question into array position where old version was
         let questions = this.state.questions
         questions.splice(this.state.currentQuestion,1,newQuestion)
-        console.log(JSON.stringify(this.state.questions))
         // force update is needed to rerender this component when state change occurs in question's selectedAnswer in order to show the next button.
         this.forceUpdate()
     }
@@ -218,11 +232,15 @@ export default class Game extends React.Component{
 
     // COMPONENT MARKUP
     render(){
-        let component = <GameContainer>Waiting....</GameContainer>
+        // in progress/ loading component
+        let component = <GameContainer> 
+                            
+                        </GameContainer>
+        // questions received component
         if(this.state.questions !== ""){
             component = <GameContainer>
                             <ProgressHeader>
-                                Question <span className="bold">{this.state.currentQuestion + 1}</span> of {this.state.questions.length}
+                                <span className="bold">{this.state.currentQuestion + 1}</span> / {this.state.questions.length}
                             </ProgressHeader>
                             {/* nested router for routing each question to its own url */}
                             {/* <BrowserRouter>
@@ -244,7 +262,7 @@ export default class Game extends React.Component{
                                     <BackButton onClick={this.back}>BACK</BackButton>
                                 }
                                 {/* display next/done depending on if this question is the last */}
-                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== 0 &&
+                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== null &&
                                     <NextButton onClick={this.next}>NEXT</NextButton>
                                     
                                 }
@@ -262,36 +280,47 @@ export default class Game extends React.Component{
     }
 
 }
+
+// animations
+const horizon = keyframes`
+`
+
 // contains conditionaly rendered components
 const GamePage = styled.div`
     width:100%;
     height: 100%;
+    background: linear-gradient(to bottom, #28f1fcCC, #850dc1);
+    background-size: cover;
 `
 // container of each conditional component markup
 const GameContainer = styled.div`
     width: 100%;
+    position: relative;
     box-sizing: border-box;
     height: 100%;
     padding: 4rem 1rem;
-    background: linear-gradient(to bottom, #28f1fc77, #E4DE7F77)
+    background: linear-gradient(to bottom, #22222200, rgba(255,255,255,.5));
 `
 
 
 const ProgressHeader = styled.div`
     width: 100%;
+    position: absolute;
+    left:0;
+    right:0;
+    top: 1rem;
 `
+
 
 
 const Controls = styled.div`
     display: flex;
     flex-direction: row;
-
+    max-width: 300px;
+    margin: 0 auto;
+    position: relative;
+    justify-content: space-between;
 `
-const BackButton = styled.button`
 
-`
-const NextButton = styled.button`
-
-`
 const DoneButton = styled.button`
 `
