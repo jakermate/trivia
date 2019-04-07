@@ -1,5 +1,5 @@
 import React from 'react'
-import styled from 'styled-components'
+import styled, {keyframes} from 'styled-components'
 
 export default function TrueButton(props) {
     return (
@@ -8,6 +8,18 @@ export default function TrueButton(props) {
         </TrueButtonContainer>
   )
 }
+
+const glow = keyframes`
+    0%{
+        box-shadow: 0px 0px 20px 0 #16ebffaa;
+    }
+    50%{
+        box-shadow: 0px 0px 30px 10px #16ebff;
+    }
+    100%{
+        box-shadow: 0px 0px 20px 0 #16ebffaa;
+    }
+` 
 
 const TrueButtonContainer = styled.button`
     width: 60px;
@@ -34,6 +46,6 @@ const TrueButtonContainer = styled.button`
     &.selected{
         transform: scale(1.2);
         box-shadow: 0px 0px 20px #16ebff;
-
+        animation: ${glow} 5s linear infinite;
     }
 `
