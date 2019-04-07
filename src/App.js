@@ -11,6 +11,7 @@ import Cookies from 'js-cookie'
 import Results from './components/Game/Results'
 import '../src/css/spinner.css' 
 import uuidv1 from 'uuid' // unique id generation
+import {Transition} from 'react-transition-group'
 
 
 class App extends Component {
@@ -73,7 +74,7 @@ class App extends Component {
       Cookies.set(currentCookies,)
     }
     else{
-      console.log("No existing cookie data.  New profile created.")
+      console.log("No ex sting cookie data.  New profile created.")
       // call for creation of new user data
       this.firstVisitCookie();
       
