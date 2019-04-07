@@ -20,6 +20,8 @@ const NextButtonContainer = styled.button`
     box-shadow: 2px 2px 4px #999;
     color: white;
     text-align: center;
+    position: absolute;
+    right: 0;
     font-size: .7rem;
     font-weight: bold;
     &:hover{

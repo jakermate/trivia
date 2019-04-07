@@ -1,9 +1,9 @@
 import React from 'react'
 import styled from 'styled-components'
 
-export default function BackButton() {
+export default function BackButton(props) {
     return (
-        <BackButtonContainer>
+        <BackButtonContainer onClick={props.onClick}>
             BACK
         </BackButtonContainer>
     )
@@ -16,6 +16,7 @@ const BackButtonContainer = styled.button`
     border: 2px solid white;
     box-shadow: 2px 2px 4px #999;
     color: white;
+    text-shadow: 2px 2px 4px rgba(0,0,0,.5);
     text-align: center;
     font-size: .7rem;
     font-weight: bold;
