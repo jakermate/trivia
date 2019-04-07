@@ -14,17 +14,20 @@ export default class splash extends Component{
             title: "BRAIN SPACE"
         }
         this.config = "configs/particlesjs-config.json"
+        
     }
 
 
     componentDidMount(){
        this.initiateParticles()
     }
+    // interval for pawing/despawning randomized particle divs 
     initiateParticles(){  
         let count = 1
-        setInterval(function(){
+        this.intervalFunction = setInterval(function(){
 
             // randomized number to determine starting position of new particle
+
 
             // add new particle
             document.getElementById('background-particles').innerHTML += `<Particle id="particle-${count}"><Particle/>`
@@ -42,6 +45,10 @@ export default class splash extends Component{
         // triggered when get started button is clicked, leads into game setup
         console.log("Moving onto game setup...")
         this.props.beginSetup()
+    }
+    componentWillUnmount(){
+        // clear interval function
+        clearInterval(this.intervalFunction)
     }
 
     render() {
@@ -134,7 +141,7 @@ const Particle = styled.div`
     width:2px;
     height:2px;
     background-color: white;
-    animation: ${particleAnime} 4s linear infinite;
+    animation: ${particleAnime} 4s linear;
     border-radius:4px;
 `
 // holds particles
