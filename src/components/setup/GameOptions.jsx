@@ -9,6 +9,7 @@ import CategorySelect from './CategorySelect'
 import Swal from 'sweetalert2'
 import colors from '../../values/colors'
 import Header from './Header'
+import breaker from '../../img/line.svg'
 
 export default class GameOptions extends React.Component{
 
@@ -20,17 +21,15 @@ export default class GameOptions extends React.Component{
             length: 20,
             categories: 0,
             format: "",
-            selectedCategory: 0,
+            selectedCategory: null,
             categorySelectOpened: false,
             selectedDifficulty: 1, // new slider/integer based system for difficulty
             selectedFormat: 1 // new slider/integer based system for difficulty
         }
         this.populateCategories = this.populateCategories.bind(this)
         this.updateDifficulty = this.updateDifficulty.bind(this)
-        this.updateCategory = this.updateCategory.bind(this)
         this.updateFormat = this.updateFormat.bind(this)
         this.startGame = this.startGame.bind(this)
-        this.openCategorySelect = this.openCategorySelect.bind(this)
         this.returnCategoryIndexFromId = this.returnCategoryIndexFromId.bind(this)
         this.changeSelectedDifficulty = this.changeSelectedDifficulty.bind(this)
         this.changeSelectedFormat = this.changeSelectedFormat.bind(this)
@@ -80,20 +79,32 @@ export default class GameOptions extends React.Component{
         })
     }
 
-    // opens fullscreen category select screen (as opposed to previous select options)
-    openCategorySelect(e){
-        // toggle state of category select to open or closed
-        this.setState({categorySelectOpened: !this.state.categorySelectOpened},
-            console.log('Category Select Panel Toggled'))
-            console.log(this.state)
-    }
-    updateCategory(e){
-        e.persist()
-        this.setState({selectedCategory: e.target.getAttribute('data-category')}, function(){
-            console.log("Selected Category: "+ this.state.selectedCategory)
-            this.setState({categorySelectOpened: false})
+    // toggle modal for selecting category
+    toggleCategoryModal(){
+        // fire alert modal with category select
+        let options = {}
+        //create new object with key value pairs of id/name
+        this.state.categoryList.forEach(function(each){
+            options[each.id] = each.name
+        })
+        console.log(options)
+        Swal.fire({
+            title: 'Select category...',
+            input: 'select',
+            inputOptions: options,  
+            inputPlaceholder: 'Select a category',
+            showCancelButton: true,
+            // handle input on change event
+            inputValidator: (value) => {
+                // set selected category id into state selectedCategory
+                this.setState({selectedCategory: value}, ()=>{
+                    console.log("Selected category: "+ this.state.selectedCategory)
+                })
+            }
         })
     }
+    
+    
 
     // returns the index in categoryList array of category object with id from state.selectedCategory
     returnCategoryIndexFromId(categoryId){
@@ -166,18 +177,25 @@ export default class GameOptions extends React.Component{
      render(){
         return(
             <Options id="options-container">
-                    <BackgroundOverlayColors>
+                    <BackgroundOverlayColors id="setup-background-colors">
                     <Header></Header>
 
                             <SetupContent id="setup-content">
-                            <div id="title-logo-container">
+                            <SetupLogoContainer id="title-logo-container">
                                 <LogoContainer>
                                     <Img src={logo} alt=""/>
                                 </LogoContainer>
                                 <OptionsTitle>
                                     GAME SETUP
                                 </OptionsTitle>
-                            </div>
+                            </SetupLogoContainer>
+
+                            <BreakerContainer>
+                                <Breaker>
+                                    <img src={breaker} alt=""/>
+                                </Breaker>
+                            </BreakerContainer>
+
                             {/* difficulty select */}
                             <OptionsSectionContainer>
                                 <SelectionTitle>DIFFICULTY</SelectionTitle>
@@ -196,6 +214,13 @@ export default class GameOptions extends React.Component{
                                 </DifficultyLabels>
 
                             </OptionsSectionContainer>
+
+                            <BreakerContainer>
+                                <Breaker>
+                                    <img src={breaker} alt=""/>
+                                </Breaker>
+                            </BreakerContainer>
+
                             <OptionsSectionContainer>
                                 <SelectionTitle>
                                     FORMAT 
@@ -216,16 +241,27 @@ export default class GameOptions extends React.Component{
                                     </FormatLabelSpan>
                                 </FormatLabels>
                             </OptionsSectionContainer>
-                            
+
+                            <BreakerContainer>
+                                <Breaker>
+                                    <img src={breaker} alt=""/>
+                                </Breaker>
+                            </BreakerContainer>
+
                             <OptionsSectionContainer>
+                            
                                 {/* temporary display showing when the list of trivia categories have been received by the client */}
                                 <div id="categories-received-message">
                                 {
-                                    this.state.categoryList !== 0 && <SelectionTitle onClick={this.openCategorySelect}>CATEGORY</SelectionTitle>
+                                    this.state.categoryList !== 0 && <SelectionTitle>CATEGORY</SelectionTitle>
                                 }
                                 </div>
                                 {
-                                    this.state.selectedCategory !== 0 && <SelectedCategory>{this.state.categoryList[this.returnCategoryIndexFromId(this.state.selectedCategory)].name}</SelectedCategory>
+                                    this.state.selectedCategory !== null && 
+                                    <CategoryButton onClick={this.toggleCategoryModal.bind(this)}>
+                                         <SelectedCategory>{this.state.categoryList[this.returnCategoryIndexFromId(this.state.selectedCategory)].name}</SelectedCategory>
+
+                                    </CategoryButton>
                                 }
                                 {this.state.categoryList !== 0 && this.state.categorySelectOpened === true && 
                                     <CategorySelect updateCategory={this.updateCategory} categories={this.state.categoryList} />
@@ -267,27 +303,26 @@ const Options = styled.div`
     width:100%;
     height: 100%;
     box-sizing: border-box;
-    display:flex;
-    flex-direction: column;
-    justify-content: space-between;
-    font-size: .6rem;
     position: relative;
 
 `
 
 // content sizing and padding container
 const SetupContent = styled.div`
-    box-sizing: border-box;
     width:100%;
-    max-width:100%;
-    margin: 0 auto;
-    height: calc(100% - 88px);
+    height: 100%;
     position: relative;
+    padding-bottom: 2rem;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
 `
-
+const SetupLogoContainer = styled.div`
+    width: 100%;
+    box-sizing: border-box;
+    height: 150px;
+    padding-top: 25px;
+`
 const LogoContainer = styled.div`
     display:flex;
     flex-direction: row;
@@ -300,9 +335,17 @@ const Img =  styled.img`
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,.4));
 
 `
+const BreakerContainer = styled.div`
+    width: 100%;
+
+`
+const Breaker = styled.div`
+
+`
+
 const OptionsSectionContainer = styled.div`
-    border-top: 1px solid white;
-    flex-grow: 1;
+    width: 315px;
+    margin: 0 auto;
 `
 
 const SelectedCategory = styled.div`
@@ -321,6 +364,8 @@ const Input = styled.input`
     background: rgba(0,0,0,0.09);
     border-radius: 27px;
     height: 54px;
+    border: 1px solid rgba(77,84,83,0.28);
+    
     width: 250px;
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
@@ -341,16 +386,21 @@ const Input = styled.input`
 
 `
 // format slider labels
-const FormatLabels = styled.ul`
+const FormatLabels = styled.div`
     width: 250px;
     margin: 0 auto;
+    height:25px;
     list-style: none;
+    display:flex;
+    flex-direction: row;
 `
-const FormatLabelSpan = styled.li`
+const FormatLabelSpan = styled.div`
     flex-grow: 1;
     width: calc(250px / 3);
     font-family: LucidaGrande-Bold;
     font-size: 11px;
+    height: 25px;
+    overflow:visible;
     color: #484B4A;
     margin-top: 1rem;
     float: left;
@@ -362,25 +412,27 @@ const FormatLabelSpan = styled.li`
         color: #00D1B7;
         letter-spacing: 1.01px;
         text-align: center;
+        transition: .2s linear;
+        text-shadow: 0 0 12px rgba(102,232,244,.5);
     }
 `
 // difficulty option labels
-const DifficultyLabels = styled.ul`
+const DifficultyLabels = styled.div`
 
 `
-const DifficultyLabelSpan = styled.li`
+const DifficultyLabelSpan = styled.div`
 `
 
 const BackgroundOverlayColors = styled.div`
     width:100%;
-    height: 100%;
+    min-height:100%;
+    margin: 0;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background-size: cover;
     position: relative;
-    background-image: linear-gradient(-134deg, #1E3644 0%, #172927 37%, #102336 100%);
+    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
     `
 
 
@@ -390,20 +442,16 @@ const ButtonContainer = styled.div`
     width: 100%;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
+    justify-content: space-around;
+    position: relative;
+    align-items: center;
     box-sizing:border-box;
+    margin-top: 4rem;
+    
 `
 const ContinueButton = styled.button`
-    border: none;
     padding: 1.8rem 0;
     text-align: center;
-    color: white;
-    background-color: rgba(0,0,0,0);
-    font-weight: bold;
     transition: .2s;
     font-family: LucidaGrande;
     font-size: 18px;
@@ -411,6 +459,14 @@ const ContinueButton = styled.button`
     letter-spacing: 5.89px;
     text-align: center;
     text-shadow: 0 0 4px #00D1B7;
+    border: none;
+    width: 250px;
+    background: rgba(0,0,0,0.10);
+    border-radius: 6px;
+    padding: 10px 0;
+    &:active,:visited,:hover{
+        outline: none;
+    }
 `
 
 const OptionsTitle = styled.h2`
@@ -424,11 +480,10 @@ const OptionsTitle = styled.h2`
     text-align: center;
 `
 const SelectionTitle = styled.h4`
-    margin: 0;
-    color:white;
     font-weight: bolder;
     position: relative;
-    margin: 1rem 0 1rem 0;
+    width: 250px;
+    margin: 1rem auto 1rem auto;
     text-shadow: 2px 2px 6px rgba(0,0,0,.4);
     font-family: LucidaGrande-Bold;
     font-size: 11px;
@@ -437,6 +492,18 @@ const SelectionTitle = styled.h4`
     text-align: left;
 
 `
+
+const CategoryButton = styled.button`
+    border: none;
+    width: 250px;
+    background: rgba(0,0,0,0.10);
+    border-radius: 6px;
+    padding: 10px 0;
+    &:active,:visited,:hover{
+        outline: none;
+    }
+`
+
 // inline style
 const selected = {
     fontSize: '1rem',
