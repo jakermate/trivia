@@ -5,6 +5,7 @@ import TrueButton from '../buttons/TrueButton'
 import FalseButton from '../buttons/FalseButton'
 import MultipleChoiceButton from '../buttons/MultipleChoiceButton'
 import bg from '../../img/brain-space-alt-bg.svg'
+import colors from '../../values/colors'
 
 export default class Question extends React.Component{
     constructor(props){
@@ -178,15 +179,14 @@ const QuestionContainer = styled.div`
     width:300px;
     height: 300px;
     position: relative;
-    border: 5px solid black;
+    border: 2px solid ${colors.primaryLight};
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 0 auto;
-    box-shadow: 5px 5px 12px #99999999, 0 0 30px 10px rgba(100,100,100,.3);
-    background: linear-gradient(to bottom, #fafafa, #dadada);
+    color: white;
     border-radius: 300px;
-    animation: ${glow} 15s ease-in-out infinite;
+    box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3);
 `
 
 const QuestionBackground= styled.div`
@@ -207,6 +207,8 @@ const QuestionContentContainer = styled.div`
     width: 100%;
     height: 100%;
     animation: ${questionPop} .4s ease-in-out;
+    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+
 `
 const Title = styled.h4`
     margin: 0 auto;
