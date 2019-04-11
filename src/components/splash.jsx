@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import styled, {keyframes} from 'styled-components'
 import questionmark from '../img/questionmark.png'
-import logo from '../img/brain-space.png'
+import logo from '../img/splash-logo.svg'
 import logoAlt from '../img/brain-space-alt.svg'
 import {Link} from 'react-router-dom'
+import colors from '../values/colors'
 
 
 export default class splash extends Component{
@@ -61,7 +62,7 @@ export default class splash extends Component{
                 <BackgroundOverlay>
                     <Header>
 
-                        <SplashImage src={logoAlt} className="App-logo" alt="logo" />
+                        <SplashImage src={logo} className="App-logo" alt="logo" />
                         <TitleContainer>
                             {this.state.title}
                         </TitleContainer>
@@ -98,19 +99,14 @@ const logoanime = keyframes`
 `
 const titleanime = keyframes`
     0%{
-        text-shadow: 2px 2px 10px rgba(0,0,0,.3);
-        letter-spacing:1rem;
+        letter-spacing:.3rem;
+        font-size: .4rem
 
         
     }
-    50%{
-        text-shadow: 2px 2px 10px rgba(0,0,0,.7);
-        letter-spacing:1.03rem;
-
-    }
     100%{
-        text-shadow: 2px 2px 10px rgba(0,0,0,.3);
-        letter-spacing:1rem;
+        letter-spacing:8.4px;
+        font-size: 1rem
 
     }
 `
@@ -133,6 +129,7 @@ const SplashContainer = styled.div`
 
 `
 const SplashImage = styled.img`
+    height: 90px;
     animation: ${logoanime} 8s ease-in-out infinite;
 
 `
@@ -169,7 +166,7 @@ const BackgroundOverlay = styled.div`
     display:flex;
     flex-direction: column;
     justify-content: space-around;
-    background: linear-gradient(to bottom, #444444, #eaeaea );
+    background: linear-gradient(to bottom, ${colors.backgroundPrimary}, ${colors.backgroundSecondary} );
 
 `
 const StartContainer = styled.div`
@@ -185,7 +182,7 @@ const StartButton = styled.button`
     border-radius: 10px;
     padding: .6rem 1.4rem;
     font-weight: bold;
-    color: white;
+    color: ${colors.primaryLight};
     font-size: 1rem;
     background-color: rgba(0,0,0,0);
 `
@@ -194,16 +191,19 @@ const TitleContainer = styled.div`
     margin-top: 2rem;
     position:relative;
     right: -.5rem;
-    text-shadow: 2px 2px 10px rgba(0,0,0,.3);
-    color: white;
-    font-family: "Open Sans Condensed", sans-serif;
     text-transform: uppercase;
-    letter-spacing: 1rem;
-    animation: ${titleanime} 4s ease-in-out infinite;
+    animation: ${titleanime} 4s ease-in-out;
+
+    font-family: LucidaGrande;
+    color: ${colors.primaryLight};
+    letter-spacing: 8.44px;
+    text-align: center;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.50), 0 0 7px rgba(0, 213,172,.66);
+    
 
 `
 const StartSpan = styled.span`
-    color: black;
+    color: ${colors.primaryLight};
     font-size: 1rem;
     letter-spacing: 4px;
 `
