@@ -22,7 +22,6 @@ export default class GameOptions extends React.Component{
             categories: 0,
             format: "",
             selectedCategory: null,
-            categorySelectOpened: false,
             selectedDifficulty: 1, // new slider/integer based system for difficulty
             selectedFormat: 1 // new slider/integer based system for difficulty
         }
@@ -60,9 +59,16 @@ export default class GameOptions extends React.Component{
 
     // method for slider based difficulty changes
     changeSelectedDifficulty(e){
-        this.setState({selectedDifficulty: e.target.value}, function(){
-            console.log('Difficulty changed to: ' + this.state.selectedDifficulty)
-        })
+        let elements = document.getElementsByClassName('selected-difficulty')
+        for(let i = 0; i < elements.length; i++){
+        elements[i].classList.remove('selected-difficulty')
+    }
+    this.setState({selectedDifficulty: e.target.value}, function(){
+        console.log('Difficulty changed to: ' + this.state.selectedDifficulty)
+        
+        
+    document.getElementById('difficulty-'+this.state.selectedDifficulty).classList.add('selected-difficulty')
+    })
 
     }
     // method for slider based format changes
@@ -72,7 +78,7 @@ export default class GameOptions extends React.Component{
             elements[i].classList.remove('selected-format')
         }
         this.setState({selectedFormat: e.target.value}, function(){
-            console.log('Difficulty changed to: ' + this.state.selectedFormat)
+            console.log('Format changed to: ' + this.state.selectedFormat)
             
             
         document.getElementById('format-'+this.state.selectedFormat).classList.add('selected-format')
@@ -202,13 +208,13 @@ export default class GameOptions extends React.Component{
                                 {/* new slider selection system */}
                                 <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedDifficulty} />
                                 <DifficultyLabels>
-                                    <DifficultyLabelSpan>
+                                    <DifficultyLabelSpan id="difficulty-0">
                                         EASY
                                     </DifficultyLabelSpan>
-                                    <DifficultyLabelSpan>
+                                    <DifficultyLabelSpan id="difficulty-1" className="selected-difficulty">
                                         MEDIUM
                                     </DifficultyLabelSpan>
-                                    <DifficultyLabelSpan>
+                                    <DifficultyLabelSpan id="difficulty-2">
                                         DIFFICULT
                                     </DifficultyLabelSpan>
                                 </DifficultyLabels>
@@ -263,14 +269,10 @@ export default class GameOptions extends React.Component{
 
                                     </CategoryButton>
                                 }
-                                {this.state.categoryList !== 0 && this.state.categorySelectOpened === true && 
-                                    <CategorySelect updateCategory={this.updateCategory} categories={this.state.categoryList} />
-                                }
                             </OptionsSectionContainer>
                             
                             <ButtonContainer>
-                                
-                                <ContinueButton onClick={this.startGame}>
+                                <ContinueButton onClick={this.startGame} className="inactive">
                                     START
                                 </ContinueButton>
                             </ButtonContainer>
@@ -418,9 +420,34 @@ const FormatLabelSpan = styled.div`
 `
 // difficulty option labels
 const DifficultyLabels = styled.div`
-
+    width: 250px;
+    margin: 0 auto;
+    height:25px;
+    list-style: none;
+    display:flex;
+    flex-direction: row;
 `
 const DifficultyLabelSpan = styled.div`
+    flex-grow: 1;
+    width: calc(250px / 3);
+    font-family: LucidaGrande-Bold;
+    font-size: 11px;
+    height: 25px;
+    overflow:visible;
+    color: #484B4A;
+    margin-top: 1rem;
+    float: left;
+    letter-spacing: 0.79px;
+    text-align: center;
+    &.selected-difficulty{
+        font-family: LucidaGrande-Bold;
+        font-size: 14px;
+        color: #00D1B7;
+        letter-spacing: 1.01px;
+        text-align: center;
+        transition: .2s linear;
+        text-shadow: 0 0 12px rgba(102,232,244,.5);
+    }
 `
 
 const BackgroundOverlayColors = styled.div`
