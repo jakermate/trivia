@@ -8,6 +8,7 @@ import Spinner from '../misc/Spinner'
 import NextButton from '../buttons/NextButton'
 import BackButton from '../buttons/BackButton'
 import Swal from 'sweetalert2';
+import colors from '../../values/colors'
 
 
 export default class Game extends React.Component{
@@ -289,17 +290,18 @@ const horizon = keyframes`
 const GamePage = styled.div`
     width:100%;
     height: 100%;
-    background: linear-gradient(to bottom, #28f1fcCC, #850dc1);
-    background-size: cover;
 `
 // container of each conditional component markup
 const GameContainer = styled.div`
-    width: 100%;
-    position: relative;
+    width:100%;
+    min-height:100%;
+    margin: 0;
     box-sizing: border-box;
-    height: 100%;
-    padding: 4rem 1rem;
-    background: linear-gradient(to bottom, #22222200, rgba(255,255,255,.5));
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    position: relative;
+    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
 `
 
 
