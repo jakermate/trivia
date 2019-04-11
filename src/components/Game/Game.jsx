@@ -259,13 +259,14 @@ export default class Game extends React.Component{
                             }
                             <Controls>
                                 {/* only display back button if not on first question */}
-                                {this.state.currentQuestion > 0 && 
-                                    <BackButton onClick={this.back}>BACK</BackButton>
+                                {this.state.currentQuestion > 0 ? 
+                                    <BackButton isActive={true} onClick={this.back} /> : 
+                                    <BackButton isActive={false} />
                                 }
                                 {/* display next/done depending on if this question is the last */}
-                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== null &&
-                                    <NextButton onClick={this.next}>NEXT</NextButton>
-                                    
+                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== null ?
+                                    <NextButton isActive={true} onClick={this.next} /> :
+                                    <NextButton isActive={false} />
                                 }
                                 
                             </Controls>
@@ -318,8 +319,9 @@ const ProgressHeader = styled.div`
 const Controls = styled.div`
     display: flex;
     flex-direction: row;
-    max-width: 300px;
     margin: 0 auto;
+    height: 100px;
+    width:100%;
     position: relative;
     justify-content: space-between;
 `

@@ -1,27 +1,35 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
+import colors from '../../values/colors'
 
 export default class NextButton extends Component {
     render(props) {
-        return (
-            <NextButtonContainer onClick={this.props.onClick}>
-                NEXT
-            </NextButtonContainer>
-        )
+        if(this.props.isActive){
+            return (
+                <NextButtonContainer className="active" onClick={this.props.onClick}>
+                    NEXT
+                </NextButtonContainer>
+            )
+        }
+        else{
+            return(
+
+                <NextButtonContainer className="inactive" onClick={this.props.onClick}>
+                    NEXT
+                </NextButtonContainer>
+            )
+        }
+        
     }
 }
 
 const NextButtonContainer = styled.button`
-    width: 60px;
-    height: 60px;
-    border-radius: 60px;
-    background-color: #4cf788;
+    width:50%;
     border-style: none;
-    box-shadow: 2px 2px 4px #999;
-    color: white;
     text-align: center;
-    position: absolute;
     right: 0;
+    height:100%;
+    background: rgba(0,0,0,0.11);
     font-size: .7rem;
     font-weight: bold;
     &:hover{
@@ -33,5 +41,10 @@ const NextButtonContainer = styled.button`
     &:focus{
         outline:none;
     }
-
+    &.inactive{
+        color: ${colors.greyedOut};
+    }
+    &.active{
+        color: ${colors.secondaryLight}
+    }
 `

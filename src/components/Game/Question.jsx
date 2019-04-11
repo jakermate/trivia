@@ -165,6 +165,14 @@ const questionPop = keyframes`
         opacity: 1; 
     }
 `
+const bgThrob = keyframes`
+    from{
+        opacity: 1
+    }
+    to{
+        opacity: .4
+    }
+`
 
 
 // styles
@@ -183,10 +191,10 @@ const QuestionContainer = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 0 auto;
+    margin: 3rem auto;
     color: white;
     border-radius: 300px;
-    box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3);
+    box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
 `
 
 const QuestionBackground= styled.div`
@@ -201,6 +209,7 @@ const QuestionBackground= styled.div`
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
+    /* animation: ${bgThrob} 3s ease-in-out infinite */
 `
 
 const QuestionContentContainer = styled.div`
@@ -221,6 +230,7 @@ const AnswerContainer = styled.div`
     flex-direction: row;
     flex-wrap: wrap;
     max-width: 300px;
+    margin: 0 auto;
     justify-content: space-around;
     padding: 2rem 1rem;
 `
