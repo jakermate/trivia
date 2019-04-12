@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
+import colors from '../../values/colors'
 
 export default function MultipleChoiceButton(props) {
     // both this specific answer and the previous selected answer are passed down as props
@@ -20,14 +21,14 @@ export default function MultipleChoiceButton(props) {
 }
 const glow = keyframes`
     0%{
-        box-shadow: 0px 0px 20px 0 #16ebffaa;
+        box-shadow: 0px 0px 20px 0 ${colors.glowPrimary};
     }
     50%{
-        box-shadow: 0px 0px 30px 10px #16ebff;
+        box-shadow: 0px 0px 30px 10px ${colors.glowPrimary};
 
     }
     100%{
-        box-shadow: 0px 0px 20px 0 #16ebffaa;
+        box-shadow: 0px 0px 20px 0 ${colors.glowPrimary};
 
     }
 `
@@ -54,24 +55,23 @@ const MultipleChoiceButtonContainer = styled.button`
     height: 100px;
     margin: 1rem 1rem;
     border-radius: 100px;
-    background-color: #fafafa;
-    box-shadow: 2px 2px 4px rgba(0,0,0,.3), 0 0 12px rgba(30,30,30,.4);
-    color: black;
-    border: 5px solid black;
+    background: rgba(0,0,0,0);
+    color: ${colors.greyedOut};
+    border: 1px solid ${colors.greyedOut};
     text-align: center;
-    text-shadow: 2px 2px 4px rgba(0,0,0,.2);
     font-size: .6rem;
-    font-weight: bold;
     overflow: visible;
     transition: .3s ease-out;
     &.selected{
-        background-color: white;
+        background-color: rgba(0,0,0,0);
         transform: scale(1.2);
         box-shadow: 0px 0px 20px #16ebff;
         animation: ${glow} 4s ease-in-out infinite, ${wiggle} 4s ease-in-out infinite;
         font-size: .8rem;
+        border-color: ${colors.glowPrimary};
+        color: ${colors.primaryLight};
         letter-spacing: 2px;
-        text-shadow: 2px 2px 2px rgba(0,0,0,.3), 0 0 9px rgba(0,0,0,.2);
+        text-shadow: 0px 0px 4px ${colors.glowPrimary};
     }
     &:hover{
         outline: none;
