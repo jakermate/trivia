@@ -10,6 +10,7 @@ import Swal from 'sweetalert2'
 import colors from '../../values/colors'
 import Header from './Header'
 import breaker from '../../img/line.svg'
+import downchevron from '../../img/downchevron.svg'
 
 export default class GameOptions extends React.Component{
 
@@ -23,7 +24,8 @@ export default class GameOptions extends React.Component{
             format: "",
             selectedCategory: null,
             selectedDifficulty: 1, // new slider/integer based system for difficulty
-            selectedFormat: 1 // new slider/integer based system for difficulty
+            selectedFormat: 1, // new slider/integer based system for difficulty
+            categoryListToggle: false
         }
         this.populateCategories = this.populateCategories.bind(this)
         this.updateDifficulty = this.updateDifficulty.bind(this)
@@ -64,7 +66,7 @@ export default class GameOptions extends React.Component{
         elements[i].classList.remove('selected-difficulty')
     }
     this.setState({selectedDifficulty: e.target.value}, function(){
-        console.log('Difficulty changed to: ' + this.state.selectedDifficulty)
+        console.log('Difficulty changed to: ' + this.state.selectedDifficulty )
         
         
     document.getElementById('difficulty-'+this.state.selectedDifficulty).classList.add('selected-difficulty')
@@ -87,27 +89,10 @@ export default class GameOptions extends React.Component{
 
     // toggle modal for selecting category
     toggleCategoryModal(){
-        // fire alert modal with category select
-        let options = {}
         //create new object with key value pairs of id/name
-        this.state.categoryList.forEach(function(each){
-            options[each.id] = each.name
-        })
-        console.log(options)
-        Swal.fire({
-            title: 'Select category...',
-            input: 'select',
-            inputOptions: options,  
-            inputPlaceholder: 'Select a category',
-            showCancelButton: true,
-            // handle input on change event
-            inputValidator: (value) => {
-                // set selected category id into state selectedCategory
-                this.setState({selectedCategory: value}, ()=>{
-                    console.log("Selected category: "+ this.state.selectedCategory)
-                })
-            }
-        })
+        this.setState({categoryListToggle: !this.state.categoryListToggle})
+        
+        
     }
     
     
@@ -125,6 +110,13 @@ export default class GameOptions extends React.Component{
         }
         
     }
+    updateCategory = (id) =>{
+        this.setState({selectedCategory: id},()=>{
+            console.log('Updating Selected Category: '+this.state.selectedCategory)
+            this.setState({categoryListToggle: !this.state.categoryListToggle})
+        })
+        
+    }
 
     updateFormat(e){
         this.setState({format: e.target.value}, ()=>{
@@ -135,7 +127,7 @@ export default class GameOptions extends React.Component{
     // startgame begins event chain of moving towards game component
     startGame(){
         // perform check to ensure all categories have been selected
-        if (this.state.difficulty !== "" && this.state.format !== "" && this.state.selectedCategory !== 0){
+        if (this.state.selectedDifficulty !== "" && this.state.selectedFormat !== "" && this.state.selectedCategory !== 0){
             console.log("Starting game...")
             // create config object
             let newConfig = new Config(this.state.difficulty, this.state.format, this.state.category)
@@ -146,6 +138,7 @@ export default class GameOptions extends React.Component{
         }
         else{ // handle invalid config options
             console.log("Not all config options have been specified.")
+            console.log(this.state)
             // setup alert
             Swal.fire({
                 title: 'Setup not complete...',
@@ -184,6 +177,8 @@ export default class GameOptions extends React.Component{
         return(
             <Options id="options-container">
                     <BackgroundOverlayColors id="setup-background-colors">
+                    {/* category list toggle (positioned absolutely above all other components) */}
+                    {this.state.categoryListToggle && <CategorySelect categories={this.state.categoryList} updateCategory={this.updateCategory} />}
                     <Header></Header>
 
                             <SetupContent id="setup-content">
@@ -198,7 +193,7 @@ export default class GameOptions extends React.Component{
 
                             <BreakerContainer>
                                 <Breaker>
-                                    <img src={breaker} alt=""/>
+                                    <BreakerLine src={breaker} alt=""/>
                                 </Breaker>
                             </BreakerContainer>
 
@@ -223,7 +218,7 @@ export default class GameOptions extends React.Component{
 
                             <BreakerContainer>
                                 <Breaker>
-                                    <img src={breaker} alt=""/>
+                                    <BreakerLine src={breaker} alt=""/>
                                 </Breaker>
                             </BreakerContainer>
 
@@ -250,7 +245,7 @@ export default class GameOptions extends React.Component{
 
                             <BreakerContainer>
                                 <Breaker>
-                                    <img src={breaker} alt=""/>
+                                    <BreakerLine src={breaker} alt=""/>
                                 </Breaker>
                             </BreakerContainer>
 
@@ -266,11 +261,19 @@ export default class GameOptions extends React.Component{
                                     this.state.selectedCategory !== null && 
                                     <CategoryButton onClick={this.toggleCategoryModal.bind(this)}>
                                          <SelectedCategory>{this.state.categoryList[this.returnCategoryIndexFromId(this.state.selectedCategory)].name}</SelectedCategory>
-
+                                        <DownChevron>
+                                            <img src={downchevron} alt=""/>
+                                        </DownChevron>
                                     </CategoryButton>
                                 }
                             </OptionsSectionContainer>
                             
+                            <BreakerContainer>
+                                <Breaker>
+                                    <BreakerLine src={breaker} alt=""/>
+                                </Breaker>
+                            </BreakerContainer>
+
                             <ButtonContainer>
                                 <ContinueButton onClick={this.startGame} className="inactive">
                                     START
@@ -314,7 +317,6 @@ const SetupContent = styled.div`
     width:100%;
     height: 100%;
     position: relative;
-    padding-bottom: 2rem;
     display:flex;
     flex-direction: column;
     justify-content: space-around;
@@ -322,7 +324,6 @@ const SetupContent = styled.div`
 const SetupLogoContainer = styled.div`
     width: 100%;
     box-sizing: border-box;
-    height: 150px;
     padding-top: 25px;
 `
 const LogoContainer = styled.div`
@@ -333,7 +334,7 @@ const LogoContainer = styled.div`
 `
 const Img =  styled.img`
     position: relative;
-    height:70px;
+    height:40px;
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,.4));
 
 `
@@ -342,18 +343,26 @@ const BreakerContainer = styled.div`
 
 `
 const Breaker = styled.div`
-
+    width: 100%;
+    text-align: center;
+`
+const BreakerLine = styled.img`
+    width: 80%;
 `
 
 const OptionsSectionContainer = styled.div`
     width: 315px;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 
 const SelectedCategory = styled.div`
     font-family: LucidaGrande;
     text-transform: uppercase;
-    font-size: 18px;
+    font-size: .8rem;
+    padding: .3rem .4rem;
     color: #00D1B7;
     letter-spacing: 5.89px;
     text-align: center;
@@ -366,9 +375,9 @@ const Input = styled.input`
     background: rgba(0,0,0,0.09);
     border-radius: 27px;
     height: 54px;
-    border: 1px solid rgba(77,84,83,0.28);
-    
+    border: 1px solid rgba(77,84,83,0.6);
     width: 250px;
+    outline: none;
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
         appearance: none;
@@ -393,6 +402,7 @@ const FormatLabels = styled.div`
     margin: 0 auto;
     height:25px;
     list-style: none;
+    margin-bottom: 1rem;
     display:flex;
     flex-direction: row;
 `
@@ -426,6 +436,8 @@ const DifficultyLabels = styled.div`
     list-style: none;
     display:flex;
     flex-direction: row;
+    margin-bottom: 1rem;
+
 `
 const DifficultyLabelSpan = styled.div`
     flex-grow: 1;
@@ -490,18 +502,19 @@ const ContinueButton = styled.button`
     width: 250px;
     background: rgba(0,0,0,0.10);
     border-radius: 6px;
-    padding: 10px 0;
+    padding: 2rem 0;
+    width:100%;
     &:active,:visited,:hover{
         outline: none;
     }
 `
 
 const OptionsTitle = styled.h2`
-    margin: 1rem auto 2rem auto;
+    margin: 1rem auto 1rem auto;
     text-shadow: 2px 2px 6px rgba(0,0,0,.5);
     position: relative;
     font-family: LucidaGrande;
-    font-size: 16px;
+    font-size: .8rem;
     color: #00D1AE;
     letter-spacing: 6.34px;
     text-align: center;
@@ -521,8 +534,9 @@ const SelectionTitle = styled.h4`
 `
 
 const CategoryButton = styled.button`
-    border: none;
+    border: 1px solid rgba(77,84,83,0.28);
     width: 250px;
+    outline:none;
     background: rgba(0,0,0,0.10);
     border-radius: 6px;
     padding: 10px 0;
@@ -541,3 +555,8 @@ const unselected = {
     color: "rgba(255,255,255,.7)"
 }
 
+// icons
+const DownChevron = styled.div`
+    display:flex;
+    justify-content: space-around;
+`

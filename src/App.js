@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import './App.css';
+import styles from './css/App.module.css'
 import Home from './components/home/Home'
 import Splash from './components/splash'
 import Setup from './components/setup/Setup'
@@ -12,6 +12,7 @@ import Results from './components/Game/Results'
 import '../src/css/spinner.css' 
 import uuidv1 from 'uuid' // unique id generation
 import {Transition} from 'react-transition-group'
+import Profile from './components/profile/Profile'
 
 
 class App extends Component {
@@ -30,7 +31,10 @@ class App extends Component {
       user:{
         scores:[
 
-        ]
+        ],
+        profile:{
+
+        }
       }
     }
     this.receiveConfig = this.receiveConfig.bind(this)
@@ -64,30 +68,51 @@ class App extends Component {
   }
 
   // cookies
+  buildCookieModel(){
+    let newCookie = {
+      profile: this.state.user.profile,
+      scores: this.state.user.scores
+    }
+    return newCookie
+  }
+
   checkForCookies(){
     let currentCookies = Cookies.get()
     console.log(currentCookies)
     if(currentCookies.id !== undefined){
       // if cookies exist, set into App state
-      console.log('Welcome back. Cookies :'+ currentCookies)
+      console.log('Welcome back. Cookies :'+ JSON.stringify(currentCookies))
       this.setState({cookies: currentCookies})
-      Cookies.set(currentCookies,)
     }
     else{
-      console.log("No ex sting cookie data.  New profile created.")
+      console.log("No existing cookie data.  New profile created.")
       // call for creation of new user data
       this.firstVisitCookie();
       
     }
-    
   }
+  setCookies(){
+    // create new user info object
+    Cookies.set("user", this.buildCookieModel(), {expires: 30})
+  }
+
   // set basic cookie on first visit
   firstVisitCookie(){
     let date = new Date()
     // sets recent visit date/time and user id to expire in 30 days
-    Cookies.set('lastvisit', date, {expires: 30})
-    Cookies.set('id', this.generateID(), {expires: 30})
-    console.log("New user informatiomn generated: "+ JSON.stringify(Cookies.get()))
+    this.setState({user: {
+      profile:{
+        id: this.generateID(),
+        lastvisit: date
+      },
+      scores: [
+
+      ]
+    }},()=>{
+      Cookies.set('user', this.state.user, {expires: 30})
+      console.log("New user information generated: "+ JSON.stringify(Cookies.get()))
+    })
+    
   }
 
   // generate and return unique user id
@@ -102,6 +127,9 @@ class App extends Component {
       let userUpdate = this.state.user
       // modify user variable with new score
       userUpdate.scores.push(score)
+      if(userUpdate.scores.length >= 10){ // keep recent scores length to ten and under
+        userUpdate.scores.shift()
+      }
       // update state with updated user information
       this.setState({user: userUpdate}, function(){
         console.log("User state successfully updated with new score: " + score)
@@ -111,10 +139,7 @@ class App extends Component {
 
   render() {
     return (
-      <div className="App">
-        <header className="App-header">
-
-        </header>
+      <div className={`${styles.container}`}>
         {/* temp for testing */}
         {/* <Splash></Splash> */}
         {/* <GameOptions></GameOptions>
@@ -132,6 +157,11 @@ class App extends Component {
             <Route path="/game" render={(props)=>
               <Game changeGameState={this.changeGameState}/>
             } />
+            <Route path="/profile" render={(props)=>
+              <Profile></Profile>
+            }
+
+            />
           </BrowserRouter>
           
          

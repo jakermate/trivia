@@ -23,7 +23,8 @@ export default class Game extends React.Component{
             difficulty: "easy", // easy medium or hard
             format: "multiple", // multiple or boolean or mixed
             error: false,
-            rootURL: "https://opentdb.com/api.php?"  // base url for api
+            rootURL: "https://opentdb.com/api.php?",  // base url for api
+            displayLoadingSpinner: true
         }
 
         this.pushToGameState = this.pushToGameState.bind(this)
@@ -118,6 +119,7 @@ export default class Game extends React.Component{
         // set parsed array of question objects into state array
         this.setState({questions: questionSet}, function(){
             console.log("Question set successfully set to component state: "+this.state.questions)
+            this.setState({displayLoadingSpinner: false}) // turn off spinner and show built quiz
         })
     }
 
@@ -235,7 +237,7 @@ export default class Game extends React.Component{
     render(){
         // in progress/ loading component
         let component = <GameContainer> 
-                            
+                            Setting up...
                         </GameContainer>
         // questions received component
         if(this.state.questions !== ""){
@@ -297,6 +299,7 @@ const GameContainer = styled.div`
     width:100%;
     min-height:100%;
     margin: 0;
+    padding-bottom:100px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -322,7 +325,10 @@ const Controls = styled.div`
     margin: 0 auto;
     height: 100px;
     width:100%;
-    position: relative;
+    bottom:0;
+    left:0;
+    right:0;
+    position: absolute;
     justify-content: space-between;
 `
 

@@ -72,7 +72,7 @@ export default class splash extends Component{
                     </Header>
                     <StartContainer>
                         <Link to="/setup">
-                            <StartSpan>START</StartSpan>
+                            <StartSpan>PLAY</StartSpan>
                         </Link>
 
                     </StartContainer>
@@ -175,6 +175,9 @@ const StartContainer = styled.div`
     bottom: 4rem;
     box-sizing: border-box;
     left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     right: 0;
 `
 
@@ -211,6 +214,9 @@ const StartSpan = styled.span`
 const Header = styled.div`
     position: relative;
     box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 `
 const Subtitle = styled.h4`
 

@@ -24,7 +24,7 @@ const glow = keyframes`
 const TrueButtonContainer = styled.button`
     width: 60px;
     height: 60px;
-    border-radius: 60px;
+    border-radius: 6px;
     background-color: #fafafa;
     box-shadow: 2px 2px 4px #999;
     color: black;

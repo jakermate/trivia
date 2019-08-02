@@ -184,8 +184,9 @@ const QuestionType = styled.div`
 ` 
 
 const QuestionContainer = styled.div`
-    width:300px;
-    height: 300px;
+    width:200px;
+    height: 200px;
+    box-sizing: border-box;
     position: relative;
     border: 2px solid ${colors.primaryLight};
     display: flex;
@@ -193,7 +194,7 @@ const QuestionContainer = styled.div`
     justify-content: center;
     margin: 3rem auto;
     color: white;
-    border-radius: 300px;
+    border-radius: 6px;
     box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
 `
 
@@ -203,9 +204,10 @@ const QuestionBackground= styled.div`
     height: 300px;
     position: relative;
     display: flex;
+    box-sizing: border-box;
     flex-direction: column;
     justify-content: center;
-    border-radius: 300px;
+    border-radius: 6px;
     background-repeat: no-repeat;
     background-position: center;
     background-size: cover;
@@ -215,13 +217,14 @@ const QuestionBackground= styled.div`
 const QuestionContentContainer = styled.div`
     width: 100%;
     height: 100%;
+    padding: 1rem;
+    box-sizing: border-box;
     animation: ${questionPop} .4s ease-in-out;
     background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
 
 `
 const Title = styled.h4`
-    margin: 0 auto;
-    font-size: 1.4rem;
+    font-size: .8rem;
     text-align: center;
     max-width: 200px;
 `

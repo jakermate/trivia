@@ -2,6 +2,8 @@ import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import arrow from '../../img/arrow.svg'
+import logo from '../../img/setup-logo.svg'
+import colors from '../../values/colors';
 
 export default class CategorySelect extends Component {
   constructor(props){
@@ -15,18 +17,21 @@ export default class CategorySelect extends Component {
     return newString
   }
 
+
   render() {
     return (
       <CategorySelectBox>
+          <LogoContainer>
+              <Logo src={logo} alt=""/>
+          </LogoContainer>
           <Title>CATEGORY</Title>
           <CellContainer>
                 {/* map out cells for each category in the prop 'categories' */}
                 {this.props.categories.map(category=>{
                     return(
-                        <CategoryCell data-category={category.id} onClick={this.props.updateCategory} key={category.id}>{this.removeEntertainment(category.name)}</CategoryCell>
+                        <CategoryCell data-category={category.id} onClick={()=>{this.props.updateCategory(category.id)}} key={category.id}>{this.removeEntertainment(category.name)}</CategoryCell>
                     )
           })}
-          <GradientOverlay></GradientOverlay>
           </CellContainer>
           
       </CategorySelectBox>
@@ -34,9 +39,15 @@ export default class CategorySelect extends Component {
   }
 }
 
+const LogoContainer = styled.div`
+    margin-top:.8rem;
+`
+
 const Title = styled.div`
-    font-size: 1.2rem;
-    letter-spacing: 4px;
+    margin-top: .8rem;
+    font-size: .6rem;
+    color: ${colors.secondaryLight};
+    letter-spacing: 8px;
     font-weight: bold;
     margin-bottom: .8rem;
 `
@@ -45,22 +56,28 @@ const Title = styled.div`
 const Icon = styled.img`
 
 `
+const Logo = styled.img`
+    width: 70px;
+`
+
 const CategorySelectBox = styled.div`
     border-top: none;
-    position: absolute;
+    position: fixed;
     z-index: 100;
     top: 0;
     bottom:0;
     left:0;
     right:0;
     margin: 0 auto;
-    display:flex;
+    display:block;
+
+    overflow-y: scroll;
     flex-direction: column;
     padding: 1rem 1rem;
     justify-content: flex-start;
     color: white;
     max-width: 600px;
-    background: linear-gradient(to bottom, #333333, #777777);
+    background-image: linear-gradient(-134deg, #1E3644 0%, #172927 37%, #102336 100%);
     border-style: none;
     appearance:none;
     text-align: center;
@@ -68,12 +85,14 @@ const CategorySelectBox = styled.div`
         border: none;
     }
     `;
-const CategoryCell = styled.option`
+const CategoryCell = styled.div`
     padding: .8rem;
     width: 100%;
     transition: .4s;
-    text-align: left;
-    font-size: 1.6rem;
+    text-align: center;
+    color: ${colors.primaryLight};
+    box-sizing: border-box;
+    font-size: .8rem;
     text-transform: uppercase;
     letter-spacing: 2px;
     font-weight: bold;
@@ -81,20 +100,8 @@ const CategoryCell = styled.option`
 
 const CellContainer = styled.div`
     width: 100%;
-    height: 100%;
-    overflow-y: scroll;
     padding: 1rem 0 3rem 0;
     overflow-x: hidden;
     position: relative;
-
-`
-
-const GradientOverlay = styled.div`
-    width:100%;
-    position: fixed;
-    bottom: 1rem;
-    left: 0;
-    right:0;
-    height: 2rem;
-    background: linear-gradient(to bottom, #77777700, #777777) 
+    flex-grow:1;
 `

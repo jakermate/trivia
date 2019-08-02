@@ -51,10 +51,10 @@ const wiggle = keyframes`
 `
 
 const MultipleChoiceButtonContainer = styled.button`
-    width: 100px;
-    height: 100px;
-    margin: 1rem 1rem;
-    border-radius: 100px;
+    width: 80%;
+    height: 3rem;
+    margin: 0 auto;
+    border-radius: 6px;
     background: rgba(0,0,0,0);
     color: ${colors.greyedOut};
     border: 1px solid ${colors.greyedOut};
