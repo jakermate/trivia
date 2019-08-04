@@ -9,7 +9,8 @@ import NextButton from '../buttons/NextButton'
 import BackButton from '../buttons/BackButton'
 import Swal from 'sweetalert2';
 import colors from '../../values/colors'
-
+import ProgressBar from './Progressbar'
+import logo from '../../img/setup-logo.svg'
 
 export default class Game extends React.Component{
     constructor(){
@@ -48,23 +49,22 @@ export default class Game extends React.Component{
         this.fetchQuestions()
     }
     
-    
     // request question set from api with values in state
-    fetchQuestions(category){
+    fetchQuestions(config){
         // check for format
         let format = ""
 
 
 
-        if (this.state.format === "boolean" || "multiple" ){
-            format = "&type="+this.state.format
+        if (this.props.config.format === "boolean" || "multiple" ){
+            format = "&type="+this.props.config.format
             console.log("format entered as "+ format)
         }
         // print request string out to console
-        console.log(this.state.rootURL + "amount=20&category=" + this.state.category + "&difficulty=" + this.state.difficulty+format)
+        console.log(this.state.rootURL + "amount=20&category=" + this.props.config.category + "&difficulty=" + this.props.config.difficulty+format)
 
         // single category
-        fetch(`${this.state.rootURL}amount=20&category=${this.state.category}&difficulty=${this.state.difficulty}${format}`).then(
+        fetch(`${this.state.rootURL}amount=20&category=${this.props.config.category}&difficulty=${this.props.config.difficulty}${format}`).then(
             (res)=>res.json()  // if you use a block {} then you need to use return for the promise return
             ).then(
                 (json)=>{
@@ -88,6 +88,8 @@ export default class Game extends React.Component{
         })
     }
 
+    decode = (string) => he.decode(string)
+
     // parse questions into correct object format and load into questions array in state
     parseQuestions(json){ //questionSet should be json received from api
         let questions = json.results // should be array of questions
@@ -102,7 +104,10 @@ export default class Game extends React.Component{
             let newQuestion = {}
             if(questions[i].type === "multiple"){ //use multiple choice model
                 let decodedQuestionString = he.decode(questions[i].question)  // decode from html to txt
-                newQuestion = new questionMultipleChoice(decodedQuestionString,questions[i].difficulty,questions.category,questions[i].incorrect_answers,questions[i].correct_answer)
+                // decode answer strings
+
+                // build new question object
+                newQuestion = new questionMultipleChoice(decodedQuestionString,questions[i].difficulty,questions[i].category,questions[i].incorrect_answers,questions[i].correct_answer)
                 
             }
             else if(questions[i].type === "boolean"){ //use boolean model
@@ -113,13 +118,16 @@ export default class Game extends React.Component{
             else{
                 console.log('Error processing question '+ questions[i].question+" at index"+ i)
             }
-            questionSet.push(newQuestion)
+            questionSet.push(newQuestion) // push new question object into question set array
         }
         console.log(questionSet)
         // set parsed array of question objects into state array
-        this.setState({questions: questionSet}, function(){
-            console.log("Question set successfully set to component state: "+this.state.questions)
-            this.setState({displayLoadingSpinner: false}) // turn off spinner and show built quiz
+        this.setState({questions: questionSet}, () => {
+            setTimeout(()=>{
+                console.log("Question set successfully set to component state: "+this.state.questions)
+                this.setState({displayLoadingSpinner: false}) // turn off spinner and show built quiz
+            }, 500)
+            
         })
     }
 
@@ -237,14 +245,26 @@ export default class Game extends React.Component{
     render(){
         // in progress/ loading component
         let component = <GameContainer> 
-                            Setting up...
+                            <LoadingPage>
+                                <div style={{width: '200px'}}>
+                                    <img src={logo} alt=""/>
+                                </div>
+                                <div style={{width: '200px'}}>
+                                    SETTING UP...
+                                </div>
+                            </LoadingPage>
                         </GameContainer>
         // questions received component
-        if(this.state.questions !== ""){
+        if(this.state.displayLoadingSpinner === false){
             component = <GameContainer>
-                            <ProgressHeader>
-                                <span className="bold">{this.state.currentQuestion + 1}</span> / {this.state.questions.length}
-                            </ProgressHeader>
+                            <Header>
+                                <Category>{this.state.questions[0].category.toUpperCase()}</Category>
+                                <Difficulty>{this.state.difficulty.toUpperCase()}</Difficulty>
+                                <ProgressHeader>
+                                    <span className="bold"><StatusAccent>{this.state.currentQuestion + 1}</StatusAccent></span> / {this.state.questions.length}
+                                    <ProgressBar total={this.state.questions.length} currentQuestion={this.state.currentQuestion}></ProgressBar>
+                                </ProgressHeader>
+                            </Header>
                             {/* nested router for routing each question to its own url */}
                             {/* <BrowserRouter>
                                 <Route path="/question/:num" render={()=>(
@@ -285,6 +305,32 @@ export default class Game extends React.Component{
 
 }
 
+// temp loading page
+const LoadingPage = styled.div`
+    height: 100vh;
+    color: ${colors.primaryLight};
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+`
+
+// header
+const Header = styled.div`
+    width:100%;
+    height:50px;
+    background: rgba(0,0,0,0.18);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+`
+const Category = styled.div`
+    color: ${colors.primaryDark};
+    font-size: .8rem;
+`
+const Difficulty = styled.div`
+    color: ${colors.primaryDark};
+    font-size: .6rem;
+`
+
 // animations
 const horizon = keyframes`
 `
@@ -299,7 +345,7 @@ const GameContainer = styled.div`
     width:100%;
     min-height:100%;
     margin: 0;
-    padding-bottom:100px;
+    padding-bottom:70px;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -313,8 +359,16 @@ const ProgressHeader = styled.div`
     width: 100%;
     position: absolute;
     left:0;
+    font-size: .5rem;
+    font-weight:bold;
+    color: ${colors.secondaryLight};
+    text-align: center;
     right:0;
     top: 1rem;
+`
+const StatusAccent = styled.span`
+    font-size: .7rem;
+    text-shadow: 0 0 10px ${colors.primaryLight};
 `
 
 
@@ -323,7 +377,7 @@ const Controls = styled.div`
     display: flex;
     flex-direction: row;
     margin: 0 auto;
-    height: 100px;
+    height: 70px;
     width:100%;
     bottom:0;
     left:0;

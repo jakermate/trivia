@@ -71,7 +71,7 @@ export default class splash extends Component{
                         </Subtitle> */}
                     </Header>
                     <StartContainer>
-                        <Link to="/setup">
+                        <Link to="/home">
                             <StartSpan>PLAY</StartSpan>
                         </Link>
 

@@ -53,7 +53,7 @@ const wiggle = keyframes`
 const MultipleChoiceButtonContainer = styled.button`
     width: 80%;
     height: 3rem;
-    margin: 0 auto;
+    margin: .5rem auto;
     border-radius: 6px;
     background: rgba(0,0,0,0);
     color: ${colors.greyedOut};
@@ -64,7 +64,7 @@ const MultipleChoiceButtonContainer = styled.button`
     transition: .3s ease-out;
     &.selected{
         background-color: rgba(0,0,0,0);
-        transform: scale(1.2);
+        transform: scale(1.1);
         box-shadow: 0px 0px 20px #16ebff;
         animation: ${glow} 4s ease-in-out infinite, ${wiggle} 4s ease-in-out infinite;
         font-size: .8rem;

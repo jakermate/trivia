@@ -3,6 +3,7 @@ import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import back from '../../img/back-button.svg'
 import profile from '../../img/profile-button.svg'
+import {Link} from 'react-router-dom'
 
 export default class Header extends Component {
 
@@ -11,13 +12,13 @@ export default class Header extends Component {
         return (
             <SetupHeader id="setup-header">
                 <HeaderContent>
-                    <BackButton>
+                    <Link to="/home">
                         <img src={back} alt=""/>
-                    </BackButton>
+                    </Link>
                     <HeaderTitle>BRAIN SPACE</HeaderTitle>
-                    <ProfileButton>
+                    <Link to='/profile'>
                         <img src={profile} alt=""/>
-                    </ProfileButton>
+                    </Link>
                 </HeaderContent>
             </SetupHeader>
         )

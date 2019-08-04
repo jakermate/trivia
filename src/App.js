@@ -13,6 +13,7 @@ import '../src/css/spinner.css'
 import uuidv1 from 'uuid' // unique id generation
 import {Transition} from 'react-transition-group'
 import Profile from './components/profile/Profile'
+import {createBrowserHistory} from 'history'
 
 
 class App extends Component {
@@ -38,6 +39,7 @@ class App extends Component {
       }
     }
     this.receiveConfig = this.receiveConfig.bind(this)
+    this.history = createBrowserHistory()
     
   }
   // color object storing values to be swapped out for backgriund overlay gradient
@@ -54,7 +56,9 @@ class App extends Component {
   receiveConfig(configObject){
     if (configObject !== undefined){
       console.log('Valid configuration received=> '+ JSON.stringify(configObject))
-      this.setState({config: configObject})
+      this.setState({config: configObject}, ()=>{
+        
+      })
     }
     else{
       console.log("Config got messed up somewhere...")
@@ -78,11 +82,15 @@ class App extends Component {
 
   checkForCookies(){
     let currentCookies = Cookies.get()
-    console.log(currentCookies)
-    if(currentCookies.id !== undefined){
+    console.log(JSON.parse(currentCookies.user))
+    let returningUser = JSON.parse(currentCookies.user)
+    if(returningUser.profile.id !== undefined){
       // if cookies exist, set into App state
       console.log('Welcome back. Cookies :'+ JSON.stringify(currentCookies))
-      this.setState({cookies: currentCookies})
+      // set user profile cookies as string into state-> cookies
+      this.setState({cookies: currentCookies}, () =>{
+        this.setState({user: returningUser}, ()=> console.log(this.state.user)) // set cookies parsed as object into user state
+      } )
     }
     else{
       console.log("No existing cookie data.  New profile created.")
@@ -116,9 +124,7 @@ class App extends Component {
   }
 
   // generate and return unique user id
-  generateID(){
-    return uuidv1();
-  }
+  generateID = () => uuidv1()
 
   // end of game/ results
   receiveNewScore(score){
@@ -137,9 +143,24 @@ class App extends Component {
     }
   }
 
+  // scores
+  appendNewScore = (newScoreObject) => {
+    let newScoreArray = this.state.user.scores
+    newScoreArray.push(newScoreObject)
+    // check if score array is 10 or more
+    if (newScoreArray.length >= 10){
+      newScoreArray.shift()
+    }
+    let updatedUserState = this.state.user
+    updatedUserState.scores = newScoreArray // update user object with new score array
+    this.setState({user: updatedUserState}, ()=>{
+      console.log('User state updated: '+this.state.user)
+    }) // set new user object to app state
+  }
+
   render() {
     return (
-      <div className={`${styles.container}`}>
+      <AppContainer className={`${styles.container}`}>
         {/* temp for testing */}
         {/* <Splash></Splash> */}
         {/* <GameOptions></GameOptions>
@@ -151,14 +172,15 @@ class App extends Component {
 
           <BrowserRouter>
             <Route exact path='/' component={Splash} />
+            <Route exact path='/home' component={Home} />
             <Route exact path="/setup" render={(props)=>
-              <GameOptions receiveConfig={this.receiveConfig} />
+              <GameOptions history={this.history} receiveConfig={this.receiveConfig} />
             } />
             <Route path="/game" render={(props)=>
-              <Game changeGameState={this.changeGameState}/>
+              <Game  config={this.state.config} changeGameState={this.changeGameState}/>
             } />
             <Route path="/profile" render={(props)=>
-              <Profile></Profile>
+              <Profile profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
             }
 
             />
@@ -172,9 +194,15 @@ class App extends Component {
             rel="noopener noreferrer"
           >
           </a>
-      </div>
+      </AppContainer>
     );
   }
 }
 
 export default App;
+
+
+const AppContainer = styled.div`
+  height: 100%;
+  width: 100%;
+`

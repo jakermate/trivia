@@ -119,9 +119,6 @@ export default class Question extends React.Component{
             component = (
                 <QuestionContentContainer>
                     <QuestionContainer>
-                        <QuestionType>
-                            {this.state.question.category}
-                        </QuestionType>
                         <Title>
                             {this.state.question.questionString}
                         </Title>
@@ -188,11 +185,11 @@ const QuestionContainer = styled.div`
     height: 200px;
     box-sizing: border-box;
     position: relative;
-    border: 2px solid ${colors.primaryLight};
+    border: 1px solid ${colors.primaryLight};
     display: flex;
     flex-direction: column;
     justify-content: center;
-    margin: 3rem auto;
+    margin: 1rem auto;
     color: white;
     border-radius: 6px;
     box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
@@ -200,10 +197,11 @@ const QuestionContainer = styled.div`
 
 const QuestionBackground= styled.div`
     background-image: url(${bg});
-    width:300px;
-    height: 300px;
+    width:100%;
+    height: 100%;
     position: relative;
     display: flex;
+    padding: 0 1rem;
     box-sizing: border-box;
     flex-direction: column;
     justify-content: center;
@@ -230,10 +228,10 @@ const Title = styled.h4`
 `
 const AnswerContainer = styled.div`
     display:flex;
-    flex-direction: row;
-    flex-wrap: wrap;
+    flex-direction: column;
+    flex-wrap: nowrap;
     max-width: 300px;
     margin: 0 auto;
     justify-content: space-around;
-    padding: 2rem 1rem;
+    padding: 0rem 1rem;
 `

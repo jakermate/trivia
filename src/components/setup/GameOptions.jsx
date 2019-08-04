@@ -130,10 +130,11 @@ export default class GameOptions extends React.Component{
         if (this.state.selectedDifficulty !== "" && this.state.selectedFormat !== "" && this.state.selectedCategory !== 0){
             console.log("Starting game...")
             // create config object
-            let newConfig = new Config(this.state.difficulty, this.state.format, this.state.category)
+            let newConfig = new Config(this.state.selectedDifficulty, this.state.selectedFormat, this.state.selectedCategory)
             console.log(newConfig)
             // pass config object up chain to app component function (reference to function passed down as prop: receiveConfig)
             this.props.receiveConfig(newConfig) // will be received in App component as configObject
+            
 
         }
         else{ // handle invalid config options
@@ -227,17 +228,13 @@ export default class GameOptions extends React.Component{
                                     FORMAT 
                                 </SelectionTitle>
                                 {/* new slider based format selection with input range */}
-                                <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
+                                <Input type="range" min='0' max='1' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
                                 <FormatLabels>
                                     <FormatLabelSpan id="format-0">
                                         TRUE / FALSE
                                     </FormatLabelSpan>
 
-                                    <FormatLabelSpan id="format-1" className="selected-format">
-                                        MIXED
-                                    </FormatLabelSpan>
-
-                                    <FormatLabelSpan id="format-2">
+                                    <FormatLabelSpan id="format-1">
                                         MULTIPLE CHOICE
                                     </FormatLabelSpan>
                                 </FormatLabels>
@@ -275,7 +272,7 @@ export default class GameOptions extends React.Component{
                             </BreakerContainer>
 
                             <ButtonContainer>
-                                <ContinueButton onClick={this.startGame} className="inactive">
+                                <ContinueButton to='/game/:question' onClick={this.startGame} className="inactive">
                                     START
                                 </ContinueButton>
                             </ButtonContainer>
@@ -488,7 +485,7 @@ const ButtonContainer = styled.div`
     margin-top: 4rem;
     
 `
-const ContinueButton = styled.button`
+const ContinueButton = styled(Link)`
     padding: 1.8rem 0;
     text-align: center;
     transition: .2s;
