@@ -6,16 +6,17 @@
 
 Project Goals
 - streamlined front-end interface across mobile and desktop
-- (possible) porting to react native for mobile
+- porting to react native for mobile
 - user determined 3rd party api usage
 - data modeling/parsing of 3rd party data
-- backend caching of score data using cookie identification from client
+- data persistance on the client
 - dynamically themed interface
-- design practice :-/
-- git workflow practice
+- ui design in sketch with porting of css attributes
 - learning to write informative and properly formatted markdown sheets
 
-Technology Pipe
-- react with vanilla state tracking
+Technology
+- react
 - react-router-dom (with usage of nested routes)
-- express/node backend (undecided on benefits of using a no-sql db for a project of this scale vs using in-memory storage)
+- uuid
+- cookie-js
+- local cookie storage of user profile information and score history data
