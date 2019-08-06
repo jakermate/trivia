@@ -15,7 +15,12 @@ export default class Profile extends Component {
 
                 </ProfileInfo>
                 <GameHistory>
-
+                    {this.props.scores.map((scoreObject, index)=>
+                        <div id={`score-${index}`}>
+                            <h3>{scoreObject.category}</h3>
+                            <h5>{scoreObject.difficulty}</h5>
+                        </div>
+                        )}
                 </GameHistory>
             </ProfilePage>
         )
