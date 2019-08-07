@@ -111,7 +111,8 @@ class App extends Component {
     this.setState({user: {
       profile:{
         id: this.generateID(),
-        lastvisit: date
+        lastvisit: date,
+        name: 'newUser'
       },
       scores: [
 
@@ -125,6 +126,23 @@ class App extends Component {
 
   // generate and return unique user id
   generateID = () => uuidv1()
+
+  // set username
+  setName = (name) => {
+    let newUserData = this.state.user
+    newUserData.profile.name = name
+    this.setState({user: newUserData})
+  }
+  // gamesplayed
+  gamesPlayed = () => {
+    let newUserData = this.state.user
+    if(newUserData.profile.gamesPlayed === undefined){
+      newUserData.profile.gamesPlayed = 1
+    }
+    else{
+      newUserData.profile.gamesPlayed += 1
+    }
+  }
 
   // end of game/ results
   receiveNewScore(score){
@@ -180,7 +198,7 @@ class App extends Component {
               <Game  config={this.state.config} changeGameState={this.changeGameState}/>
             } />
             <Route path="/profile" render={(props)=>
-              <Profile profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
+              <Profile setName={this.setName} profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
             }
 
             />

@@ -258,9 +258,9 @@ export default class GameOptions extends React.Component{
                                     this.state.selectedCategory !== null && 
                                     <CategoryButton onClick={this.toggleCategoryModal.bind(this)}>
                                          <SelectedCategory>{this.state.categoryList[this.returnCategoryIndexFromId(this.state.selectedCategory)].name}</SelectedCategory>
-                                        <DownChevron>
-                                            <img src={downchevron} alt=""/>
-                                        </DownChevron>
+                                        <DownChevronContainer>
+                                            <DownChevron src={downchevron} alt=""/>
+                                        </DownChevronContainer>
                                     </CategoryButton>
                                 }
                             </OptionsSectionContainer>
@@ -482,7 +482,7 @@ const ButtonContainer = styled.div`
     position: relative;
     align-items: center;
     box-sizing:border-box;
-    margin-top: 4rem;
+    margin-top: 1rem;
     
 `
 const ContinueButton = styled(Link)`
@@ -553,7 +553,13 @@ const unselected = {
 }
 
 // icons
-const DownChevron = styled.div`
+const DownChevronContainer = styled.div`
     display:flex;
     justify-content: space-around;
+    padding: .4rem 0;
+`
+const DownChevron = styled.img`
+    width:1rem;
+    
+
 `

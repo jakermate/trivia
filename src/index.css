@@ -31,7 +31,6 @@ html, body, #root, #app{
 
 a, a:visited, a:hover, a:active, a:link{
   text-decoration: none;
-  color: white;
 }
 
 
