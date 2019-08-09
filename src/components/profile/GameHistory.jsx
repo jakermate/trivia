@@ -41,18 +41,19 @@ export default class GameHistory extends Component {
     render() {
         return (
             <GameHistoryContainer>
-                {this.state.games.map((game)=>
+                {this.state.games.map((scoreObject, index)=>
                     <Game> 
-                        <GameHeader id={'gameheader'+this.state.games.indexOf(game)} key={this.state.games.indexOf(game)} onClick={this.toggleGameInfo}>
-                            {game.category}
-                            {game.difficulty}
-                            {game.format}
+                        <GameHeader id={'gameheader-'+index.toString()} key={this.state.games.indexOf(scoreObject)} onClick={this.toggleGameInfo}>
+                            <HeaderDate>{scoreObject.date}</HeaderDate>
                             <ArrowContainer>
                                 <Arrow src={arrow}></Arrow>
                             </ArrowContainer>
                         </GameHeader>
-                        <GameInfo id={'gameinfo'+this.state.games.indexOf(game)} style={{display: 'none'}}>
-                            <ScoreBar score={game.score} testLength={game.testLength}></ScoreBar>
+                        <GameInfo id={'gameinfo-'+index.toString()} style={{display: 'none'}}>
+                            <HeaderCategory>{scoreObject.category}</HeaderCategory>
+                            <HeaderDifficulty>{scoreObject.difficulty}</HeaderDifficulty>
+                            <ScorePercentage>{(scoreObject.score/scoreObject.testLength)*100}%</ScorePercentage>
+                            <ScoreBar score={scoreObject.score} testLength={scoreObject.testLength}></ScoreBar>
                         </GameInfo>
                     </Game>
                     )}
@@ -63,6 +64,10 @@ export default class GameHistory extends Component {
 // game history container
 const GameHistoryContainer = styled.div`
     background: rgba(0,0,0,0.10);
+    min-height: 200px;
+    text-transform: uppercase;
+    box-sizing: border-box;
+    letter-spacing: .3rem;
 `
 // container for each individual game mapped from array
 const Game = styled.div`
@@ -72,6 +77,12 @@ const Game = styled.div`
 // individual header with title for a single round
 const GameHeader = styled.div`
     padding: .6rem 1rem;
+    display: flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
+    box-sizing: border-box;
+    background-color: rgba(0,0,0,.3);
 `
 // uncollapsed information on individual game when opened
 const GameInfo = styled.div`
@@ -79,9 +90,28 @@ const GameInfo = styled.div`
     padding: .6rem 1rem;
 
 `
+const HeaderCategory = styled.div`
+    color:${colors.primaryLight};
+    font-size: 1.2rem;
+`
+const HeaderDifficulty = styled.div`
+    color:${colors.secondaryLight};
+    font-size: .8rem;
+    letter-spacing: .12rem;
+`
+const HeaderDate = styled.div`
+    color:${colors.thirdLight};
+`
 // arrows
 const ArrowContainer = styled.div`
-
+    
+    position: absolute;
+    right:0;
 `
 const Arrow = styled.img`
+`
+const ScorePercentage = styled.div`
+    letter-spacing: .1rem;
+    font-size: .4rem;
+    color: ${colors.thirdLight};
 `

@@ -6,7 +6,7 @@ export default class Score {
         this.correct = correct
         this.total = total
         this.userID = id
-        this.time = new Date()
+        this.date = new Date()
         this.gameID = uuid()
     }
 }

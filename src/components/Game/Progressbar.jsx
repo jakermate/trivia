@@ -20,7 +20,7 @@ const BarContainer = styled.div`
 `
 const Bar = styled.div`
     height:100%;
-    background-color: ${colors.primaryLight};
+    background: linear-gradient(to right, ${colors.primaryLight}, ${colors.secondaryLight});
     box-shadow: 0 0 4px ${colors.glowPrimary};
     border-right: 2px solid ${colors.secondaryLight}
 `

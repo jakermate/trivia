@@ -7,6 +7,8 @@ export default {
     backgroundSecondary: '#1A2A28',
     backgroundThird: '#152637',
     glowPrimary: 'rgba(102,232,244,.5)',
-    greyedOut: '#5F6463'
+    greyedOut: '#5F6463',
+    greyDark:'rgba(100,100,100,.5)',
+    thirdLight: '#00D060'
 }
 

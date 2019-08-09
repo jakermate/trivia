@@ -19,7 +19,7 @@ export default class ScoreBar extends React.Component {
     render(){
         return(
             <ScoreBarContainer>
-              <Scorefill style={{width: this.state.width+'%'}}></Scorefill>
+              <Scorefill style={{width: `${this.state.width}%`}}></Scorefill>
             </ScoreBarContainer>
 
         )
@@ -28,12 +28,13 @@ export default class ScoreBar extends React.Component {
 }
 
 const ScoreBarContainer = styled.div`
-    background: ${colors.greyedOut};
+    background: ${colors.greyDark};
     width: 100px;
     height: 15px;
 `
 const Scorefill = styled.div`
-    background: ${colors.primaryLight};
+    background: linear-gradient(to right, ${colors.primaryLight}, ${colors.secondaryLight});
     height: 100%;
     box-shadow: 0 0 5px 0 rgba(0,209,174,0.63);
+    border-right: 1px solid ${colors.thirdLight};
 `

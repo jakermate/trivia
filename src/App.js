@@ -198,7 +198,7 @@ class App extends Component {
               <Game  config={this.state.config} changeGameState={this.changeGameState}/>
             } />
             <Route path="/profile" render={(props)=>
-              <Profile setName={this.setName} profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
+              <Profile changeName={this.setName} setName={this.setName} profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
             }
 
             />
