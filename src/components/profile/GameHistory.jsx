@@ -28,13 +28,15 @@ export default class GameHistory extends Component {
         
         let gameString = e.currentTarget.id
         gameString = gameString.replace('header','info')
+        let arrowString = gameString.replace('gameinfo', 'arrow')
         console.log(gameString)
         if(document.getElementById(gameString).style.display === "block"){
             document.getElementById(gameString).style.display = "none"
+            document.getElementById(arrowString).style.transform = 'rotate(0deg)'
         }
         else{
             document.getElementById(gameString).style.display = "block"
-
+            document.getElementById(arrowString).style.transform = 'rotate(90deg)'
         }
     }
 
@@ -45,7 +47,7 @@ export default class GameHistory extends Component {
                     <Game> 
                         <GameHeader id={'gameheader-'+index.toString()} key={this.state.games.indexOf(scoreObject)} onClick={this.toggleGameInfo}>
                             <HeaderDate>{scoreObject.date}</HeaderDate>
-                            <ArrowContainer>
+                            <ArrowContainer id={'arrow-'+index.toString()}>
                                 <Arrow src={arrow}></Arrow>
                             </ArrowContainer>
                         </GameHeader>
@@ -65,6 +67,7 @@ export default class GameHistory extends Component {
 const GameHistoryContainer = styled.div`
     background: rgba(0,0,0,0.10);
     min-height: 200px;
+    flex-grow: 1;
     text-transform: uppercase;
     box-sizing: border-box;
     letter-spacing: .3rem;
@@ -78,6 +81,7 @@ const Game = styled.div`
 const GameHeader = styled.div`
     padding: .6rem 1rem;
     display: flex;
+    height:40px;
     flex-direction: row;
     position: relative;
     align-items: center;
@@ -88,7 +92,6 @@ const GameHeader = styled.div`
 const GameInfo = styled.div`
     background: rgba(0,0,0,0.14);
     padding: .6rem 1rem;
-
 `
 const HeaderCategory = styled.div`
     color:${colors.primaryLight};
@@ -104,11 +107,16 @@ const HeaderDate = styled.div`
 `
 // arrows
 const ArrowContainer = styled.div`
-    
+    display: flex;
+    flex-direction: row;
+    align-items: center;
     position: absolute;
+    margin-right: .8rem;
     right:0;
+    transition: .1s ease-in-out;
 `
 const Arrow = styled.img`
+height:20px;
 `
 const ScorePercentage = styled.div`
     letter-spacing: .1rem;

@@ -185,14 +185,14 @@ const QuestionContainer = styled.div`
     height: 200px;
     box-sizing: border-box;
     position: relative;
-    border: 1px solid ${colors.primaryLight};
+    border: 1px solid ${colors.primaryLightest};
     display: flex;
     flex-direction: column;
     justify-content: center;
     margin: 1rem auto;
     color: white;
     border-radius: 6px;
-    box-shadow: 0 0 12px 3px rgba(102,232,244,.5), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
+    box-shadow: 0 0 12px 3px rgba(102,232,244,.2), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
 `
 
 const QuestionBackground= styled.div`
@@ -218,7 +218,7 @@ const QuestionContentContainer = styled.div`
     padding: 1rem;
     box-sizing: border-box;
     animation: ${questionPop} .4s ease-in-out;
-    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+    background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradOne} 37%, ${colors.gradTwo} 100%);
 
 `
 const Title = styled.h4`

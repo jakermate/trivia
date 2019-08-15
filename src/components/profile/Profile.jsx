@@ -6,6 +6,8 @@ import GameHistory from './GameHistory'
 import ProfileImage from '../../img/avatar.svg'
 import edit from '../../img/edit.svg'
 import check from '../../img/check.svg'
+import {Link} from 'react-router-dom'
+import back from '../../img/back-button.svg'
 
 export default class Profile extends Component {
     constructor(props){
@@ -35,7 +37,12 @@ export default class Profile extends Component {
     render() {
         return (
             <ProfilePage id="profile-page">
-                <Header></Header>
+                <Header>
+                    <Link to="/home">
+                        <img src={back} alt=""/>
+                    </Link>
+                    <HeaderTitle>BRAIN SPACE</HeaderTitle>
+                </Header>
                 <ProfileHeader>
                     <div id="profile-image">
                         <img src={ProfileImage} alt=""/>
@@ -79,12 +86,24 @@ const ProfilePage = styled.div`
     width: 100%;
     box-sizing: border-box;
     position: relative;
-    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+    display:flex;
+    flex-direction:column;
+    background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradOne} 37%, ${colors.gradTwo} 100%);
 
 ` 
 const Header = styled.div`
+    box-sizing:border-box;
+    height: 88px;
     width: 100%;
-    height: 60px;
+    background: rgba(0,0,0,0.18);
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+`
+const HeaderTitle = styled.div`
+    font-family: LucidaGrande;
+    font-size: 11px;
+    color: #00D1AE;
+    letter-spacing: 5.09px;
+    text-align: center;
 `
 const NameDisplay = styled.h2`
     text-transform: uppercase;
@@ -116,10 +135,14 @@ const HistoryTitle = styled.span`
     color: ${colors.secondaryLight};
     letter-spacing:.2rem;
     font-size: .5rem;
-    padding: .4rem;
 `
 const GamesPlayed = styled.div`
-    background-color: rgba(0,0,0,.3);
+    background-color: rgba(0,0,0,.17);
+    padding:.8rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
 `
 const ProfileHeader = styled.div`
     min-height: 200px;

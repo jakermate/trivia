@@ -4,7 +4,7 @@ import Home from './components/home/Home'
 import Splash from './components/splash'
 import Setup from './components/setup/Setup'
 import styled from 'styled-components'
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter, Route, withRouter} from 'react-router-dom'
 import Game from './components/Game/Game'
 import GameOptions from './components/setup/GameOptions'
 import Cookies from 'js-cookie'
@@ -13,7 +13,10 @@ import '../src/css/spinner.css'
 import uuidv1 from 'uuid' // unique id generation
 import {Transition} from 'react-transition-group'
 import Profile from './components/profile/Profile'
-import {createBrowserHistory} from 'history'
+import history from './history'
+// import Provider from 'react-redux'
+// import store from './redux/store'
+
 
 
 class App extends Component {
@@ -39,7 +42,6 @@ class App extends Component {
       }
     }
     this.receiveConfig = this.receiveConfig.bind(this)
-    this.history = createBrowserHistory()
     
   }
   // color object storing values to be swapped out for backgriund overlay gradient
@@ -81,15 +83,14 @@ class App extends Component {
   }
 
   checkForCookies(){
-    let currentCookies = Cookies.get()
-    console.log(JSON.parse(currentCookies.user))
-    let returningUser = JSON.parse(currentCookies.user)
-    if(returningUser.profile.id !== undefined){
+    let currentCookies = Cookies.getJSON()
+    console.log(currentCookies)
+    if(currentCookies.user.profile.id !== undefined){
       // if cookies exist, set into App state
       console.log('Welcome back. Cookies :'+ JSON.stringify(currentCookies))
       // set user profile cookies as string into state-> cookies
       this.setState({cookies: currentCookies}, () =>{
-        this.setState({user: returningUser}, ()=> console.log(this.state.user)) // set cookies parsed as object into user state
+        this.setState({user: currentCookies.user}, ()=> console.log(this.state.user)) // set cookies parsed as object into user state
       } )
     }
     else{
@@ -112,7 +113,8 @@ class App extends Component {
       profile:{
         id: this.generateID(),
         lastvisit: date,
-        name: 'newUser'
+        name: 'newUser',
+        firstVisit: true
       },
       scores: [
 
@@ -131,8 +133,11 @@ class App extends Component {
   setName = (name) => {
     let newUserData = this.state.user
     newUserData.profile.name = name
-    this.setState({user: newUserData})
+    this.setState({user: newUserData},()=>{
+      this.setCookies() // builds new user object and sets new cookie
+    })
   }
+
   // gamesplayed
   gamesPlayed = () => {
     let newUserData = this.state.user
@@ -160,6 +165,10 @@ class App extends Component {
       })
     }
   }
+  // results and score methods
+  moveToResults = () => {
+
+  }
 
   // scores
   appendNewScore = (newScoreObject) => {
@@ -175,7 +184,9 @@ class App extends Component {
       console.log('User state updated: '+this.state.user)
     }) // set new user object to app state
   }
-
+  firstVisit = () => {
+    console.log("first visit")
+  }
   render() {
     return (
       <AppContainer className={`${styles.container}`}>
@@ -188,14 +199,23 @@ class App extends Component {
 
 
 
-          <BrowserRouter>
-            <Route exact path='/' component={Splash} />
-            <Route exact path='/home' component={Home} />
+          <BrowserRouter history={history}>
+            <Route exact path='/' render={(props)=>
+              <Splash user={this.state.user}></Splash>
+            } />
+            <Route exact path='/home' render={(props)=>{
+              return <Home user={this.state.user} firstVisit={this.firstVisit}></Home>
+            }}
+            
+            />
             <Route exact path="/setup" render={(props)=>
               <GameOptions history={this.history} receiveConfig={this.receiveConfig} />
             } />
             <Route path="/game" render={(props)=>
-              <Game  config={this.state.config} changeGameState={this.changeGameState}/>
+              <Game  user={this.state.user} config={this.state.config} changeGameState={this.changeGameState}/>
+            } />
+            <Route path="/results" render={(props)=>
+              <Results  user={this.state.user} />
             } />
             <Route path="/profile" render={(props)=>
               <Profile changeName={this.setName} setName={this.setName} profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>

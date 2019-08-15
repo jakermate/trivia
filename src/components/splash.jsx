@@ -3,11 +3,11 @@ import styled, {keyframes} from 'styled-components'
 import questionmark from '../img/questionmark.png'
 import logo from '../img/splash-logo.svg'
 import logoAlt from '../img/brain-space-alt.svg'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import colors from '../values/colors'
 
 
-export default class splash extends Component{
+class splash extends Component{
  
     constructor(props){
         super(props)
@@ -21,6 +21,14 @@ export default class splash extends Component{
 
     componentDidMount(){
        this.initiateParticles()
+    }
+    componentWillReceiveProps(){
+        // if user has prior games played, push to home screen
+            if(this.props.user.scores.length > 0){
+                this.props.history.push('/home')
+            }
+
+       
     }
     // interval for pawing/despawning randomized particle divs 
     initiateParticles(){  
@@ -166,7 +174,7 @@ const BackgroundOverlay = styled.div`
     display:flex;
     flex-direction: column;
     justify-content: space-around;
-    background: linear-gradient(to bottom, ${colors.backgroundPrimary}, ${colors.backgroundSecondary} );
+    background: linear-gradient(to bottom, ${colors.gradOne}, ${colors.gradTwo}, ${colors.gradThree} );
 
 `
 const StartContainer = styled.div`
@@ -228,3 +236,5 @@ const Particles = styled.div`
     bottom:0;
     right:0;
 `
+
+export default withRouter(splash) 

@@ -234,7 +234,7 @@ export default class GameOptions extends React.Component{
                                         TRUE / FALSE
                                     </FormatLabelSpan>
 
-                                    <FormatLabelSpan id="format-1">
+                                    <FormatLabelSpan id="format-1" className="selected-format">
                                         MULTIPLE CHOICE
                                     </FormatLabelSpan>
                                 </FormatLabels>
@@ -372,9 +372,10 @@ const Input = styled.input`
     background: rgba(0,0,0,0.09);
     border-radius: 27px;
     height: 54px;
-    border: 1px solid rgba(77,84,83,0.6);
+    border: 1px solid rgba(77,84,83,0.28);
     width: 250px;
     outline: none;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
         appearance: none;
@@ -443,7 +444,7 @@ const DifficultyLabelSpan = styled.div`
     font-size: 11px;
     height: 25px;
     overflow:visible;
-    color: #484B4A;
+    color: ${colors.greyedOut};
     margin-top: 1rem;
     float: left;
     letter-spacing: 0.79px;
@@ -468,7 +469,7 @@ const BackgroundOverlayColors = styled.div`
     flex-direction: column;
     justify-content: space-around;
     position: relative;
-    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+    background: linear-gradient(-134deg, ${colors.gradOne} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
     `
 
 
@@ -490,17 +491,18 @@ const ContinueButton = styled(Link)`
     text-align: center;
     transition: .2s;
     font-family: LucidaGrande;
-    font-size: 18px;
+    font-size: .8rem;
     color: #00D1B7;
     letter-spacing: 5.89px;
     text-align: center;
     text-shadow: 0 0 4px #00D1B7;
     border: none;
     width: 250px;
-    background: rgba(0,0,0,0.10);
+    background: rgba(0,0,0,0.30);
     border-radius: 6px;
     padding: 2rem 0;
     width:100%;
+    box-shadow: 0 -2px 18px rgba(0,0,0,.3);
     &:active,:visited,:hover{
         outline: none;
     }
@@ -534,6 +536,7 @@ const CategoryButton = styled.button`
     border: 1px solid rgba(77,84,83,0.28);
     width: 250px;
     outline:none;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
     background: rgba(0,0,0,0.10);
     border-radius: 6px;
     padding: 10px 0;

@@ -1,11 +1,17 @@
 import React from 'react'
 import GameOptions from '../setup/GameOptions'
-import {Link} from 'react-router-dom'
+import {Link, withRouter} from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../values/colors'
 import Footer from './Footer'
 
 export default class Home extends React.Component{
+    constructor(props){
+        super(props)
+    }
+    componentDidMount(props){
+        
+    }
     render(){
         return(
             <HomePage id="home-page">
@@ -17,19 +23,17 @@ export default class Home extends React.Component{
                     <Subtitle>
                         TRIVIA CHALLENGE
                     </Subtitle>
-
+                    <Welcome>
+                        Welcome back <br></br> {this.props.user.profile.name}
+                    </Welcome>
                 </Splash>
                 <Navigation>
-                    <Link to="/setup" style={{color: 'white'}}>
-                        <NavButton>
+                    <NavLink to="/setup">
                             PLAY
-                        </NavButton>
-                    </Link>
-                    <Link to="/profile" style={{color: 'white'}}>
-                        <NavButton>
+                    </NavLink>
+                    <NavLink to="/profile">
                             PROFILE
-                        </NavButton>
-                    </Link>
+                    </NavLink>
                 </Navigation>
 
                 <Footer></Footer>
@@ -41,10 +45,10 @@ const HomePage = styled.div`
     width: 100%;
     height: 100%;
     color: ${colors.primaryLight};
-    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+    background: linear-gradient(-134deg, ${colors.gradOne} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
 `
 const Title = styled.h1`
-    margin: 0;
+    margin: 2rem auto 0 auto;
     font-family: LucidaGrande;
     font-size: 16px;
     letter-spacing: 8.44px;
@@ -70,22 +74,32 @@ const Splash = styled.div`
     box-sizing: border-box;
 `
 
+const Welcome = styled.div`
+    width:80%;
+    margin: 2rem auto;
+`
 const Navigation = styled.div`
     display: flex;
     flex-direction: column;
+    align-items: center;
 `
-
-const NavButton = styled.button`
+const NavLink = styled(Link)`
     width: 80%;
     height: 3rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    text-decoration: none;
+    color: ${colors.primaryLight};
     margin: .5rem auto;
-    border: 1px solid ${colors.greyedOut};
     text-align: center;
-    font-size: .6rem;
+    font-size: .8rem;
+    letter-spacing: 6px;
     overflow: visible;
     transition: .3s ease-out;
     background: rgba(0,0,0,0.11);
     border-radius: 2px;
+    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
     &.selected{
         background-color: rgba(0,0,0,0);
         transform: scale(1.1);
@@ -103,3 +117,4 @@ const NavButton = styled.button`
         outline: none;
     }
 `
+

@@ -57,11 +57,13 @@ const MultipleChoiceButtonContainer = styled.button`
     border-radius: 6px;
     background: rgba(0,0,0,0);
     color: ${colors.greyedOut};
-    border: 1px solid ${colors.greyedOut};
+    border: 1px solid rgba(0,0,0,0);
     text-align: center;
+    background: rgba(0,0,0,.3);
     font-size: .6rem;
     overflow: visible;
     transition: .3s ease-out;
+    box-shadow: 2px 2px 8px rgba(0,0,0,.3);
     &.selected{
         background-color: rgba(0,0,0,0);
         transform: scale(1.1);

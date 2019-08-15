@@ -1,18 +1,20 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
 import Question from './Question'
-import {BrowserRouter, Route} from 'react-router-dom'
+import {BrowserRouter, Route, withRouter} from 'react-router-dom'
 import he from 'he'
 import Cookies from 'js-cookie' // cookie manipulation
 import Spinner from '../misc/Spinner'
 import NextButton from '../buttons/NextButton'
 import BackButton from '../buttons/BackButton'
+import SubmitButton from '../buttons/SubmitButton'
 import Swal from 'sweetalert2';
 import colors from '../../values/colors'
 import ProgressBar from './Progressbar'
 import logo from '../../img/setup-logo.svg'
+import Results from './Results'
 
-export default class Game extends React.Component{
+class Game extends React.Component{
     constructor(){
         super()
         this.state = {
@@ -160,7 +162,8 @@ export default class Game extends React.Component{
     }
     // final check popup/alert to make sure user wants to submit challenge for evaluation
     finalCheck(){
-
+        // set finished game states
+        this.setState({inPlay: false, complete: true})
     }
     submitAnswer(){
         // append answer for current question to answers array
@@ -185,7 +188,7 @@ export default class Game extends React.Component{
         // if selectedAnswer of question-STATE is not empty/0, allow player to progress to next question
         console.log("Moving forward from question INDEX" + this.state.currentQuestion)
         // check if next question is less than length of question array
-        if (this.state.currentQuestion < this.state.questions.length){
+        if (this.state.currentQuestion < this.state.questions.length-1){
             this.setState({currentQuestion: this.state.currentQuestion + 1}, function(){
                 console.log("Moving to question INDEX" + this.state.currentQuestion)
             })
@@ -193,7 +196,13 @@ export default class Game extends React.Component{
         else if (this.state.currentQuestion + 1 >= this.state.questions.length){
             console.log('That was the last question.  Finalizing quiz...')
             // set complete-STATE to true to signal test has finished
-            this.setState({complete: true}, this.setState({inPlay: false}))
+            this.setState({complete: true}, this.setState({inPlay: false}, ()=>{
+                console.log(this.state)
+                this.setState({displayLoadingSpinner: true}, (history)=>{
+                    this.props.history.push('/results')
+                })
+
+            }))
 
         }
 
@@ -246,20 +255,22 @@ export default class Game extends React.Component{
         // in progress/ loading component
         let component = <GameContainer> 
                             <LoadingPage>
-                                <div style={{width: '200px'}}>
-                                    <img src={logo} alt=""/>
-                                </div>
-                                <div style={{width: '200px'}}>
+                                <SetupDivisor style={{width: '200px'}}>
+                                    <LoadingLogo src={logo} alt=""/>
+                                </SetupDivisor>
+                                <SetupDivisor style={{width: '200px'}}>
                                     SETTING UP...
-                                </div>
+                                </SetupDivisor>
                             </LoadingPage>
                         </GameContainer>
         // questions received component
-        if(this.state.displayLoadingSpinner === false){
+        if(this.state.displayLoadingSpinner === false && this.state.inPlay === true && this.state.currentQuestion < this.state.questions.length){
             component = <GameContainer>
                             <Header>
-                                <Category>{this.state.questions[0].category.toUpperCase()}</Category>
-                                <Difficulty>{this.state.difficulty.toUpperCase()}</Difficulty>
+                                <GameInfo>
+                                    <Category>{this.state.questions[0].category.toUpperCase()}</Category>
+                                    <Difficulty>{this.state.difficulty.toUpperCase()}</Difficulty>
+                                </GameInfo>
                                 <ProgressHeader>
                                     <span className="bold"><StatusAccent>{this.state.currentQuestion + 1}</StatusAccent></span> / {this.state.questions.length}
                                     <ProgressBar total={this.state.questions.length} currentQuestion={this.state.currentQuestion}></ProgressBar>
@@ -279,19 +290,39 @@ export default class Game extends React.Component{
 
                                 </Question>
                             }
-                            <Controls>
+                            {/* if controls should display back / next or back / submit */}
+                            {this.state.currentQuestion <= this.state.questions.length - 2 ?
+                                <Controls>
                                 {/* only display back button if not on first question */}
                                 {this.state.currentQuestion > 0 ? 
                                     <BackButton isActive={true} onClick={this.back} /> : 
                                     <BackButton isActive={false} />
                                 }
+                                
                                 {/* display next/done depending on if this question is the last */}
                                 {this.state.questions[this.state.currentQuestion].selectedAnswer !== null ?
                                     <NextButton isActive={true} onClick={this.next} /> :
                                     <NextButton isActive={false} />
                                 }
                                 
-                            </Controls>
+                                </Controls>
+                                :
+                                <Controls>
+                                {/* only display back button if not on first question */}
+                                {this.state.currentQuestion > 0 ? 
+                                    <BackButton isActive={true} onClick={this.back} /> : 
+                                    <BackButton isActive={false} />
+                                }
+                                
+                                {/* display next/done depending on if this question is the last */}
+                                {this.state.questions[this.state.currentQuestion].selectedAnswer !== null ?
+                                    <SubmitButton id="submit-button" isActive={true} onClick={this.next} /> :
+                                    <SubmitButton id="submit-button" isActive={false} />
+                                }
+                                
+                                </Controls>
+                            }
+                            
                         </GameContainer>
         }
         
@@ -304,31 +335,79 @@ export default class Game extends React.Component{
     }
 
 }
+// keyframes
+const logoanime = keyframes`
+    0%{
+        transform: scale(1);
+        
+    }
+    50%{
+        transform: scale(1.2)
+    }
+    100%{
+        transform: scale(1)
+    }
+`
+const titleanime = keyframes`
+    0%{
+        letter-spacing:.3rem;
+        font-size: .4rem
 
+        
+    }
+    100%{
+        letter-spacing:8.4px;
+        font-size: 1rem
+
+    }
+`
 // temp loading page
 const LoadingPage = styled.div`
     height: 100vh;
     color: ${colors.primaryLight};
     display: flex;
+    font-size: .4rem;
+    letter-spacing: 4px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+`
+const SetupDivisor = styled.div`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+`
+const LoadingLogo = styled.img`
+    width: 60px;
+    margin-bottom: 4rem;
+    animation: ${logoanime} 2s linear infinite;
 `
 
 // header
 const Header = styled.div`
     width:100%;
-    height:50px;
-    background: rgba(0,0,0,0.18);
-    box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
+    height:80px;
+    position: relative;
+    box-sizing: border-box;
+    padding: .4rem;
+    display:flex;
+    flex-direction: column;
+    background: rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.30);
+    letter-spacing: 4px;
+    color: ${colors.primaryDark};
+`
+const GameInfo = styled.div`
+    width:200px;
+    font-size: .2rem;
+    margin: 0 auto;
+    color: ${colors.secondaryLight};
 `
 const Category = styled.div`
     color: ${colors.primaryDark};
-    font-size: .8rem;
 `
-const Difficulty = styled.div`
+const Difficulty = styled.small`
     color: ${colors.primaryDark};
-    font-size: .6rem;
 `
 
 // animations
@@ -351,13 +430,13 @@ const GameContainer = styled.div`
     flex-direction: column;
     justify-content: space-around;
     position: relative;
-    background: linear-gradient(-134deg, ${colors.backgroundPrimary} 0%, ${colors.backgroundSecondary} 37%, ${colors.backgroundThird} 100%);
+    background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
 `
 
 
 const ProgressHeader = styled.div`
     width: 100%;
-    position: absolute;
+    position: relative;
     left:0;
     font-size: .5rem;
     font-weight:bold;
@@ -384,7 +463,11 @@ const Controls = styled.div`
     right:0;
     position: absolute;
     justify-content: space-between;
+    box-shadow: 0 -2px 8px rgba(0,0,0,.3);
 `
 
-const DoneButton = styled.button`
-`
+
+
+// export for router
+
+export default withRouter(Game)

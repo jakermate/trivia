@@ -7,6 +7,7 @@ export class questionTrueFalse{
             this.difficulty= difficulty
             this.category=category
             this.type = "boolean"
+            this.isCorrect = undefined
         }
 
     
@@ -20,6 +21,7 @@ export class questionMultipleChoice{
         this.difficulty= difficulty
         this.category=category
         this.type = "multiple"
+        this.isCorrect = undefined
     }
 
     addCorrectAnswer = (answers) => {
