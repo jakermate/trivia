@@ -12,7 +12,7 @@ constructor(props){
     super(props)
     this.state = {
         length: 20,
-        correct: 0,
+        correct: 18,
         difficulty: "Medium",
         test: [
             {
@@ -31,9 +31,93 @@ constructor(props){
             "Are you smart enough to be my friend...",
             "I guess we'll both see if you chose the right profession..."
         ],
-        message:{
-            0: 'You should have at least guessed one correctly...',
-            1: ''
+        grades:{
+            0: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            1: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            2: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            3: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            4: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            5: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            6: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            7: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            8: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            9: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            10: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            11: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            12: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "F"
+            },
+            13: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "D"
+            },
+            14: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "D"
+            },
+            15: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "C"
+            },
+            16: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "C"
+            },
+            17: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "B"
+            },
+            18: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "B"
+            },
+            19: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "A"
+            },
+            20: {
+                message: 'You should have at least guessed one correctly...',
+                grade: "A"
+            }
+            
+            
         }
     }
 }
@@ -82,7 +166,7 @@ constructScoreObject(test){
                         `${colors.secondaryLight}`
                     ],
                     borderColor: `rgba(255,255,255,.1)`,
-                    borderWidth: 2
+                    borderWidth: 1
                 }]
             }
         let options = {
@@ -110,10 +194,14 @@ constructScoreObject(test){
                                             <Category>{this.state.category}</Category>
                                             <Difficulty>{this.state.difficulty}</Difficulty>
                                         </TestDetails>
-                                        
-                                        <Doughnut data={data} options={{maintainAspectRatio: true}}></Doughnut>
+                                        <GradeAndChart>
+                                            <Grade>{this.state.grades[this.state.correct].grade}</Grade>
+                                            <GradeBacking>{this.state.grades[this.state.correct].grade}</GradeBacking>
+                                            <Doughnut data={data} options={{maintainAspectRatio: true}}></Doughnut>
+
+                                        </GradeAndChart>
                                         <ScoreNumber><Number>{this.state.correct}</Number> OF <Number>{this.state.length}</Number> CORRECT</ScoreNumber>
-                                        <Message>{this.state.message[this.state.correct].toUpperCase()}</Message>
+                                        <Message>{this.state.grades[this.state.correct].message.toUpperCase()}</Message>
                                     </ResultChart>
                                 </ScoreContainer>
                                 <FormContainer>
@@ -173,8 +261,29 @@ const ResultChart = styled.div`
     box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
 `
-
-
+const GradeAndChart = styled.div`
+    display:flex;
+    flex-direction: row;
+    position: relative;
+`
+const Grade = styled.div`
+    font-size: 5rem;
+    z-index:2;
+    font-weight: bold;
+    position: relative;
+    text-shadow: 4px 4px 12px rgba(0,0,0,.3);
+    &::after{
+    }
+`
+const GradeBacking = styled.div`
+    font-size: 8rem;
+    position: absolute;
+    z-index: 1;
+    font-weight: bold;
+    top: 0;
+    left: 1rem;
+    color: rgba(0,0,0,.1);
+`
 const Category = styled.div`
     font-size: 1rem;
     text-transform:uppercase;
@@ -199,6 +308,7 @@ const Message = styled.div`
 `
 const ResultsTitle = styled.h4`
     letter-spacing: .3rem;
+    font-weight: 400;
 `
 
 const ScoreContainer = styled.div`

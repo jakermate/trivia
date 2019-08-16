@@ -39,7 +39,7 @@ export default class Profile extends Component {
             <ProfilePage id="profile-page">
                 <Header>
                     <Link to="/home">
-                        <img src={back} alt=""/>
+                        <BackImage src={back} alt=""/>
                     </Link>
                     <HeaderTitle>BRAIN SPACE</HeaderTitle>
                 </Header>
@@ -98,7 +98,12 @@ const ProfileContainer = styled.div`
 `
 const Header = styled.div`
     box-sizing:border-box;
+    padding: 1rem;
     height: 88px;
+    display:flex;
+    flex-direction: row;
+    position: relative;
+    align-items: center;
     width: 100%;
     background: rgba(0,0,0,0.18);
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0.50);
@@ -109,6 +114,11 @@ const HeaderTitle = styled.div`
     color: #00D1AE;
     letter-spacing: 5.09px;
     text-align: center;
+    position: absolute;
+    left:0;
+    right: 0;
+`
+const BackImage = styled.img`
 `
 const NameDisplay = styled.h2`
     text-transform: uppercase;
@@ -139,12 +149,10 @@ const UserID = styled.h5`
 const HistoryTitle = styled.span`
     color: ${colors.secondaryLight};
     letter-spacing:.2rem;
-    font-size: .5rem;
+    font-size: .8rem;
 `
 const GamesPlayed = styled.div`
-    background-color: rgba(0,0,0,.17);
-    padding:.8rem;
-    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 16px rgba(0,0,0,.3);
+    padding:.2rem;
     display: flex;
     flex-direction: row;
     align-items: center;

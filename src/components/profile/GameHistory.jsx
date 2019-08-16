@@ -3,6 +3,7 @@ import styled from 'styled-components'
 import colors from '../../values/colors'
 import ScoreBar from './ScoreBar'
 import arrow from '../../img/open-arrow.svg'
+import moment from 'moment'
 
 export default class GameHistory extends Component {
     constructor(props){
@@ -14,7 +15,16 @@ export default class GameHistory extends Component {
                     difficulty: "Hard",
                     format: "Mixed",
                     testLength:20,
-                    score: 10
+                    score: 10,
+                    date: new Date()
+                },
+                {
+                    category: "Film",
+                    difficulty: "Hard",
+                    format: "Mixed",
+                    testLength:20,
+                    score: 16,
+                    date: new Date()
                 }
             ]
         }
@@ -46,7 +56,7 @@ export default class GameHistory extends Component {
                 {this.state.games.map((scoreObject, index)=>
                     <Game> 
                         <GameHeader id={'gameheader-'+index.toString()} key={this.state.games.indexOf(scoreObject)} onClick={this.toggleGameInfo}>
-                            <HeaderDate>{scoreObject.date}</HeaderDate>
+                            <HeaderDate>{scoreObject.date.toLocaleString()}</HeaderDate>
                             <ArrowContainer id={'arrow-'+index.toString()}>
                                 <Arrow src={arrow}></Arrow>
                             </ArrowContainer>
@@ -109,6 +119,9 @@ const HeaderDifficulty = styled.div`
 `
 const HeaderDate = styled.div`
     color:${colors.thirdLight};
+    letter-spacing: .1rem;
+    font-size: .6rem;
+
 `
 // arrows
 const ArrowContainer = styled.div`
