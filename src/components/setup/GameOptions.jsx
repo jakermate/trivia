@@ -201,20 +201,21 @@ export default class GameOptions extends React.Component{
                             {/* difficulty select */}
                             <OptionsSectionContainer>
                                 <SelectionTitle>DIFFICULTY</SelectionTitle>
+                                <InputBox>
                                 {/* new slider selection system */}
-                                <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedDifficulty} />
-                                <DifficultyLabels>
-                                    <DifficultyLabelSpan id="difficulty-0">
-                                        EASY
-                                    </DifficultyLabelSpan>
-                                    <DifficultyLabelSpan id="difficulty-1" className="selected-difficulty">
-                                        MEDIUM
-                                    </DifficultyLabelSpan>
-                                    <DifficultyLabelSpan id="difficulty-2">
-                                        DIFFICULT
-                                    </DifficultyLabelSpan>
-                                </DifficultyLabels>
-
+                                    <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedDifficulty} />
+                                    <DifficultyLabels>
+                                        <DifficultyLabelSpan id="difficulty-0">
+                                            EASY
+                                        </DifficultyLabelSpan>
+                                        <DifficultyLabelSpan id="difficulty-1" className="selected-difficulty">
+                                            MEDIUM
+                                        </DifficultyLabelSpan>
+                                        <DifficultyLabelSpan id="difficulty-2">
+                                            DIFFICULT
+                                        </DifficultyLabelSpan>
+                                    </DifficultyLabels>
+                                </InputBox>
                             </OptionsSectionContainer>
 
                             <BreakerContainer>
@@ -228,16 +229,18 @@ export default class GameOptions extends React.Component{
                                     FORMAT 
                                 </SelectionTitle>
                                 {/* new slider based format selection with input range */}
-                                <Input type="range" min='0' max='1' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
-                                <FormatLabels>
-                                    <FormatLabelSpan id="format-0">
-                                        TRUE / FALSE
-                                    </FormatLabelSpan>
+                                <InputBox>
+                                    <Input type="range" min='0' max='1' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
+                                    <FormatLabels>
+                                        <FormatLabelSpan id="format-0">
+                                            TRUE / FALSE
+                                        </FormatLabelSpan>
 
-                                    <FormatLabelSpan id="format-1" className="selected-format">
-                                        MULTIPLE CHOICE
-                                    </FormatLabelSpan>
-                                </FormatLabels>
+                                        <FormatLabelSpan id="format-1" className="selected-format">
+                                            MULTIPLE CHOICE
+                                        </FormatLabelSpan>
+                                    </FormatLabels>
+                                </InputBox>
                             </OptionsSectionContainer>
 
                             <BreakerContainer>
@@ -249,11 +252,11 @@ export default class GameOptions extends React.Component{
                             <OptionsSectionContainer>
                             
                                 {/* temporary display showing when the list of trivia categories have been received by the client */}
-                                <div id="categories-received-message">
+                                <CategoryBox id="categories-received-message">
                                 {
                                     this.state.categoryList !== 0 && <SelectionTitle>CATEGORY</SelectionTitle>
                                 }
-                                </div>
+                                </CategoryBox>
                                 {
                                     this.state.selectedCategory !== null && 
                                     <CategoryButton onClick={this.toggleCategoryModal.bind(this)}>
@@ -354,7 +357,9 @@ const OptionsSectionContainer = styled.div`
     flex-direction: column;
     align-items: center;
 `
-
+const CategoryBox = styled.div`
+    width: 100%;
+`
 const SelectedCategory = styled.div`
     font-family: LucidaGrande;
     text-transform: uppercase;
@@ -369,12 +374,13 @@ const SelectedCategory = styled.div`
 const Input = styled.input`
     appearance: none;
     -webkit-appearance: none;
-    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
+    background: rgba(0,0,0,0);
+    box-shadow: 0 0 8px rgba(102,232,244,0.10);
+    border: 1px solid ${colors.primaryLight};
     border-radius: 27px;
     height: 54px;
     width: 250px;
     outline: none;
-    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
         appearance: none;
@@ -393,6 +399,16 @@ const Input = styled.input`
     }
 
 `
+const InputBox = styled.div`
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem;
+    box-sizing: border-box;
+    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
+`
 // format slider labels
 const FormatLabels = styled.div`
     width: 250px;
@@ -406,7 +422,6 @@ const FormatLabels = styled.div`
 const FormatLabelSpan = styled.div`
     flex-grow: 1;
     width: calc(250px / 3);
-    font-family: LucidaGrande-Bold;
     font-size: 11px;
     height: 25px;
     overflow:visible;
@@ -416,7 +431,6 @@ const FormatLabelSpan = styled.div`
     letter-spacing: 0.79px;
     text-align: center;
     &.selected-format{
-        font-family: LucidaGrande-Bold;
         font-size: 14px;
         color: #00D1B7;
         letter-spacing: 1.01px;
@@ -439,7 +453,6 @@ const DifficultyLabels = styled.div`
 const DifficultyLabelSpan = styled.div`
     flex-grow: 1;
     width: calc(250px / 3);
-    font-family: LucidaGrande-Bold;
     font-size: 11px;
     height: 25px;
     overflow:visible;
@@ -449,7 +462,6 @@ const DifficultyLabelSpan = styled.div`
     letter-spacing: 0.79px;
     text-align: center;
     &.selected-difficulty{
-        font-family: LucidaGrande-Bold;
         font-size: 14px;
         color: #00D1B7;
         letter-spacing: 1.01px;
@@ -511,6 +523,7 @@ const OptionsTitle = styled.h2`
     margin: 1rem auto 1rem auto;
     text-shadow: 2px 2px 6px rgba(0,0,0,.5);
     position: relative;
+    font-weight: 400;
     font-family: LucidaGrande;
     font-size: .8rem;
     color: #00D1AE;
@@ -518,12 +531,11 @@ const OptionsTitle = styled.h2`
     text-align: center;
 `
 const SelectionTitle = styled.h4`
-    font-weight: bolder;
     position: relative;
-    width: 250px;
+    font-weight: 400;
+    width: 100%;
     margin: 1rem auto 1rem auto;
     text-shadow: 2px 2px 6px rgba(0,0,0,.4);
-    font-family: LucidaGrande-Bold;
     font-size: 11px;
     color: #00B3CC;
     letter-spacing: 4.29px;
@@ -532,7 +544,7 @@ const SelectionTitle = styled.h4`
 `
 
 const CategoryButton = styled.button`
-    width: 250px;
+    width: 100%;
     outline:none;
     border:none;
     box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
