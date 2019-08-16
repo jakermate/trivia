@@ -369,13 +369,12 @@ const SelectedCategory = styled.div`
 const Input = styled.input`
     appearance: none;
     -webkit-appearance: none;
-    background: rgba(0,0,0,0.09);
+    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
     border-radius: 27px;
     height: 54px;
-    border: 1px solid rgba(77,84,83,0.28);
     width: 250px;
     outline: none;
-    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
         appearance: none;
@@ -469,7 +468,7 @@ const BackgroundOverlayColors = styled.div`
     flex-direction: column;
     justify-content: space-around;
     position: relative;
-    background: linear-gradient(-134deg, ${colors.gradOne} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
+    background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
     `
 
 
@@ -533,12 +532,11 @@ const SelectionTitle = styled.h4`
 `
 
 const CategoryButton = styled.button`
-    border: 1px solid rgba(77,84,83,0.28);
     width: 250px;
     outline:none;
-    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
-    background: rgba(0,0,0,0.10);
-    border-radius: 6px;
+    border:none;
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
+    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
     padding: 10px 0;
     &:active,:visited,:hover{
         outline: none;

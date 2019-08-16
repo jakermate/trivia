@@ -65,8 +65,9 @@ export default class GameHistory extends Component {
 }
 // game history container
 const GameHistoryContainer = styled.div`
-    background: rgba(0,0,0,0.10);
     min-height: 200px;
+    width:100%;
+    margin: 0 auto;
     flex-grow: 1;
     text-transform: uppercase;
     box-sizing: border-box;
@@ -79,6 +80,7 @@ const Game = styled.div`
 `
 // individual header with title for a single round
 const GameHeader = styled.div`
+    margin-top: 1rem;
     padding: .6rem 1rem;
     display: flex;
     height:40px;
@@ -86,12 +88,15 @@ const GameHeader = styled.div`
     position: relative;
     align-items: center;
     box-sizing: border-box;
-    background-color: rgba(0,0,0,.3);
+    background: linear-gradient(to right, ${colors.primaryDark}, ${colors.secondaryDark});
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 16px rgba(0,0,0,.1);
 `
 // uncollapsed information on individual game when opened
 const GameInfo = styled.div`
-    background: rgba(0,0,0,0.14);
+    margin-top:.3rem;
+    background: linear-gradient(to top, rgba(255,255,255,.1), rgba(255,255,255,0));
     padding: .6rem 1rem;
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 16px rgba(0,0,0,.1);
 `
 const HeaderCategory = styled.div`
     color:${colors.primaryLight};

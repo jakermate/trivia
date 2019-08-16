@@ -43,6 +43,7 @@ export default class Profile extends Component {
                     </Link>
                     <HeaderTitle>BRAIN SPACE</HeaderTitle>
                 </Header>
+                <ProfileContainer>
                 <ProfileHeader>
                     <div id="profile-image">
                         <img src={ProfileImage} alt=""/>
@@ -76,6 +77,7 @@ export default class Profile extends Component {
                 </GamesPlayed>
                 <GameHistory scores={this.props.scores}>
                 </GameHistory>
+                </ProfileContainer>
             </ProfilePage> 
         )
     }
@@ -91,6 +93,9 @@ const ProfilePage = styled.div`
     background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradOne} 37%, ${colors.gradTwo} 100%);
 
 ` 
+const ProfileContainer = styled.div`
+    padding: 2rem 1rem;
+`
 const Header = styled.div`
     box-sizing:border-box;
     height: 88px;
@@ -139,6 +144,7 @@ const HistoryTitle = styled.span`
 const GamesPlayed = styled.div`
     background-color: rgba(0,0,0,.17);
     padding:.8rem;
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 16px rgba(0,0,0,.3);
     display: flex;
     flex-direction: row;
     align-items: center;

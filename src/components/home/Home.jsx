@@ -4,6 +4,7 @@ import {Link, withRouter} from 'react-router-dom'
 import styled from 'styled-components'
 import colors from '../../values/colors'
 import Footer from './Footer'
+import { Doughnut } from 'react-chartjs-2';
 
 export default class Home extends React.Component{
     constructor(props){
@@ -97,9 +98,8 @@ const NavLink = styled(Link)`
     letter-spacing: 6px;
     overflow: visible;
     transition: .3s ease-out;
-    background: rgba(0,0,0,0.11);
-    border-radius: 2px;
-    box-shadow: 2px 2px 4px rgba(0,0,0,.3);
+    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
+    box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     &.selected{
         background-color: rgba(0,0,0,0);
         transform: scale(1.1);

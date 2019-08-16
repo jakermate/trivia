@@ -173,6 +173,8 @@ const ResultChart = styled.div`
     box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
 `
+
+
 const Category = styled.div`
     font-size: 1rem;
     text-transform:uppercase;
