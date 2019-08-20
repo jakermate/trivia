@@ -70,14 +70,13 @@ const CategorySelectBox = styled.div`
     right:0;
     margin: 0 auto;
     display:block;
-
     overflow-y: scroll;
     flex-direction: column;
     padding: 1rem 1rem;
     justify-content: flex-start;
     color: white;
     max-width: 600px;
-    background-image: linear-gradient(-134deg, #1E3644 0%, #172927 37%, #102336 100%);
+    background-image: linear-gradient(-134deg, ${colors.gradOne}, ${colors.gradThree}, ${colors.gradTwo});
     border-style: none;
     appearance:none;
     text-align: center;

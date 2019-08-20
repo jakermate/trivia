@@ -14,13 +14,11 @@ class splash extends Component{
         this.state = {
             title: "BRAIN SPACE"
         }
-        this.config = "configs/particlesjs-config.json"
         
     }
 
 
     componentDidMount(){
-       this.initiateParticles()
     }
     componentWillReceiveProps(){
         // if user has prior games played, push to home screen
@@ -30,26 +28,7 @@ class splash extends Component{
 
        
     }
-    // interval for pawing/despawning randomized particle divs 
-    initiateParticles(){  
-        let count = 1
-        this.intervalFunction = setInterval(function(){
-
-            // randomized number to determine starting position of new particle
-
-
-            // add new particle
-            document.getElementById('background-particles').innerHTML += `<Particle id="particle-${count}"><Particle/>`
-            //remove old particle
-            if(count > 2){
-                document.getElementById(`particle-${count-2}`).remove()
-
-            }
-
-
-            count += 1
-        },4000)
-    }
+    
     getStarted(){
         // triggered when get started button is clicked, leads into game setup
         console.log("Moving onto game setup...")
@@ -64,12 +43,19 @@ class splash extends Component{
         return (
         <SplashContainer>
             <Background>
-                <ParticleContainer id="background-particles">
-                    <Particle></Particle>
-                </ParticleContainer>
+
+            <ParticleContainer id="particles">
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+                <Star></Star>
+            </ParticleContainer>
                 <BackgroundOverlay>
                     <Header>
-
                         <SplashImage src={logo} className="App-logo" alt="logo" />
                         <TitleContainer>
                             {this.state.title}
@@ -118,14 +104,6 @@ const titleanime = keyframes`
 
     }
 `
-const particleAnime = keyframes`
-    from{
-        transform: translate(0px, 0px)
-    }
-    to{
-        transform: translate(100vw, 100vh)
-    }
-`
 
 
 const SplashContainer = styled.div`
@@ -141,14 +119,6 @@ const SplashImage = styled.img`
     animation: ${logoanime} 8s ease-in-out infinite;
 
 `
-const Particle = styled.div`
-    position: relative;
-    width:2px;
-    height:2px;
-    background-color: white;
-    animation: ${particleAnime} 4s linear;
-    border-radius:4px;
-`
 // holds particles
 const ParticleContainer = styled.div`
     position: absolute;
@@ -156,6 +126,49 @@ const ParticleContainer = styled.div`
     left:0;
     right: 0;
     bottom: 0;
+`
+const fall = keyframes`
+    0%{
+        transform: translate(0,0);
+    }
+    100%{
+        transform: translate(0, 120vh);
+    }
+`
+const strobe = keyframes`
+    0%{
+        height: 32px;
+    }
+    50%{
+        height: 25px;
+    }
+    100%{
+        height: 32px;
+    }
+`
+const Star = styled.div`
+    width: 2px;
+    position: absolute;
+    filter: drop-shadow(0 0 4px ${colors.primaryLightest});
+    background: linear-gradient(to bottom,rgba(255,255,255,0), rgba(255,255,255,.9));
+    left: 50%;
+    top: -5%;
+    animation: ${fall} 14s linear infinite, ${strobe} 6s ease-in-out infinite;
+    :nth-child(2){
+        left: 10%;
+        top: -5%;
+        animation-delay: 2600ms;
+    }
+    :nth-child(3){
+        left: 33%;
+        top: -5%;
+        animation-delay: 4600ms;
+    }
+    :nth-child(4){
+        left: 95%;
+        top: -5%;
+        animation-delay: 5300ms;
+    }
 `
 
 

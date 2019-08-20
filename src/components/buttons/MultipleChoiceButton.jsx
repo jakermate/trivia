@@ -8,14 +8,14 @@ export default function MultipleChoiceButton(props) {
     if(props.selectedAnswer === props.answer){
         return(
             <MultipleChoiceButtonContainer className="selected" onClick={props.onClick}> 
-            {props.answer}
+            {props.answer.toUpperCase()}
         </MultipleChoiceButtonContainer>
         )
     }
     // if it is not the selectedAnswer, render without a .selected class
     else return (
         <MultipleChoiceButtonContainer onClick={props.onClick}> 
-            {props.answer}
+            {props.answer.toUpperCase()}
         </MultipleChoiceButtonContainer>
     )
 }

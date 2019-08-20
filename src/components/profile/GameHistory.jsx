@@ -4,6 +4,7 @@ import colors from '../../values/colors'
 import ScoreBar from './ScoreBar'
 import arrow from '../../img/open-arrow.svg'
 import moment from 'moment'
+import {Bar} from 'react-chartjs-2'
 
 export default class GameHistory extends Component {
     constructor(props){
@@ -15,7 +16,23 @@ export default class GameHistory extends Component {
                     difficulty: "Hard",
                     format: "Mixed",
                     testLength:20,
-                    score: 10,
+                    score: 11,
+                    date: new Date()
+                },
+                {
+                    category: "Film",
+                    difficulty: "Hard",
+                    format: "Mixed",
+                    testLength:20,
+                    score: 16,
+                    date: new Date()
+                },
+                {
+                    category: "Film",
+                    difficulty: "Hard",
+                    format: "Mixed",
+                    testLength:20,
+                    score: 17,
                     date: new Date()
                 },
                 {
@@ -51,8 +68,39 @@ export default class GameHistory extends Component {
     }
 
     render() {
+        // set up past ten games Bar chart
+        let scores = this.state.games.map((game)=> ((game.score/game.testLength)*100).toFixed(1)
+        )
+        let labels = this.state.games.map((game, index)=> index)
+        const data = {
+
+            labels: labels,
+            datasets: [{
+                data: scores,
+                backgroundColor: 
+                    `${colors.secondaryLight}`
+
+                
+
+            }
+    ]}
+    const options= {
+        legend:{
+            display: false
+        },
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
         return (
             <GameHistoryContainer>
+                <GameChart>
+                    <Bar data={data} options={options}></Bar>
+                </GameChart>
                 {this.state.games.map((scoreObject, index)=>
                     <Game> 
                         <GameHeader id={'gameheader-'+index.toString()} key={this.state.games.indexOf(scoreObject)} onClick={this.toggleGameInfo}>
@@ -118,9 +166,14 @@ const HeaderDifficulty = styled.div`
     letter-spacing: .12rem;
 `
 const HeaderDate = styled.div`
-    color:${colors.thirdLight};
+    color: ${colors.primaryLight};
     letter-spacing: .1rem;
     font-size: .6rem;
+
+`
+// chart
+const GameChart = styled.div`
+    width: 100%;
 
 `
 // arrows

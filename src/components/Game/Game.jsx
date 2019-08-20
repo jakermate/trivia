@@ -386,10 +386,10 @@ const LoadingLogo = styled.img`
 // header
 const Header = styled.div`
     width:100%;
-    height:80px;
+    height:88px;
     position: relative;
     box-sizing: border-box;
-    padding: .4rem;
+    padding: 1rem;
     display:flex;
     flex-direction: column;
     background: rgba(0,0,0,0.1);
@@ -404,6 +404,7 @@ const GameInfo = styled.div`
     color: ${colors.secondaryLight};
 `
 const Category = styled.div`
+    font-size: .6rem;
     color: ${colors.primaryDark};
 `
 const Difficulty = styled.small`
@@ -424,11 +425,10 @@ const GameContainer = styled.div`
     width:100%;
     min-height:100%;
     margin: 0;
+    display:flex;
+    flex-direction: column;
     padding-bottom:70px;
     box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-around;
     position: relative;
     background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
 `

@@ -14,6 +14,7 @@ import uuidv1 from 'uuid' // unique id generation
 import {Transition} from 'react-transition-group'
 import Profile from './components/profile/Profile'
 import history from './history'
+import About from './components/about/About'
 // import Provider from 'react-redux'
 // import store from './redux/store'
 
@@ -220,7 +221,10 @@ class App extends Component {
             <Route path="/profile" render={(props)=>
               <Profile changeName={this.setName} setName={this.setName} profile={this.state.user.profile} scores={this.state.user.scores} ></Profile>
             }
-
+            />
+            <Route path="/about" render={(props)=>
+              <About></About>
+            }
             />
           </BrowserRouter>
           
@@ -237,10 +241,10 @@ class App extends Component {
   }
 }
 
-export default App;
-
-
 const AppContainer = styled.div`
   height: 100%;
   width: 100%;
 `
+
+export default App;
+

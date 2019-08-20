@@ -27,7 +27,7 @@ const FooterContainer = styled.div`
     bottom:0;
     left: 0;
     right: 0;
-
+    box-shadow: 0 -4px 16px rgba(0,0,0,.3);
     background: rgba(0,0,0,0.11);
 `
 
@@ -39,6 +39,10 @@ const LogoContainer = styled.div`
 const Content = styled.div`
     margin: 0 auto;
     max-width: 500px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
 
  `
 

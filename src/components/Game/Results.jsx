@@ -260,6 +260,7 @@ const ResultChart = styled.div`
     box-sizing: border-box;
     box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
+    
 `
 const GradeAndChart = styled.div`
     display:flex;

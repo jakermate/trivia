@@ -137,7 +137,7 @@ export default class Question extends React.Component{
         return(
             // component variable should contain one of the two question container types defined above
             
-            <div id="question-component-wrapper">{component}</div>
+            <QuestionComponent id="question-component-wrapper">{component}</QuestionComponent>
         )
     }
 }
@@ -173,6 +173,13 @@ const bgThrob = keyframes`
 
 
 // styles
+const QuestionComponent = styled.div`
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    display: flex;
+    flex-direction: column;
+`
 const QuestionType = styled.div`
     margin: 1rem 0;
     font-size:1.2rem;
@@ -181,18 +188,19 @@ const QuestionType = styled.div`
 ` 
 
 const QuestionContainer = styled.div`
-    width:200px;
-    height: 200px;
+    width: 100%;
+    height: 100%;
     box-sizing: border-box;
     position: relative;
-    border: 1px solid ${colors.primaryLightest};
+    border: none;
+    align-items: center;
+    min-height: 200px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     justify-content: center;
     margin: 1rem auto;
     color: white;
-    border-radius: 6px;
-    box-shadow: 0 0 12px 3px rgba(102,232,244,.2), 0 0 30px 10px rgba(102,232,244,.3), 0 30px 40px 10px rgba(0,0,0,.5);
+    box-shadow: 0 0 20px rgba(0,0,0,.2), 4px 4px 16px rgba(0,0,0,.3);
 `
 
 const QuestionBackground= styled.div`
@@ -216,6 +224,7 @@ const QuestionContentContainer = styled.div`
     width: 100%;
     height: 100%;
     padding: 1rem;
+    flex-grow: 1;
     box-sizing: border-box;
     animation: ${questionPop} .4s ease-in-out;
     background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradOne} 37%, ${colors.gradTwo} 100%);
@@ -224,7 +233,12 @@ const QuestionContentContainer = styled.div`
 const Title = styled.h4`
     font-size: .8rem;
     text-align: center;
-    max-width: 200px;
+    text-transform: uppercase;
+    color: ${colors.primaryLight};
+    letter-spacing: .1rem;
+    line-height: 1.8;
+    font-weight: 500;
+    width: 100%;
 `
 const AnswerContainer = styled.div`
     display:flex;
