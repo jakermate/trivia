@@ -18,12 +18,12 @@ export default class Home extends React.Component{
         return(
             <HomePage id="home-page">
                 <Header>
-                    <HeaderTitle>BRAIN SPACE</HeaderTitle>
+                    <HeaderTitle> BRAIN SPACE</HeaderTitle>
                 </Header>
                 <Splash>
                     <Img src={background} alt=""/>
                     <Title id="home-title">
-                        BRAIN SPACE               
+                         BRAIN SPACE               
                     </Title>
                     <Subtitle>
                         TRIVIA CHALLENGE
@@ -61,19 +61,18 @@ const HomePage = styled.div`
 const Img = styled.img`
     width: 50px;
 `
-const Title = styled.h1`
+const Title = styled.h2`
     margin: 2rem auto 0 auto;
-    font-family: LucidaGrande;
     font-size: 1.2rem;
-    font-weight: 400;
+    font-weight: lighter;
     letter-spacing: 1rem;
     text-align: center;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.50);
 `
 const Subtitle = styled.h4`
     margin: 0;
-    font-family: LucidaGrande;
     font-size: 10px;
+    font-weight: lighter;
     letter-spacing: 8.44px;
     text-align: center;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.50);
@@ -81,13 +80,12 @@ const Subtitle = styled.h4`
 const Header = styled.div`
     width: 100%;
     height: 88px;
-    box-shadow: 0 0 16px rgba(0,0,0,.3);
+    box-shadow: 0 0 16px rgba(0,0,0,.2), 0 4px 8px rgba(0,0,0,.3);
     box-sizing: border-box;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    background: linear-gradient(45deg, rgba(255,255,255,.2), rgba(255,255,255,0));
 `
 const HeaderTitle = styled.div`
     font-size: 11px;
@@ -125,6 +123,7 @@ const NavLink = styled(Link)`
     height: 3rem;
     max-width: 300px;
     display: flex;
+    font-weight: lighter;
     flex-direction: column;
     justify-content: space-around;
     text-decoration: none;
@@ -132,6 +131,7 @@ const NavLink = styled(Link)`
     margin: .5rem auto;
     text-align: center;
     font-size: .8rem;
+    text-shadow: 2px 2px 4px rgba(0,0,0,1);
     letter-spacing: 6px;
     overflow: visible;
     transition: .3s ease-out;

@@ -86,16 +86,18 @@ const CategorySelectBox = styled.div`
     `;
 const CategoryCell = styled.div`
     padding: .8rem;
-    width: 100%;
+    width: 80%;
+    margin: 10px auto;
     transition: .4s;
     text-align: center;
     color: ${colors.primaryLight};
     box-sizing: border-box;
     font-size: .8rem;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    font-weight: bold;
-    `;
+    letter-spacing: 4px;
+    background: linear-gradient(45deg, rgba(255,255,255,.3), rgba(255,255,255,0));
+    box-shadow: 2px 2px 8px rgba(0,0,0,.3), 0 0 16px rgba(0,0,0,.2);
+    `
 
 const CellContainer = styled.div`
     width: 100%;

@@ -11,6 +11,10 @@ import colors from '../../values/colors'
 import Header from './Header'
 import breaker from '../../img/line.svg'
 import downchevron from '../../img/downchevron.svg'
+import shield from '../../img/shield.svg'
+import swords from '../../img/swords.svg'
+import bulb from '../../img/bulb.svg'
+import logobg from '../../img/logo-bg.svg'
 
 export default class GameOptions extends React.Component{
 
@@ -183,10 +187,11 @@ export default class GameOptions extends React.Component{
                     <Header></Header>
 
                             <SetupContent id="setup-content">
+                            <FadedLogo src={logobg}></FadedLogo>
                             <SetupLogoContainer id="title-logo-container">
-                                <LogoContainer>
+                                {/* <LogoContainer>
                                     <Img src={logo} alt=""/>
-                                </LogoContainer>
+                                </LogoContainer> */}
                                 <OptionsTitle>
                                     GAME SETUP
                                 </OptionsTitle>
@@ -202,6 +207,7 @@ export default class GameOptions extends React.Component{
                             <OptionsSectionContainer>
                                 <SelectionTitle>DIFFICULTY</SelectionTitle>
                                 <InputBox>
+                                    <BGImg src={shield}></BGImg>
                                 {/* new slider selection system */}
                                     <Input type="range" min='0' max='2' step='1' defaultValue='1' onChange={this.changeSelectedDifficulty} />
                                     <DifficultyLabels>
@@ -230,6 +236,7 @@ export default class GameOptions extends React.Component{
                                 </SelectionTitle>
                                 {/* new slider based format selection with input range */}
                                 <InputBox>
+                                    <BGImg src={swords}></BGImg>
                                     <Input type="range" min='0' max='1' step='1' defaultValue='1' onChange={this.changeSelectedFormat} />
                                     <FormatLabels>
                                         <FormatLabelSpan id="format-0">
@@ -260,6 +267,7 @@ export default class GameOptions extends React.Component{
                                 {
                                     this.state.selectedCategory !== null && 
                                     <CategoryButton onClick={this.toggleCategoryModal.bind(this)}>
+                                        <BGImg src={bulb}></BGImg>
                                          <SelectedCategory>{this.state.categoryList[this.returnCategoryIndexFromId(this.state.selectedCategory)].name}</SelectedCategory>
                                         <DownChevronContainer>
                                             <DownChevron src={downchevron} alt=""/>
@@ -319,12 +327,15 @@ const SetupContent = styled.div`
     position: relative;
     display:flex;
     flex-direction: column;
+    overflow: hidden;
     justify-content: space-around;
 `
 const SetupLogoContainer = styled.div`
     width: 100%;
     box-sizing: border-box;
     padding-top: 25px;
+    z-index: 2;
+    position: relative;
 `
 const LogoContainer = styled.div`
     display:flex;
@@ -338,9 +349,17 @@ const Img =  styled.img`
     filter: drop-shadow(2px 2px 4px rgba(0,0,0,.4));
 
 `
+const FadedLogo = styled.img`
+    position: absolute;
+    top: -30px;
+    right: -20px;
+    opacity: .1;
+    width: 300px;
+    z-index: 0;
+`
 const BreakerContainer = styled.div`
     width: 100%;
-
+    margin: 20px auto;
 `
 const Breaker = styled.div`
     width: 100%;
@@ -356,6 +375,8 @@ const OptionsSectionContainer = styled.div`
     display: flex;
     flex-direction: column;
     align-items: center;
+    position: relative;
+    z-index:2;
 `
 const CategoryBox = styled.div`
     width: 100%;
@@ -375,11 +396,13 @@ const Input = styled.input`
     appearance: none;
     -webkit-appearance: none;
     background: rgba(0,0,0,0);
-    box-shadow: 0 0 8px rgba(102,232,244,0.10);
+    box-shadow: 0 0 8px rgba(102,232,244,0.10), 4px 4px 8px rgba(0,0,0,.3);
     border: 1px solid ${colors.primaryLight};
     border-radius: 27px;
     height: 54px;
     width: 250px;
+    position: relative;
+    z-index: 3;
     outline: none;
     &::-webkit-slider-thumb{
         -webkit-appearance: none;
@@ -406,14 +429,26 @@ const InputBox = styled.div`
     align-items: center;
     flex-direction: column;
     padding: 1rem;
+    position: relative;
+    overflow: hidden;
     box-sizing: border-box;
-    background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
+    background: linear-gradient(330deg, rgba(255,255,255,.2), rgba(255,255,255,0));
+`
+const BGImg = styled.img`
+    position: absolute;
+    height: 150%;
+    z-index: 1;
+    opacity: .1;
+    left: -50px;
+    
 `
 // format slider labels
 const FormatLabels = styled.div`
     width: 250px;
     margin: 0 auto;
     height:25px;
+    position: relative;
+    z-index: 3;
     list-style: none;
     margin-bottom: 1rem;
     display:flex;
@@ -425,13 +460,13 @@ const FormatLabelSpan = styled.div`
     font-size: 11px;
     height: 25px;
     overflow:visible;
-    color: #484B4A;
+    color: ${colors.greyedOut};
     margin-top: 1rem;
     float: left;
     letter-spacing: 0.79px;
     text-align: center;
     &.selected-format{
-        font-size: 14px;
+        transform: scale(1.3);
         color: #00D1B7;
         letter-spacing: 1.01px;
         text-align: center;
@@ -445,6 +480,8 @@ const DifficultyLabels = styled.div`
     margin: 0 auto;
     height:25px;
     list-style: none;
+    position: relative;
+    z-index: 3;
     display:flex;
     flex-direction: row;
     margin-bottom: 1rem;
@@ -462,7 +499,7 @@ const DifficultyLabelSpan = styled.div`
     letter-spacing: 0.79px;
     text-align: center;
     &.selected-difficulty{
-        font-size: 14px;
+        transform: scale(1.3);
         color: #00D1B7;
         letter-spacing: 1.01px;
         text-align: center;
@@ -478,7 +515,7 @@ const BackgroundOverlayColors = styled.div`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-between;
     position: relative;
     background: linear-gradient(-134deg, ${colors.gradThree} 0%, ${colors.gradTwo} 37%, ${colors.gradThree} 100%);
     `
@@ -546,6 +583,8 @@ const SelectionTitle = styled.h4`
 const CategoryButton = styled.button`
     width: 100%;
     outline:none;
+    position: relative;
+    overflow: hidden;
     border:none;
     box-shadow: 4px 4px 8px rgba(0,0,0,.3), 0 0 20px rgba(0,0,0,.2);
     background: linear-gradient(to bottom, rgba(255,255,255,.1), rgba(255,255,255,0));
@@ -573,6 +612,5 @@ const DownChevronContainer = styled.div`
 `
 const DownChevron = styled.img`
     width:1rem;
-    
 
 `

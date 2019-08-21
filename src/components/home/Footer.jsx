@@ -1,15 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
-import logo from '../../img/setup-logo.svg'
+import logo from '../../img/logo-bg.svg'
 import colors from '../../values/colors'
 
 export default function Footer() {
     return (
         <FooterContainer>
             <Content>
-                <LogoContainer>
+                {/* <LogoContainer>
                     <img height="40" src={logo} alt=""/>
-                </LogoContainer>
+                </LogoContainer> */}
                 <Copyright>
                     JAKE MILLER &copy;2019
                 </Copyright>
@@ -19,16 +19,21 @@ export default function Footer() {
 }
 
 const FooterContainer = styled.div`
-    height: 100px;
+    height: 80px;
     padding: 1rem 2rem;
     width: 100%;
     box-sizing: border-box;
     position: absolute;
+
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
     bottom:0;
     left: 0;
     right: 0;
     box-shadow: 0 -4px 16px rgba(0,0,0,.3);
-    background: rgba(0,0,0,0.11);
+    background: linear-gradient(45deg, ${colors.primaryDark}, rgba(50,50,50,.4));
 `
 
 const LogoContainer = styled.div`
@@ -47,6 +52,6 @@ const Content = styled.div`
  `
 
  const Copyright = styled.div`
-    color: ${colors.secondaryLight};
+    color: black;
     font-size: .3rem;
  `
