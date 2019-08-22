@@ -112,7 +112,7 @@ export default class GameHistory extends Component {
                         <GameInfo id={'gameinfo-'+index.toString()} style={{display: 'none'}}>
                             <HeaderCategory>{scoreObject.category}</HeaderCategory>
                             <HeaderDifficulty>{scoreObject.difficulty}</HeaderDifficulty>
-                            <ScorePercentage>{(scoreObject.score/scoreObject.testLength)*100}%</ScorePercentage>
+                            <ScorePercentage>{((scoreObject.score/scoreObject.testLength)*100).toFixed(1)}%</ScorePercentage>
                             <ScoreBar score={scoreObject.score} testLength={scoreObject.testLength}></ScoreBar>
                         </GameInfo>
                     </Game>

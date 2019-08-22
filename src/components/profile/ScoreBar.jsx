@@ -29,7 +29,6 @@ export default class ScoreBar extends React.Component {
 
 const ScoreBarContainer = styled.div`
     margin-top: 20px;
-    background: ${colors.greyDark};
     box-shadow: 4px 4px 8px rgba(0,0,0,.3);
     width: 100px;
     height: 15px;

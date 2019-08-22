@@ -18,7 +18,7 @@ export default class Home extends React.Component{
         return(
             <HomePage id="home-page">
                 <Header>
-                    <HeaderTitle> BRAIN SPACE</HeaderTitle>
+                    <HeaderTitle>BRAIN SPACE</HeaderTitle>
                 </Header>
                 <Splash>
                     <Img src={background} alt=""/>
@@ -60,11 +60,13 @@ const HomePage = styled.div`
 `
 const Img = styled.img`
     width: 50px;
+    margin-top:1rem;
 `
 const Title = styled.h2`
     margin: 2rem auto 0 auto;
     font-size: 1.2rem;
     font-weight: lighter;
+    padding-left:1rem;
     letter-spacing: 1rem;
     text-align: center;
     text-shadow: 2px 2px 8px rgba(0,0,0,0.50);

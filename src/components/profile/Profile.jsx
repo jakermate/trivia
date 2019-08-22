@@ -59,7 +59,7 @@ export default class Profile extends Component {
                                     {this.props.profile.name ? this.props.profile.name : "New Player"}
                                 </NameDisplay> :
                                 <div style={{'width': '100%'}}>
-                                    <NameInput id="name-input" onChange={this.nameTyping} value={this.state.nameInput}>
+                                    <NameInput id="name-input" maxLength="14" onChange={this.nameTyping} value={this.state.nameInput}>
 
                                     </NameInput>
                                     <span onClick={this.confirmNameChange}><Check src={check} alt=""/></span>

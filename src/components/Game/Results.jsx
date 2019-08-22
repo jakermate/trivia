@@ -299,6 +299,7 @@ const Difficulty = styled.small`
 const ResultsContent = styled.div`
     width: 100%;
     height: 100%;
+    min-height:calc(100vh - 88px);
     box-sizing: border-box;
     padding: 2rem 1rem;
 `

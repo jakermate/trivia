@@ -1,5 +1,6 @@
 import React from 'react'
 import styled, {keyframes} from 'styled-components'
+import colors from '../../values/colors'
 
 export default function TrueButton(props) {
     return (
@@ -22,17 +23,19 @@ const glow = keyframes`
 ` 
 
 const TrueButtonContainer = styled.button`
-    width: 60px;
-    height: 60px;
+    width: 80%;
+    height: 3rem;
+    margin: .5rem auto;
     border-radius: 6px;
-    background-color: #fafafa;
-    box-shadow: 2px 2px 4px #999;
-    color: black;
-    border-style: none;
+    background: rgba(0,0,0,0);
+    color: ${colors.greyedOut};
+    border: 1px solid rgba(0,0,0,0);
     text-align: center;
-    font-size: .7rem;
-    font-weight: bold;
+    background: rgba(0,0,0,.3);
+    font-size: .6rem;
+    overflow: visible;
     transition: .3s ease-out;
+    box-shadow: 2px 2px 8px rgba(0,0,0,.3);
 
     &:hover{
         outline: none;
